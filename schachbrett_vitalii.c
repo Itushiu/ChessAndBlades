@@ -5,21 +5,21 @@ struct figure {
     char type;
 };
 
-
 int main(void) {
     int row;
     int column;
     
-    struct figure schachbrett[8][8];
-    
 
-    for (row = 0; row < 8; row++) {
+    // Schachbrett 8x8 mit leeren Figuren initialisieren
+    struct figure schachbrett[8][8];
+    for (row = 0; row < 8; row++) {         
         for (column = 0; column < 8; column++) {
             schachbrett[row][column].type = ' ';
             schachbrett[row][column].farbe = ' ';
         }
     }
 
+    // Standardfiguren einfügen
     for (column = 0; column < 8; column++) {
         schachbrett[1][column].type = 'P';
         schachbrett[6][column].type = 'P';
@@ -45,30 +45,27 @@ int main(void) {
     schachbrett[7][2].type = 'B';
     schachbrett[0][5].type = 'B';
     schachbrett[7][5].type = 'B';
-
-
-
     
-
+    // Schwarze Farbe für erste beiden Reihen
     for (row = 0; row < 2; row++) {
         for (column = 0; column < 8; column++) {
             schachbrett[row][column].farbe = 's';
         }
     }
 
+    // Weiße Farbe für letzte beiden Reihen
     for (row = 6; row < 8; row++) {
         for (column = 0; column < 8; column++) {
             schachbrett[row][column].farbe = 'w';
         }
     }
     
+    // Schachbrett ausgeben
     for (row = 0; row < 8; row++) {
         for (column = 0; column < 8; column++) {
             printf("[%c-%c]", schachbrett[row][column].type, schachbrett[row][column].farbe);
         }
         printf("\n");
     }
-
-
 
 }
