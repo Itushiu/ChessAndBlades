@@ -6,23 +6,23 @@ struct figure {
 };
 
 int main(void) {
-    int row;
-    int column;
+    int zeile;
+    int reihe;
     
 
     // Schachbrett 8x8 mit leeren Figuren initialisieren
     struct figure schachbrett[8][8];
-    for (row = 0; row < 8; row++) {         
-        for (column = 0; column < 8; column++) {
-            schachbrett[row][column].type = ' ';
-            schachbrett[row][column].farbe = ' ';
+    for (zeile = 0; zeile < 8; zeile++) {         
+        for (reihe = 0; reihe < 8; reihe++) {
+            schachbrett[zeile][reihe].type = ' ';
+            schachbrett[zeile][reihe].farbe = ' ';
         }
     }
 
     // Standardfiguren einfügen
-    for (column = 0; column < 8; column++) {
-        schachbrett[1][column].type = 'P';
-        schachbrett[6][column].type = 'P';
+    for (reihe = 0; reihe < 8; reihe++) {
+        schachbrett[1][reihe].type = 'P';
+        schachbrett[6][reihe].type = 'P';
     }
 
     schachbrett[0][0].type = 'R';
@@ -47,25 +47,32 @@ int main(void) {
     schachbrett[7][5].type = 'B';
     
     // Schwarze Farbe für erste beiden Reihen
-    for (row = 0; row < 2; row++) {
-        for (column = 0; column < 8; column++) {
-            schachbrett[row][column].farbe = 's';
+    for (zeile = 6; zeile < 8; zeile++) {
+        for (reihe = 0; reihe < 8; reihe++) {
+            schachbrett[zeile][reihe].farbe = 's';
         }
     }
 
     // Weiße Farbe für letzte beiden Reihen
-    for (row = 6; row < 8; row++) {
-        for (column = 0; column < 8; column++) {
-            schachbrett[row][column].farbe = 'w';
+    for (zeile = 0; zeile < 2; zeile++) {
+        for (reihe = 0; reihe < 8; reihe++) {
+            schachbrett[zeile][reihe].farbe = 'w';
         }
     }
     
     // Schachbrett ausgeben
-    for (row = 0; row < 8; row++) {
-        for (column = 0; column < 8; column++) {
-            printf("[%c-%c]", schachbrett[row][column].type, schachbrett[row][column].farbe);
+    for (zeile = 7; zeile >= 0; zeile--) {
+        printf("%d ", zeile+1);
+        for (reihe = 0; reihe < 8; reihe++) {
+            printf("[%c-%c]", schachbrett[zeile][reihe].type, schachbrett[zeile][reihe].farbe);
         }
         printf("\n");
     }
+    for (reihe = 0; reihe < 8; reihe++) {
+        printf("    %c", reihe+65);
+    }
+    printf("\n");
+
+    return(0);
 
 }

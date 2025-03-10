@@ -1,0 +1,20 @@
+Ideen:
+1. Standardvariante von Schach implementieren.
+(Erstmal ohne Sonderregeln wie Rochade, En Passant, Bauernumwandlung)
+
+2. Einfache RPG-Elemente hinzufügen:
+Jede Figur hat einen HP-, Attack- und Defence-Wert je nach ihrem Typ. 
+Wenn die Figur 1 die Figur 2 eingreift, wird ein Würfel geworfen (1 bis 20?).
+Danach wird die gewürfelte Zahl mit dem Verhältnis von Attack und Defence der beiden Figuren multipliziert, nach folgender Formel:
+X = (gewürfelte_zahl * (attack_figur1 / defence_figur2)) / 10    ???
+Dieser Wert X wird dann von dem HP-Wert der Figur 2 abgezogen. Hat die Figur 2 kein HP mehr, nimmt die Figur 1 ihre Position. 
+Sonst bleiben die beiden Figuren auf ihren Plätzen.
+
+3. Weitere Erweiterungen implementieren (hoffentlich):
+Einigen Sonderregeln (vor allem Bauernumwandlung), andere RPG-Elemente.
+
+Mögliche Aufteilung:
+1. Brett und Spiellogik.
+2. Kampfsystem.
+3. Spielsteuerung (Eingabe von Zügen, Spielerwechsel, Siegbedingung).
+4. Interface.
