@@ -3,19 +3,19 @@
 
 int print_board(piece_t board[8][8]) {
 
-    extern int row;
     extern int column;
+    extern int row;
 
     // print board
-    for (row = 7; row >= 0; row--) {
-        printf("%d ", row+1);
-        for (column = 0; column < 8; column++) {
-            printf("[%c-%c]", board[row][column].type, board[row][column].color);
+    for (column = 7; column >= 0; column--) {
+        printf("%d ", column+1);
+        for (row = 0; row < 8; row++) {
+            printf("[%c-%c]", board[column][row].type, board[column][row].color);
         }
         printf("\n");
     }
-    for (column = 0; column < 8; column++) {
-        printf("    %c", column+65);
+    for (row = 0; row < 8; row++) {
+        printf("    %c", row+65);
     }
     printf("\n");
 

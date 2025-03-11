@@ -2,21 +2,21 @@
 
 int init_chessboard(piece_t board[8][8]) {
 
-    extern int row;
     extern int column;
+    extern int row;
 
     // 8x8 board with empty pieces
-    for (row = 0; row < 8; row++) {         
-        for (column = 0; column < 8; column++) {
-            board[row][column].type = ' ';
-            board[row][column].color = ' ';
+    for (column = 0; column < 8; column++) {         
+        for (row = 0; row < 8; row++) {
+            board[column][row].type = ' ';
+            board[column][row].color = ' ';
         }
     }
 
     // all pieces with standard positions
-    for (column = 0; column < 8; column++) {
-        board[1][column].type = 'P'; // P = Pawn
-        board[6][column].type = 'P';
+    for (row = 0; row < 8; row++) {
+        board[1][row].type = 'P'; // P = Pawn
+        board[6][row].type = 'P';
     }
 
     board[0][0].type = 'R'; // R = Rook
@@ -40,17 +40,17 @@ int init_chessboard(piece_t board[8][8]) {
     board[0][5].type = 'B';
     board[7][5].type = 'B';
     
-    // black color for last two rows
-    for (row = 6; row < 8; row++) {
-        for (column = 0; column < 8; column++) {
-            board[row][column].color = 's';
+    // black color for last two columns
+    for (column = 6; column < 8; column++) {
+        for (row = 0; row < 8; row++) {
+            board[column][row].color = 'b';
         }
     }
 
-    // white color for first two rows
-    for (row = 0; row < 2; row++) {
-        for (column = 0; column < 8; column++) {
-            board[row][column].color = 'w';
+    // white color for first two columns
+    for (column = 0; column < 2; column++) {
+        for (row = 0; row < 8; row++) {
+            board[column][row].color = 'w';
         }
     }
     
