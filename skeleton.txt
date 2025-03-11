@@ -1,0 +1,66 @@
+WE STAR WITH COLUMNS HERE 
+
+# F int init_chessboard(piece_t board[8][8]);
+	initiating the board with the pieces on the places
+
+# F int get_move (start[sr, sc], end[er, ec])
+		= get the coordinates from the user, from and where to put Figure
+		 -> F piece get_piece (start[r, c])
+			check the board on what is inside the board on (start[r, c]) 
+			return the type of piece we'r working with --> board[r][c]
+		-> F validates_moves (piece, start[r, c], end[r, c]) JUST MOVEMENT RULES!!!!!!!!!
+				- case 1 validate_move_P(start[sr, sc], end[er, ec])
+					- 1 / 0 based on the ok or not
+				- case 2 validate_move_R(start[sr, sc], end[er, ec])
+				- case 3 validate_move_L(start[sr, sc], end[er, ec])
+				- case 4 validate_move_H(start[sr, sc], end[er, ec])
+				- case 5 validate_move_Q(start[sr, sc], end[er, ec])
+				- case 6 validate_move_K(start[sr, sc], end[er, ec])
+
+		return 1/ 0 depending on checks
+
+		!!!validate_move_X return: 
+						- 1 if NOT a valid move for piece
+						- 0 if a valid move fot the piece
+
+
+// MAKING MOVE, SENDING INFO TO THE UPD_BOARD
+# F piece_t **make_move (start[r, c], end[r, c])
+		if get_move == 1
+		if end[r, c] = "not empty"
+			if get_color(end[r, c]) == get_color(start[r, c])
+				impossible move, u cant eat yourself
+			else 
+				piece_t ate = end[r, c]; 
+		end[r, c] = start[r, c] 
+
+
+#F game_state
+	if ate.type == 'K'
+		game is finished
+
+
+
+
+WALK
+main.c
+	init_chessboard(...) --> we have initial board
+	print_board(...) --> we see initial board
+	while (king is safe.'w' ||king is safe.'s')	--> functions 1/0 for king check
+	HOW TO SWITCH!
+		-- print_board(upd_board())
+		piece_t **upd_board(input_from, input_to) -- container where we store all the game details
+			int **get_input(...) --> becoming input from user
+			get_move(...) --> combine position on the board with the info what is inside
+				get_piece(...) --> get the piece type
+				(maybe:if (validate_moves(piece, pos, pos)) is good ...)
+				validates_moves(piece, pos, pos) --> container for searching generall allowed moves for pieces
+					validate_move_X () --> give if it's a valid move for piece
+			make_move(start[r, c], end[r, c]) --> change the state of the board	
+				1. empty --> move 
+				2. not empty --> get_color
+									1. same NO
+									2. not same NEXT MOVE --> return board to 
+
+
+
