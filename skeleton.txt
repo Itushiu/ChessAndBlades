@@ -45,9 +45,10 @@ WE STAR WITH COLUMNS HERE
 WALK
 main.c
 	init_chessboard(...) --> we have initial board
+	char current_player = 'w';
 	print_board(...) --> we see initial board
 	while (king is safe.'w' ||king is safe.'s')	--> functions 1/0 for king check
-	HOW TO SWITCH!
+	HOW TO SWITCH
 		-- print_board(upd_board())
 		piece_t **upd_board(input_from, input_to) -- container where we store all the game details
 			int **get_input(...) --> becoming input from user
@@ -60,7 +61,9 @@ main.c
 				1. empty --> move 
 				2. not empty --> get_color
 									1. same NO
-									2. not same NEXT MOVE --> return board to 
+									2. not same NEXT MOVE --> return board to upd_board
+
+	current_player = (current_player== 'w') ? 's' : 'w'
 
 
 
