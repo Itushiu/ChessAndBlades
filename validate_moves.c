@@ -199,5 +199,9 @@ int validate_moves(piece_t board[8][8], int move[4]) {
                     return 0;
                 }
             }
+            break;
+        case ' ':
+            return 0;
+            break;
     }
 }
