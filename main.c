@@ -2,7 +2,7 @@
 
 int init_chessboard(piece_t board[8][8]);
 int print_board(piece_t board[8][8]);
-int get_input(int move[4]);
+int get_input(int move[4], piece_t board[8][8], char current_player);
 int validate_moves(piece_t board[8][8], int move[4]);
 
 int row;
@@ -15,8 +15,9 @@ int main(void) {
     
     print_board(board); // print board
 
+	char current_player = 'w';
     int move[4]; // create array for move in form {from_c, from_r, to_c, to_r}
-    get_input(move); // get input in form A3 E4 and write it to array move
+    get_input(move, board, current_player); // get input in form A3 E4 and write it to array move
 
     validate_moves(board, move); // check if current move is valid
 
