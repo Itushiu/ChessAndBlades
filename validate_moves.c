@@ -10,7 +10,7 @@
 //Rook
 int validate_move_r(int move[4], piece_t board[8][8]){
     if ((move[0] == move[2]) && (move[1] != move[3])) { //only one of the coordinates may change for a valid rook move
-        if (move[1] > move[3]) { // check if someone on the way
+        if (move[1] < move[3]) { // check if someone on the way
             for (move[1]+1; move[1] < move[3]; move[1]++) {
                 if (board[move[0]][move[1]].type != ' ') {
                     return 1;
@@ -119,7 +119,7 @@ int validate_move_p_black(int move[4], piece_t board[8][8]){
     if ((move[0] == move[2]) && (move[1]-1) == move[3]) { //2nd coordinate is decreased by 1
         return 0; //valid move for black pawn
     }
-    if((move[1] == 7) && (move[0] == move[2]) && ((move[1]-2) == move[3])) { //black pawn is in standard position and moves 2 fields
+    else if((move[1] == 6) && (move[0] == move[2]) && ((move[1]-2) == move[3])) { //black pawn is in standard position and moves 2 fields
         if (board[move[0]][move[1]-1].type != ' ') { // check if someone on the way
             return 1;
         } 
@@ -136,7 +136,7 @@ int validate_move_p_white(int move[4], piece_t board[8][8]){
     if ((move[0] == move[2]) && (move[1] + 1) == move[3]) { //2nd coordinate is increased by 1
         return 0; //valid move for white pawn
     }
-    if((move[1] == 2) && (move[0] == move[2]) && ((move[1]+2) == move[3])) { //white pawn is in standard position and moves 2 fields
+    else if((move[1] == 1) && (move[0] == move[2]) && ((move[1]+2) == move[3])) { //white pawn is in standard position and moves 2 fields
         if (board[move[0]][move[1]+1].type != ' ') { // check if someone on the way
             return 1;
         } 
