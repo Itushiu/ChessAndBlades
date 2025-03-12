@@ -115,8 +115,13 @@ int validate_move_k(int move[4], piece_t board[8][8]){
 
 //Pawn
 int validate_move_p_black(int move[4], piece_t board[8][8]){
-    //if(!(strcmp(board[move[0]][move[1]].color, 'b'))) { //we have a black piece ('b' might still be called 's' elsewhere)
-    if ((move[0] == move[2]) && (move[1]-1) == move[3]) { //2nd coordinate is decreased by 1
+    if ((move[1]-1 == move[3]) && (move[0]+1 == move[2]) && board[move[2]][move[3]].type != ' ') { // for eating as pawn r
+        return 0;
+    }
+    else if ((move[1]-1 == move[3]) && (move[0]-1 == move[2]) && board[move[2]][move[3]].type != ' ') { // for eating as pawn l
+        return 0;
+    }
+    else if ((move[0] == move[2]) && (move[1]-1) == move[3]) { //2nd coordinate is decreased by 1
         return 0; //valid move for black pawn
     }
     else if((move[1] == 6) && (move[0] == move[2]) && ((move[1]-2) == move[3])) { //black pawn is in standard position and moves 2 fields
@@ -132,8 +137,13 @@ int validate_move_p_black(int move[4], piece_t board[8][8]){
 
 
 int validate_move_p_white(int move[4], piece_t board[8][8]){
-//if(!(strcmp(board[move[0]][move[1]].color, 'w'))) { //we have a white piece
-    if ((move[0] == move[2]) && (move[1] + 1) == move[3]) { //2nd coordinate is increased by 1
+    if ((move[1]+1 == move[3]) && (move[0]+1 == move[2]) && board[move[2]][move[3]].type != ' ') { // for eating as pawn r
+        return 0;
+    }
+    else if ((move[1]+1 == move[3]) && (move[0]-1 == move[2]) && board[move[2]][move[3]].type != ' ') { // for eating as pawn l
+        return 0;
+    }
+    else if ((move[0] == move[2]) && (move[1] + 1) == move[3]) { //2nd coordinate is increased by 1
         return 0; //valid move for white pawn
     }
     else if((move[1] == 1) && (move[0] == move[2]) && ((move[1]+2) == move[3])) { //white pawn is in standard position and moves 2 fields
