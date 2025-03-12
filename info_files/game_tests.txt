@@ -1,0 +1,48 @@
+game tests made with help of chatgpt:
+
+PROMPT:
+
+Can u please write short but valid chess games in format:
+- w: E2 E4
+- b: 
+-
+
+and specify the result of the game: b wins/ w wins/ stalemate 
+
+EXAMPLES:
+
+- w: F2 F3
+- b: E7 E5
+- w: G2 G4
+- b: D8 H4
+Result: b wins
+
+- w: E2 E4
+- b: E7 E5
+- w: F1 C4
+- b: B8 C6
+- w: D1 H5
+- b: G8 F6
+- w: H5 F7
+Result: w wins
+
+- w: E2 E3
+- b: A7 A5
+- w: D1 H5
+- b: A8 A6
+- w: H5 A5
+- b: H7 H5
+- w: H2 H4
+- b: A6 H6
+- w: A5 C7
+- b: F7 F6
+- w: C7 D7
+- b: E8 F7
+- w: D7 B7
+- b: D8 D3
+- w: B7 B8
+- b: D3 H7
+- w: B8 C8
+- b: F7 G6
+- w: C8 E6
+Result: stalemate
