@@ -13,81 +13,81 @@
 int validate_move_r(int move[4], piece_t board[8][8]){
     if ((move[0] == move[2]) && (move[1] != move[3])) { //only one of the coordinates may change for a valid rook move
         if (move[1] < move[3]) { // check if someone on the way
-            for (move[1]+1; move[1] < move[3]; move[1]++) {
-                if (board[move[0]][move[1]].type != ' ') {
-                    return 1;
+            for (int i = move[1]+1; i < move[3]; i++) {
+                if (board[move[0]][i].type != ' ') {
+                    return 0;
                 }
             }
         } else {
-            for (move[1]-1; move[1] > move[3]; move[1]--) {
-                if (board[move[0]][move[1]].type != ' ') {
-                    return 1;
+            for (int i = move[1]-1; i > move[3]; i--) {
+                if (board[move[0]][i].type != ' ') {
+                    return 0;
                 }
             }   
         }
         return 1;
     } else if ((move[1] == move[3]) && (move[0] != move[2])) {
-        if (move[0] > move[2]) { // check if someone on the way
-            for (move[0]+1; move[2] < move[0]; move[2]++) {
-                if (board[move[0]][move[1]].type != ' ') {
-                    return 1;
+        if (move[0] < move[2]) { // check if someone on the way
+            for (int i = move[0]+1; i < move[2]; i++) {
+                if (board[i][move[1]].type != ' ') {
+                    return 0;
                 }
             }
         } else {
-            for (move[0]-1; move[2] > move[0]; move[2]--) {
-                if (board[move[0]][move[1]].type != ' ') {
-                    return 1;
+            for (int i = move[0]-1; i > move[2]; i--) {
+                if (board[i][move[1]].type != ' ') {
+                    return 0;
                 }
             }   
         }
-        return 0;
-    } else {
         return 1;
+    } else {
+        return 0;
     }
 }
 
 //Bishop
 int validate_move_b(int move[4], piece_t board[8][8]){
     //for a valid bishop move, the absolute value of the change in the coordinates must be equal for both coordinates
-    if ((abs(move[0] - move[2]) == (abs(move[1] - move[3]))) && ((move[0] == move[2]) != 0)) {
+    if ((abs(move[0] - move[2]) == abs(move[1] - move[3])) && (move[0] != move[2])) {
         if (move[0] > move[2] && move[1] > move[3]) { // check if someone on the way
-            for (move[0]-1, move[1]-1; move[0] > move[2] && move[1] > move[3]; move[0]--, move[1]--) {
-                if (board[move[0]][move[1]].type != ' ') {
-                    return 1;
+            for (int i = move[0]-1, j = move[1]-1; i > move[2] && j > move[3]; i--, j--) {
+                if (board[i][j].type != ' ') {
+                    return 0;
                 }
             }
         }
         else if (move[0] < move[2] && move[1] > move[3]) { // check if someone on the way
-            for (move[0]+1, move[1]-1; move[0] < move[2] && move[1] > move[3]; move[0]++, move[1]--) {
-                if (board[move[0]][move[1]].type != ' ') {
-                    return 1;
+            for (int i = move[0]+1, j = move[1]-1; i < move[2] && j > move[3]; i++, j--) {
+                if (board[i][j].type != ' ') {
+                    return 0;
                 }
             }
         }  
         else if (move[0] > move[2] && move[1] < move[3]) { // check if someone on the way
-            for (move[0]-1, move[1]+1; move[0] > move[2] && move[1] < move[3]; move[0]--, move[1]++) {
+            for (int i = move[0]-1, j = move[1]+1; i > move[2] && j < move[3]; i--, j++) {
                 if (board[move[0]][move[1]].type != ' ') {
-                    return 1;
+                    return 0;
                 }
             }
         }  
         else { // check if someone on the way
-            for (move[0]+1, move[1]+1; move[0] < move[2] && move[1] < move[3]; move[0]++, move[1]++) {
-                if (board[move[0]][move[1]].type != ' ') {
-                    return 1;
+            for (int i = move[0]+1, j = move[1]+1; i < move[2] && j < move[3]; i++, j++) {
+                if (board[i][j].type != ' ') {
+                    return 0;
                 }
             }
         }
-        return 0;
-    } else {
         return 1;
+    } else {
+        return 0;
     }
 }
 
 //Horse
 int validate_move_h(int move[4], piece_t board[8][8]){
     //a horse move is valid if it's NOT a valid bishop or rook move AND the piece moves exactly 3 fields
-    if (!(validate_move_r(move, board)) && !(validate_move_b(move, board)) && (abs(move[0] - move[2]) + abs(move[1] - move[3]) == 3)) {
+    if (!((move[0] == move[2]) && (move[1] != move[3])) && !((move[1] == move[3]) && (move[0] != move[2])) && !((abs(move[0] - move[2]) == abs(move[1] - move[3])) && (move[0] != move[2])) && (abs(move[0] - move[2]) + abs(move[1] - move[3]) == 3)) {
         return 1;
     } else {
         return 0;
