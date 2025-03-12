@@ -61,6 +61,7 @@ main.c
 				int end[2]
 				start
 				get_piece(...) --> get the piece type
+				## if (piece.type == '-') return 0; 
 				(maybe:if (validate_moves(piece, pos, pos)) is good ...)
 				validates_moves(piece, pos, pos) --> container for searching generall allowed moves for pieces
 					validate_move_X () --> give if it's a valid move for piece
@@ -74,3 +75,9 @@ main.c
 
 
 
+MAKEFILE: 
+	- main.c
+	- game.c
+		- game.h
+	- SDL_render.c
+		SDL_render.h
