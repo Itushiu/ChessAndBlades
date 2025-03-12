@@ -1,19 +1,57 @@
 #include "general_structures.h"
+#include <stdio.h>
+
 int *find_my_king(piece_t board[8][8], char my_color);
-int is_king_attacked(int my_king[2], /*maybe board waity waity*/);
+//TODO; ITS FAKE
+int is_king_attacked(int my_king[2], piece_t board [8][8]);
+//TODO; ITS FAKE
+int legal_moves (/*no f idea yet*/);
 
 int make_move(piece_t board [8][8], int move[4]){
-	char my_color = board[move[0]][move[1]];
-	int *my_king = find_my_king(board);
-	if (is_king_attacked(my_king)){
-		// IF (legal_moves to make (is_king_attacked == 0) EXIST 
-		// CHECK & U HAVE TO MAKE CORRECT MOVE
-		// IF (legal_moves to make (is_king_attacked == 0) DOESN'T EXIST
-		// CHECKMATE
-	 
+
+	//store the move in case of return
+	piece_t from = board[move[0]][move[1]];
+	piece_t to = board[move[2]][move[3]];
+
+	//move the pieces
+	board[move[2]][move[3]] = board[move[0]][move[1]];
+	board[move[0]][move[1]].type = ' ';  // make empty cell "from".type
+	board[move[0]][move[1]].color = ' '; // make empty cell "from".color
+
+	char my_color = (board[move[2]][move[3]]).color; // moved my piece so using "to"
+
+	int *my_king = find_my_king(board, my_color);
+	if (is_king_attacked(my_king, board)){
+		//CHECK -->
+		// go back
+		board[move[0]][move[1]] = from;
+		board[move[2]][move[3]] = to;
+		if (legal_moves){
+			printf("CHECK");
+			return 0; // back to game but next player have limited play range CHECK
+		}
+		else {
+			// legal_moves return 0
+			printf("CHECKMATE");
+			return 1; //end of game
+		}
 	}
+	else {
+		if (legal_moves){
+			printf("NEXT MOVE");
+			return 0 ; // continue game
+		}
+		else {
+			printf("STALEMATE");
+			return 1 ; //end game via STALEMATE
+		}
+	}
+}
 
-
+			// IF (legal_moves to make (is_king_attacked == 0) EXIST 
+					// CHECK & U HAVE TO MAKE CORRECT MOVE
+					// IF (legal_moves to make (is_king_attacked == 0) DOESN'T EXIST
+					// CHECKMATE
 			// YES
 			// F are there some legal moves to become safe again?
 				//YES
@@ -30,12 +68,11 @@ int make_move(piece_t board [8][8], int move[4]){
 				// NO
 					// DRAW IT IS
 
-}
 
 int *find_my_king(piece_t board[8][8], char my_color){
 	//column rows as coordinates
 	int k_r = -1, k_c = -1;
-	int *my_king[2];
+	int my_king[2];
 	for (int c = 0; c < 8; c++) {
 		for (int r = 0; r < 8; r++) {
 			if (board[c][r].type == 'K' && board[c][r].color == my_color) {
@@ -47,5 +84,16 @@ int *find_my_king(piece_t board[8][8], char my_color){
 	return (my_king);
 		//if (k_r != -1)
 		//	break;
+	}
+}
 
+int is_king_attacked(int my_king[2], piece_t board [8][8]){
+	return 0; // no its not
+	//return 1; // yes it is
+}
+
+int legal_moves (/*no f idea yet*/) {
+	// maybe check is_king_attacked
+	return 1; // there are some CONTINUE
+	//return 0; // there are none GAME OVER
 }
