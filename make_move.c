@@ -26,7 +26,7 @@ int make_move(piece_t board [8][8], int move[4]){
 		// go back
 		board[move[0]][move[1]] = from;
 		board[move[2]][move[3]] = to;
-		if (legal_moves){
+		if (legal_moves()){
 			printf("CHECK");
 			return 0; // back to game but next player have limited play range CHECK
 		}
@@ -37,7 +37,7 @@ int make_move(piece_t board [8][8], int move[4]){
 		}
 	}
 	else {
-		if (legal_moves){
+		if (legal_moves()){
 			printf("NEXT MOVE");
 			return 0 ; // continue game
 		}

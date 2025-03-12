@@ -25,20 +25,21 @@ int main(void) {
 	init_chessboard(board); // fill board with pieces on initial positions
 	print_board(board); // print board
 	int move [4];
-	//TODO:
 	char current_player = 'w';
 
 	while (1) {
-		// doesnt work with get_input/ only NOT get_inpu
+		// doesnt work with get_input/ only NOT get_input
 		if (!(get_input(move, board, current_player))) {									// succesfull input
 			if (validate_moves(board, move)) {					// knows the rules
-				if(make_move(board, move)== 1){
-					// Game over due to checkmate or stalemate
-					break;
+				// TODO: ugly, change later "don't eat your team"
+				if (!(board[move[2]][move[3]].type != ' ' && board[move[2]][move[3]].color == board[move[0]][move[1]].color)){
+					if(make_move(board, move)== 1){
+						break;
+					}
+					print_board(board);								// SDL?
+				//if (game_state(board, current_player)) break;	// win/lose/draw
+					current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
 				}
-				print_board(board);								// SDL?
-			//if (game_state(board, current_player)) break;	// win/lose/draw
-				current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
 			}
 		}
 	}
