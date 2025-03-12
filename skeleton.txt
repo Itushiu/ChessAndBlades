@@ -1,22 +1,24 @@
 WE STAR WITH COLUMNS HERE 
-
+ ALL START [2] END[2] ARE ACTUALLY NOW MOVE[]!!!!!!!!
 # F int init_chessboard(piece_t board[8][8]);
 	initiating the board with the pieces on the places
 
-# F int get_move (start[sr, sc], end[er, ec])
+# F int get_move (move[4])
 		= get the coordinates from the user, from and where to put Figure
 		 -> F piece get_piece (start[r, c])
 			check the board on what is inside the board on (start[r, c]) 
 			return the type of piece we'r working with --> board[r][c]
 		-> F validates_moves (piece, start[r, c], end[r, c]) JUST MOVEMENT RULES!!!!!!!!!
-				- case 1 validate_move_P(start[sr, sc], end[er, ec])
+				- smth if piece.type == 'p' && piece.color == 'w'
+					- case 0 validate_move_Pw(move)
+				- smth if piece.type == 'p' && piece.color == 's'
+					- case 1 validate_move_Pw(move)
+				- case 2 validate_move_R(move)
+				- case 3 validate_move_L(move)
+				- case 4 validate_move_H(move)
+				- case 5 validate_move_Q(move)
+				- case 6 validate_move_K(move)
 					- 1 / 0 based on the ok or not
-				- case 2 validate_move_R(start[sr, sc], end[er, ec])
-				- case 3 validate_move_L(start[sr, sc], end[er, ec])
-				- case 4 validate_move_H(start[sr, sc], end[er, ec])
-				- case 5 validate_move_Q(start[sr, sc], end[er, ec])
-				- case 6 validate_move_K(start[sr, sc], end[er, ec])
-
 		return 1/ 0 depending on checks
 
 		!!!validate_move_X return: 
@@ -35,6 +37,7 @@ WE STAR WITH COLUMNS HERE
 		end[r, c] = start[r, c] 
 
 
+
 #F game_state
 	if ate.type == 'K'
 		game is finished
@@ -48,11 +51,15 @@ main.c
 	char current_player = 'w';
 	print_board(...) --> we see initial board
 	while (king is safe.'w' ||king is safe.'s')	--> functions 1/0 for king check
-	HOW TO SWITCH
+	
 		-- print_board(upd_board())
 		piece_t **upd_board(input_from, input_to) -- container where we store all the game details
-			int **get_input(...) --> becoming input from user
-			get_move(...) --> combine position on the board with the info what is inside
+			int get_input(...) --> becoming input from user
+				move[4] == [fc,fr,tc,tr]
+			get_move(move) --> combine position on the board with the info what is inside
+				int start[2]
+				int end[2]
+				start
 				get_piece(...) --> get the piece type
 				(maybe:if (validate_moves(piece, pos, pos)) is good ...)
 				validates_moves(piece, pos, pos) --> container for searching generall allowed moves for pieces
