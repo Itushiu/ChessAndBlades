@@ -12,7 +12,7 @@ int validate_moves(piece_t board[8][8], int move[4]);
 
 int make_move(piece_t board [8][8], int move[4]);
 
-int game_state(piece_t board[8][8], char current_player); //the same parts as in "check on king"
+// int game_state(piece_t board[8][8], char current_player); //the same parts as in "check on king"
 				// but here we have to analise is it even NEEDED to start next iteration?
 				// or can we say that the current player won and that s it????
 
@@ -41,14 +41,11 @@ int main(void) {
 				current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
 			}
 			else 
-				printf("Don't eat your team\n");
+				printf("Don't eat your team! Try again!\n");
 		}
 		else {
-			printf("Not a valid move for %c\n", board[move[0]][move[1]].type);
+			printf("Not a valid move for %c! Try again!\n", board[move[0]][move[1]].type);
 		}
 	}
 	return 0;
 }
-
-
-int 

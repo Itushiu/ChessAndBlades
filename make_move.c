@@ -2,11 +2,11 @@
 #include <stdio.h>
 
 int print_board(piece_t board[8][8]);
-int *find_my_king(piece_t board[8][8], char my_color);
+// int *find_my_king(piece_t board[8][8], char my_color);
 //TODO; ITS FAKE
-int is_king_attacked(int my_king[2], piece_t board [8][8]);
+// int is_king_attacked(int my_king[2], piece_t board [8][8]);
 //TODO; ITS FAKE
-int legal_moves (/*no f idea yet*/);
+// int legal_moves (/*no f idea yet*/);
 
 int make_move(piece_t board [8][8], int move[4]){
 
@@ -29,6 +29,7 @@ int make_move(piece_t board [8][8], int move[4]){
 		printf("GAME OVER, PLAYER %c WINS\n", my_color);
 		return 1;
 	}
+	/*
 	int *my_king = find_my_king(board, my_color);
 	if (is_king_attacked(my_king, board)){
 		//CHECK -->
@@ -55,6 +56,7 @@ int make_move(piece_t board [8][8], int move[4]){
 			return 1 ; //end game via STALEMATE
 		}
 	}
+	*/
 }
 
 			// IF (legal_moves to make (is_king_attacked == 0) EXIST 
@@ -77,7 +79,7 @@ int make_move(piece_t board [8][8], int move[4]){
 				// NO
 					// DRAW IT IS
 
-
+/*
 int *find_my_king(piece_t board[8][8], char my_color){
 	//column rows as coordinates
 	int k_r = -1;
@@ -101,9 +103,10 @@ int is_king_attacked(int my_king[2], piece_t board [8][8]){
 	return 0; // no its not
 	//return 1; // yes it is
 }
+*/
 
-int legal_moves (/*no f idea yet*/) {
+// int legal_moves (/*no f idea yet*/) {
 	// maybe check is_king_attacked
-	return 1; // there are some CONTINUE
+// 	return 1; // there are some CONTINUE
 	//return 0; // there are none GAME OVER
-}
+// }
