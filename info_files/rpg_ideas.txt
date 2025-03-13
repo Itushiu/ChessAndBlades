@@ -1,0 +1,28 @@
+Each piece has an HP, Attack, and Defense value depending on its type.  
+When Piece 1 attacks Piece 2, a die is rolled (1 to 20).  
+
+If rolled number > 10 - (attack_piece1 - defense_piece2)
+(or 20 then damage * 2)
+    The rolled number is then calculated with the difference of the Attack and Defense values of the two pieces, according to the following formula:  
+    
+    If rolled number <= (10 - (attack_piece1 - defense_piece2)) * 1/3 
+        then X = 1
+    Else if rolled number <= (10 - (attack_piece1 - defense_piece2)) * 2/3 
+        then X = 2
+    Else 
+        X = 3
+
+    This value X is then subtracted from the HP of Piece 2.  
+    If Piece 2 has no HP left, Piece 1 takes its position. Otherwise, both pieces remain in their places.
+
+Else (or 1 then counterattack damage * 2)
+    piece2 counterattacks piece1 with same conditions as above. If failed, end of turn (only one counterattack per turn).
+
+
+Piece stats:
+Pawn: HP = 5, ATT = 2, DEF = 2, Extra Skill: Pawn transforming (same as in standard chess)
+Queen: HP = 3, ATT = 7, DEF = 1, Extra Skill: Try to attack two pieces in single turn (if both are valid moves, separate dice rolls for each attack).
+King: HP = 10, ATT = 5, DEF = 0, Extra Skill: Teleport to Random free location
+Rook: HP = 8, ATT = 2, DEF = 4, Extra Skill: Redirect next opponent attack to itself (works until one of your pieces is attacked).
+Bishop: HP = 3, ATT = 4, DEF = 2, Extra Skill: Move one turn with the same rules as King (swap the tile color, no attack for this turn)
+Horse: HP = 4, ATT = 4, DEF = 2, Extra Skill: Do two jumps in one turn (first jump has to not be an attack move)
