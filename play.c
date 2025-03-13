@@ -33,10 +33,10 @@ int main(void) {
 		if (validate_moves(board, move)) {					// knows the rules
 			// TODO: ugly, change later "don't eat your team"
 			if (!(board[move[2]][move[3]].type != ' ' && board[move[2]][move[3]].color == board[move[0]][move[1]].color)){
-				if(make_move(board, move)== 1){
+				if(make_move(board, move) == 1){
 					break;
 				}
-				print_board(board);								// SDL?
+				//print_board(board);								// SDL?
 			//if (game_state(board, current_player)) break;	// win/lose/draw
 				current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
 			}
@@ -50,3 +50,5 @@ int main(void) {
 	return 0;
 }
 
+
+int 
