@@ -44,5 +44,11 @@ int get_input(int move[4], piece_t board[8][8], char current_player) {
         goto jump_get_input;
     }
 
+    // check if you actually move
+    if (move[0] == move[2] && move[1] == move[3]) {
+        printf("You can't move to the same place, try again!\n");
+        goto jump_get_input;
+    }
+
     return(0);
 }
