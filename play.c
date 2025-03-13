@@ -1,5 +1,5 @@
 #include "general_structures.h"
-
+#include <stdio.h>
 
 int init_chessboard(piece_t board[8][8]);	// start of the game, pieces on initial positions
 											// return 0 (can be void)
@@ -28,22 +28,25 @@ int main(void) {
 	char current_player = 'w';
 
 	while (1) {
-		// doesnt work with get_input/ only NOT get_input
-		if (!(get_input(move, board, current_player))) {									// succesfull input
-			if (validate_moves(board, move)) {					// knows the rules
-				// TODO: ugly, change later "don't eat your team"
-				if (!(board[move[2]][move[3]].type != ' ' && board[move[2]][move[3]].color == board[move[0]][move[1]].color)){
-					if(make_move(board, move)== 1){
-						break;
-					}
-					print_board(board);								// SDL?
-				//if (game_state(board, current_player)) break;	// win/lose/draw
-					current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
+		// do i have my king?
+		get_input(move, board, current_player);								// succesfull input
+		if (validate_moves(board, move)) {					// knows the rules
+			// TODO: ugly, change later "don't eat your team"
+			if (!(board[move[2]][move[3]].type != ' ' && board[move[2]][move[3]].color == board[move[0]][move[1]].color)){
+				if(make_move(board, move)== 1){
+					break;
 				}
+				print_board(board);								// SDL?
+			//if (game_state(board, current_player)) break;	// win/lose/draw
+				current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
 			}
+			else 
+				printf("Don't eat your team\n");
+		}
+		else {
+			printf("Not a valid move for %c\n", board[move[0]][move[1]].type);
 		}
 	}
 	return 0;
 }
-
 

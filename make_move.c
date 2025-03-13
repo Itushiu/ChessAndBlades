@@ -1,6 +1,7 @@
 #include "general_structures.h"
 #include <stdio.h>
 
+int print_board(piece_t board[8][8]);
 int *find_my_king(piece_t board[8][8], char my_color);
 //TODO; ITS FAKE
 int is_king_attacked(int my_king[2], piece_t board [8][8]);
@@ -13,13 +14,21 @@ int make_move(piece_t board [8][8], int move[4]){
 	piece_t from = board[move[0]][move[1]];
 	piece_t to = board[move[2]][move[3]];
 
+
+	
 	//move the pieces
 	board[move[2]][move[3]] = board[move[0]][move[1]];
 	board[move[0]][move[1]].type = ' ';  // make empty cell "from".type
 	board[move[0]][move[1]].color = ' '; // make empty cell "from".color
+	
+	print_board(board);	
+	
+	char my_color = from.color;
 
-	char my_color = (board[move[2]][move[3]]).color; // moved my piece so using "to"
-
+	if (to.type == 'K'){
+		printf("GAME OVER, PLAYER %c WINS\n", my_color);
+		return 1;
+	}
 	int *my_king = find_my_king(board, my_color);
 	if (is_king_attacked(my_king, board)){
 		//CHECK -->
@@ -71,19 +80,20 @@ int make_move(piece_t board [8][8], int move[4]){
 
 int *find_my_king(piece_t board[8][8], char my_color){
 	//column rows as coordinates
-	int k_r = -1, k_c = -1;
+	int k_r = -1;
 	int my_king[2];
 	for (int c = 0; c < 8; c++) {
 		for (int r = 0; r < 8; r++) {
 			if (board[c][r].type == 'K' && board[c][r].color == my_color) {
 				my_king[0] = c;
 				my_king[1] = r; //like .k [k_c][k_r]
+				k_r++;
 				break;
 			}
 		}
 	return (my_king);
-		//if (k_r != -1)
-		//	break;
+	//if (k_r == -1)
+	//	break;
 	}
 }
 
