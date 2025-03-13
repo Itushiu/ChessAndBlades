@@ -81,3 +81,46 @@ MAKEFILE:
 		- game.h
 	- SDL_render.c
 		SDL_render.h
+
+
+## CONNECTING WITH THE SDL
+
+- draw board with renewed positions of the elements after every move
+- so inside of main as wel
+- ? can successfull move be treated as 'event' for trigger
+- can pictures be added to the struct, can tags be added to the tags?
+
+
+- 
+our square tile is 80px side
+
+int main(void) {
+	HELLO PLAYERS
+	piece_t board[8][8]; // create empty array 8x8 of piece_t [column][row]
+	init_chessboard(board); // fill board with pieces on initial positions
+	-- SDL_NEW: EVENT:START OF GAME -- > init_board, player_w moves 
+	print_board(board); // print board
+	int move [4];
+	char current_player = 'w';
+
+	while (1) {
+		get_input(move, board, current_player);								// succesfull input
+		KEYBOARD/ MOUSE/ BLAH BLAH WE R NOT IN THE TERMINAL!!!!!!!!!!
+		if (validate_moves(board, move)) {					// knows the rules
+			// TODO: ugly, change later "don't eat your team"
+			if (!(board[move[2]][move[3]].type != ' ' && board[move[2]][move[3]].color == board[move[0]][move[1]].color)){
+				if(make_move(board, move) == 1){
+					break;
+				}
+				SDL_NEW: EVENT:MOVE IS MADE upd the info for the board
+				current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
+			}
+			else 
+				printf("Don't eat your team\n");
+		}
+		else {
+			printf("Not a valid move for %c\n", board[move[0]][move[1]].type);
+		}
+	}
+	return 0;
+}

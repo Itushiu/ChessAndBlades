@@ -5,22 +5,23 @@
 # $ make clean 
 # make clean removes all created .o files
 
+# ADDED FOR SDL.C BUT ERROR BECAUSE OF TWO MAIN()
+# IF U WANT TO JUST GAME --> Makefile from release version
 
 NAME = chess_game
 CC = gcc
-# -DUSE_SDL flag is for SDL, check later if needed
-CFLAGS = -Wall -Wextra -std=c99 #-DUSE_SDL
 
+CFLAGS = -Wall -g  $(shell sdl2-config --cflags)
+LDFLAGS = $(shell sdl2-config --libs)
 SRCS = 	get_input.c \
 		init_board.c \
 		print_board.c \
 		validate_moves.c \
 		play.c \
-		make_move.c
+		make_move.c \
+		SDL.c
 		
-# main.c		
-# make_move.c 
-# play.c
+
 
 # maybe get special headers for all functions?
 HEADERS = general_structures.h
@@ -30,7 +31,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS)
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
