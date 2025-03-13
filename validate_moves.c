@@ -66,7 +66,7 @@ int validate_move_b(int move[4], piece_t board[8][8]){
         }  
         else if (move[0] > move[2] && move[1] < move[3]) { // check if someone on the way
             for (int i = move[0]-1, j = move[1]+1; i > move[2] && j < move[3]; i--, j++) {
-                if (board[move[0]][move[1]].type != ' ') {
+                if (board[i][j].type != ' ') {
                     return 0;
                 }
             }
