@@ -13,7 +13,7 @@ NAME = chess_game
 CC = gcc
 
 CFLAGS = -Wall -g  $(shell sdl2-config --cflags)
-LDFLAGS = $(shell sdl2-config --libs)
+LDFLAGS = $(shell sdl2-config --libs) -lSDL2_image
 SRCS = 	get_input.c \
 		init_board.c \
 		print_board.c \

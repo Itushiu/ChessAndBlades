@@ -1,0 +1,27 @@
+
+// added Go_Mono.ttf to the repo
+//CHANGE
+//hier irgendwie kompilierfehler 
+    //CHANGE: from *textRect to textRect
+    //it's already a "box" with smth inside, *box just gives an address of the box 
+	SDL_Rect textRect = {	//creating a rect object for the text to go into
+		.x = 8 * rect_size,		//it should be located at the upper right corner of the window, next to the board
+		.y = rect_size, 
+		.w = text_konvertiert->w, 
+		.h = text_konvertiert->h
+	};
+
+ERROR MESSAGES:
+error: redefinition of 'white' with a different type: 'SDL_Color' (aka 'struct SDL_Color') vs 'Sint32' (aka 'int')
+  371 |         SDL_Color white = {.r = 255, .g = 255, .b = 255, .a = 255};
+      |                   ^
+whole_code_sdl.c:40:12: note: previous definition is here
+   40 |     Sint32 white = SDL_MapRGBA(surface->format, 255, 255, 255, 255);
+      |            ^
+whole_code_sdl.c:372:57: error: passing 'Sint32' (aka 'int') to parameter of incompatible type 'SDL_Color' (aka 'struct SDL_Color')
+  372 |         SDL_Surface *text = TTF_RenderText_Solid(font, "HP: ", white);
+      |                                                                ^~~~~
+CHANGE	
+--> in 371 made white_color with type SDL_Color to match the needed parametrs in SDL_Surface and to not redifine 'white' itself
+ 
+ + small fixes to compile and run it

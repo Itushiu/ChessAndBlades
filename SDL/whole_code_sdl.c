@@ -6,7 +6,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-//Kompilieren gcc schach.c -o schach $(sdl2-config --cflags --libs) -lSDL2_image
+//gcc whole_code_sdl.c -o chess $(sdl2-config --cflags --libs) -lSDL2_image -lSDL2_ttf
 
 
 enum screen_size {
@@ -359,16 +359,17 @@ int main(int argc, char **argv) {
 		SDL_Log("SDL_ttf konnte nicht initialisiert werden! SDL_ttf Error: %s\n",
 		TTF_GetError());
     return -1;
-    
-    TTF_Font *font = TTF_OpenFont("Go-Mono.ttf", 28);
+    }
+
+    TTF_Font *font = TTF_OpenFont("Go_Mono.ttf", 28);
     if (font == NULL){
 		SDL_Log("Font could not be loaded. SDL_ttf Error: %s\n",
 		TTF_GetError());
 		return -1;
 	}
 	
-	SDL_Color white = {.r = 255, .g = 255, .b = 255, .a = 255};
-	SDL_Surface *text = TTF_RenderText_Solid(font, "HP: ", white);
+	SDL_Color white_color = {.r = 255, .g = 255, .b = 255, .a = 255};
+	SDL_Surface *text = TTF_RenderText_Solid(font, "HP: ", white_color);
     
     SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
 	if (text_konvertiert == NULL) {
@@ -378,19 +379,22 @@ int main(int argc, char **argv) {
 	}
 	
 	//hier irgendwie kompilierfehler 
-	SDL_Rect *textRect = {	//creating a rect object for the text to go into
+    //CHANGE: from *textRect to textRect
+    //it's already a "box" with smth inside, *box just gives an address of the box 
+	SDL_Rect textRect = {	//creating a rect object for the text to go into
 		.x = 8 * rect_size,		//it should be located at the upper right corner of the window, next to the board
 		.y = rect_size, 
 		.w = text_konvertiert->w, 
 		.h = text_konvertiert->h
 	};
-	
-	if (SDL_BlitSurface(text_konvertiert, textRect, surface, NULL) != 0) {
+	//CHANGE: textRect --> &textRect
+	if (SDL_BlitSurface(text_konvertiert, &textRect, surface, NULL) != 0) {
 		SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n",
         SDL_GetError());
     return -1;
 	}
 
+    SDL_Delay(30000);
 	SDL_FreeSurface(text);
 	SDL_FreeSurface(text_konvertiert);
 
@@ -409,8 +413,9 @@ int main(int argc, char **argv) {
 end_of_file:	//ttf_quit() needed?
 	IMG_Quit();
 	TTF_CloseFont(font);
+    TTF_Quit();
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
-
 }
+
