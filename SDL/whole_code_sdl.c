@@ -8,7 +8,6 @@
 
 //gcc whole_code_sdl.c -o chess $(sdl2-config --cflags --libs) -lSDL2_image -lSDL2_ttf
 
-
 enum screen_size {
     SCREEN_WIDTH = 1000,
     SCREEN_HEIGHT = 720,
@@ -18,29 +17,33 @@ int main(int argc, char **argv) {
     (void)argc;
     (void)argv;
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) { // Initialisierung von SDL
+    // Initialisierung von SDL
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         SDL_Log("Initialisierung fehlgeschlagen! SDL_Error: %s\n", SDL_GetError());
         goto end_of_file;
     }
 
-    SDL_Window *window = SDL_CreateWindow("Schach", SDL_WINDOWPOS_UNDEFINED, // Erstellt ein Fenster
+    // Erstellt ein Fenster
+    SDL_Window *window = SDL_CreateWindow("Schach", SDL_WINDOWPOS_UNDEFINED,
                                             SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
                                             SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == NULL) {
         SDL_Log("Fenster nicht erstellt! SDL_Error: %s\n", SDL_GetError());
         goto end_of_file;
     }
-    SDL_Surface *surface = SDL_GetWindowSurface(window); //Struktur um in SDL Pixelmanipulationen durchzuführen
+
+    //Struktur um in SDL Pixelmanipulationen durchzuführen
+    SDL_Surface *surface = SDL_GetWindowSurface(window);
     if (surface == NULL) {
         SDL_Log("Oberfläche nicht erhalten! SDL_Error: %s\n", SDL_GetError());
         goto end_of_file;
     }
 
-    // Farben erstellen
+    // Farben erstellen (int)
     Sint32 white = SDL_MapRGBA(surface->format, 255, 255, 255, 255);
     Sint32 grey = SDL_MapRGBA(surface->format, 128, 128, 128, 255);
 
-    //Größe der Rechtecke
+    //Größe der Rechtecke (single square)
     int rect_size = 90;
 
     //Schachbrett erstellen
@@ -61,21 +64,19 @@ int main(int argc, char **argv) {
             }
         }
     }
-    
-    
 
-
+    //make the changes visible on the user's screen
     SDL_UpdateWindowSurface(window); 
 
-    int flags = IMG_INIT_PNG | IMG_INIT_JPG; // Flags für die Initialisierung von SDL_Image
-    
+    // Flags für die Initialisierung von SDL_Image (pieces)
+    int flags = IMG_INIT_PNG | IMG_INIT_JPG; 
+
     if(IMG_Init(flags) != flags) {
 		SDL_Log(
 			"SDL_Image couldn't be initialized! SDL_image Error: %s\n", 
 			IMG_GetError());
 		return -1;
 	}
-		
 
     //image_black_pawn is a pointer to an SDL_Surface object that contains the picture of a black pawn
     SDL_Surface *image_black_pawn = IMG_Load("chess_figures/black_pawn.png");
@@ -175,8 +176,8 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-//in the following for loops are created that create SDL_Rect objects for the pawns with the correct coordinates and sizes for the images 
-//and then print them on the surface
+//in the following for loops are created that create SDL_Rect objects for the pawns 
+//with the correct coordinates and sizes for the images and then print them on the surface
 
     //for loop that creates 8 SDL_Rect objects for the black pawns in the 7th row
     for(int i=0; i<8; i++){
@@ -334,8 +335,7 @@ int main(int argc, char **argv) {
         //The SDL_BlitSurface function copies the image to the surface
         SDL_BlitSurface(image_white_king, NULL, surface, &image_rect_white_king);
 
-    
-
+    //get all the images of pieces on the user's window
     SDL_UpdateWindowSurface(window);
 
     SDL_FreeSurface(image_black_pawn); // Freigabe des Bildes
@@ -350,55 +350,63 @@ int main(int argc, char **argv) {
     SDL_FreeSurface(image_white_queen); // Freigabe des Bildes
     SDL_FreeSurface(image_black_king); // Freigabe des Bildes
     SDL_FreeSurface(image_white_king); // Freigabe des Bildes
-    
-    
+
     //Insertion of text on right part of window via sdl_ttf
-    
     //initializing sdl_ttf
     if (TTF_Init() == -1) {
-		SDL_Log("SDL_ttf konnte nicht initialisiert werden! SDL_ttf Error: %s\n",
-		TTF_GetError());
-    return -1;
+		SDL_Log("SDL_ttf konnte nicht initialisiert werden! SDL_ttf Error: %s\n", TTF_GetError());
+        return -1;
     }
 
     TTF_Font *font = TTF_OpenFont("Go_Mono.ttf", 28);
     if (font == NULL){
-		SDL_Log("Font could not be loaded. SDL_ttf Error: %s\n",
-		TTF_GetError());
+		SDL_Log("Font could not be loaded. SDL_ttf Error: %s\n", TTF_GetError());
 		return -1;
 	}
 	
+    // white color (SDL_Color)
 	SDL_Color white_color = {.r = 255, .g = 255, .b = 255, .a = 255};
-	SDL_Surface *text = TTF_RenderText_Solid(font, "HP: ", white_color);
-    
+
+    // from text to pixels
+    SDL_Surface *text = TTF_RenderText_Solid(font, "HP: ", white_color);
+    if (text == NULL) {
+        SDL_Log("Text rendering failed: %s\n", TTF_GetError());
+        TTF_CloseFont(font);
+        return -1;
+    }
+
     SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
 	if (text_konvertiert == NULL) {
-		SDL_Log("Text konnte nicht konvertiert werden! SDL_Error Error: %s\n",
-		SDL_GetError());
-    return -1;
+		SDL_Log("Text konnte nicht konvertiert werden! SDL_Error Error: %s\n", SDL_GetError());
+        SDL_FreeSurface(text);
+        TTF_CloseFont(font);
+        return -1;
 	}
 	
 	//hier irgendwie kompilierfehler 
     //CHANGE: from *textRect to textRect
     //it's already a "box" with smth inside, *box just gives an address of the box 
 	SDL_Rect textRect = {	//creating a rect object for the text to go into
-		.x = 8 * rect_size,		//it should be located at the upper right corner of the window, next to the board
+		.x = (8 * rect_size) + 10,		//it should be located at the upper right corner of the window, next to the board
 		.y = rect_size, 
 		.w = text_konvertiert->w, 
 		.h = text_konvertiert->h
 	};
 	//CHANGE: textRect --> &textRect
-	if (SDL_BlitSurface(text_konvertiert, &textRect, surface, NULL) != 0) {
-		SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n",
-        SDL_GetError());
-    return -1;
+	if (SDL_BlitSurface(text_konvertiert, NULL, surface, &textRect) != 0) {
+		SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n", SDL_GetError());
+        SDL_FreeSurface(text);
+        SDL_FreeSurface(text_konvertiert);
+        TTF_CloseFont(font);
+        return -1;
 	}
 
-    SDL_Delay(30000);
-	SDL_FreeSurface(text);
-	SDL_FreeSurface(text_konvertiert);
+    SDL_Log("Text position: (%d, %d), size: (%d, %d)", textRect.x, textRect.y, textRect.w, textRect.h);
 
 	SDL_UpdateWindowSurface(window);
+
+	SDL_FreeSurface(text);
+	SDL_FreeSurface(text_konvertiert);
 
     SDL_Event e;
     bool quit = false;
