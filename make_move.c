@@ -16,7 +16,7 @@ int make_move(piece_t board [8][8], int move[4]){
 	piece_t from = board[move[0]][move[1]];
 	piece_t to = board[move[2]][move[3]];
 
-	int move_result = calculate_attack(board, move); // returns 1 if my figure died, 2 if enemy figure died, 0 otherwise 
+	int move_result = calculate_attack(board, move); // returns 1 if my enemy died, 2 if my figure died, 0 otherwise 
 	
 	/*
 	//move the pieces
@@ -39,6 +39,8 @@ int make_move(piece_t board [8][8], int move[4]){
 		printf("GAME OVER, PLAYER %c WINS\n", enemy_color);
 		return 1;
 	}
+
+	return 0;
 
 	/*
 	int *my_king = find_my_king(board, my_color);

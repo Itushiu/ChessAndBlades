@@ -6,7 +6,7 @@ int init_chessboard(piece_t board[8][8]);	// start of the game, pieces on initia
 int print_board(piece_t board[8][8]);		// print the current state of the board
 											// return 0 (can be void)
 int get_input(int move[4], piece_t board[8][8], char current_player);// read user input & fill move with [from_c, from_r, to_c, to_r]
-											// return 0 (can be void)
+											// return 1 if normal move used, 0 if ultimate ability used
 //TO_DO:
 int validate_moves(piece_t board[8][8], int move[4]);
 
@@ -29,17 +29,21 @@ int main(void) {
 
 	while (1) {
 		// do i have my king?
-		get_input(move, board, current_player);								// succesfull input
-		if (validate_moves(board, move)) {					// knows the rules
-			if(make_move(board, move) == 1){
-				break;
+		if (get_input(move, board, current_player)) {								// normal move from input
+			if (validate_moves(board, move)) {					// knows the rules
+				if(make_move(board, move) == 1){
+					break;
+				}
+				//print_board(board);								// SDL?
+			//if (game_state(board, current_player)) break;	// win/lose/draw
+				current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
 			}
-			//print_board(board);								// SDL?
-		//if (game_state(board, current_player)) break;	// win/lose/draw
-			current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
+			else {
+				printf("Not a valid move for %c! Try again!\n", board[move[0]][move[1]].type);
+			}
 		}
-		else {
-			printf("Not a valid move for %c! Try again!\n", board[move[0]][move[1]].type);
+		else { // ultimate from input
+			// function for ultimate
 		}
 	}
 	return 0;
