@@ -4,6 +4,7 @@
 #include <SDL_video.h>
 #include <stdbool.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 //Kompilieren gcc schach.c -o schach $(sdl2-config --cflags --libs) -lSDL2_image
 
@@ -67,6 +68,14 @@ int main(int argc, char **argv) {
     SDL_UpdateWindowSurface(window); 
 
     int flags = IMG_INIT_PNG | IMG_INIT_JPG; // Flags für die Initialisierung von SDL_Image
+    
+    if(IMG_Init(flags) != flags) {
+		SDL_Log(
+			"SDL_Image couldn't be initialized! SDL_image Error: %s\n", 
+			IMG_GetError());
+		return -1;
+	}
+		
 
     //image_black_pawn is a pointer to an SDL_Surface object that contains the picture of a black pawn
     SDL_Surface *image_black_pawn = IMG_Load("chess_figures/black_pawn.png");
@@ -341,7 +350,51 @@ int main(int argc, char **argv) {
     SDL_FreeSurface(image_white_queen); // Freigabe des Bildes
     SDL_FreeSurface(image_black_king); // Freigabe des Bildes
     SDL_FreeSurface(image_white_king); // Freigabe des Bildes
-    IMG_Quit();
+    
+    
+    //Insertion of text on right part of window via sdl_ttf
+    
+    //initializing sdl_ttf
+    if (TTF_Init() == -1) {
+		SDL_Log("SDL_ttf konnte nicht initialisiert werden! SDL_ttf Error: %s\n",
+		TTF_GetError());
+    return -1;
+    
+    TTF_Font *font = TTF_OpenFont("Go-Mono.ttf", 28);
+    if (font == NULL){
+		SDL_Log("Font could not be loaded. SDL_ttf Error: %s\n",
+		TTF_GetError());
+		return -1;
+	}
+	
+	SDL_Color white = {.r = 255, .g = 255, .b = 255, .a = 255};
+	SDL_Surface *text = TTF_RenderText_Solid(font, "HP: ", white);
+    
+    SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
+	if (text_konvertiert == NULL) {
+		SDL_Log("Text konnte nicht konvertiert werden! SDL_Error Error: %s\n",
+		SDL_GetError());
+    return -1;
+	}
+	
+	//hier irgendwie kompilierfehler 
+	SDL_Rect *textRect = {	//creating a rect object for the text to go into
+		.x = 8 * rect_size,		//it should be located at the upper right corner of the window, next to the board
+		.y = rect_size, 
+		.w = text_konvertiert->w, 
+		.h = text_konvertiert->h
+	};
+	
+	if (SDL_BlitSurface(text_konvertiert, textRect, surface, NULL) != 0) {
+		SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n",
+        SDL_GetError());
+    return -1;
+	}
+
+	SDL_FreeSurface(text);
+	SDL_FreeSurface(text_konvertiert);
+
+	SDL_UpdateWindowSurface(window);
 
     SDL_Event e;
     bool quit = false;
@@ -353,7 +406,9 @@ int main(int argc, char **argv) {
     }
     
 
-end_of_file:
+end_of_file:	//ttf_quit() needed?
+	IMG_Quit();
+	TTF_CloseFont(font);
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
