@@ -1,17 +1,18 @@
-Each piece has an HP, Attack, and Defense value depending on its type.  
+Each piece has an HP, Attack, and Defence value depending on its type.  
 When Piece 1 attacks Piece 2, a die is rolled (1 to 20).  
 
-If rolled number > 10 - (attack_piece1 - defense_piece2)
-(or 20 then damage * 2)
-    The rolled number is then calculated with the difference of the Attack and Defense values of the two pieces, according to the following formula:  
-    
-    If rolled number <= (10 - (attack_piece1 - defense_piece2)) * 1/3 
-        then X = 1
-    Else if rolled number <= (10 - (attack_piece1 - defense_piece2)) * 2/3 
-        then X = 2
-    Else 
-        X = 3
+stat_difference = piece1_attack - piece2_deffence
 
+If (rolled_number >= (10 - stat_difference) && rolled_number != 1)
+    The rolled number is then calculated with the difference of the Attack and Defense values of the two pieces, according to the following formula:      
+    if (rolled_number <= ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3)))
+        then X = 1
+    Else if (rolled_number <= ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3 * 2))) 
+        then X = 2
+    Else if (rolled_number < 20) 
+        X = 3
+    Else 
+        X = 5
     This value X is then subtracted from the HP of Piece 2.  
     If Piece 2 has no HP left, Piece 1 takes its position. Otherwise, both pieces remain in their places.
 
