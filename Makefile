@@ -19,7 +19,8 @@ SRCS = 	get_input.c \
 		validate_moves.c \
 		play.c \
 		make_move.c \
-		SDL.c
+		calculate_attack.c \
+#		SDL.c
 		
 
 

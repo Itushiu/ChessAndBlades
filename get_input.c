@@ -3,7 +3,7 @@
 
 int get_input(int move[4], piece_t board[8][8], char current_player) {
 
-    char from_c, from_r, to_c, to_r;
+    char from_c, from_r, to_c, to_r, move_check;
 
     jump_get_input:
 
@@ -11,6 +11,7 @@ int get_input(int move[4], piece_t board[8][8], char current_player) {
     from_r = ' '; 
     to_c = ' '; 
     to_r = ' ';
+    move_check = ' ';
 
     if (current_player == 'w') {
         printf("Player White input your move (E.g. A3 E4): ");
@@ -48,6 +49,41 @@ int get_input(int move[4], piece_t board[8][8], char current_player) {
     if (move[0] == move[2] && move[1] == move[3]) {
         printf("You can't move to the same place, try again!\n");
         goto jump_get_input;
+    }
+
+	if (board[move[2]][move[3]].type != ' ' && board[move[2]][move[3]].color == board[move[0]][move[1]].color) { // check if tried to attack your team
+        printf("Don't eat your team! Try again!\n");
+        goto jump_get_input;
+    }
+
+    if (board[move[2]][move[3]].type == ' ') { // move to empty space
+        printf("You want to move your %c (HP: %d, ATT: %d, DEF: %d) to %c%c. Correct? (Y/N)\n", // show piece stats and check if sure
+                board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence, 
+                to_c, to_r);
+        
+        jump_get_input2:
+        scanf(" %c", &move_check);
+        if (move_check == 'N') goto jump_get_input;
+        else if (move_check == 'Y') return(0);
+        else {
+            printf("Y for Yes, N for No!\n");
+            goto jump_get_input2;
+        }
+    }
+    
+    else { // attack another piece
+        printf("You want to attack %c (HP: %d, ATT: %d, DEF: %d) with your %c (HP: %d, ATT: %d, DEF: %d). Correct? (Y/N)\n", // show pieces stats and check if sure
+            board[move[2]][move[3]].type, board[move[2]][move[3]].hp, board[move[2]][move[3]].attack, board[move[2]][move[3]].defence,
+            board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence);
+    
+        jump_get_input3:
+        scanf(" %c", &move_check);
+        if (move_check == 'N') goto jump_get_input;
+        else if (move_check == 'Y') return(0);
+        else {
+            printf("Y for Yes, N for No!\n");
+            goto jump_get_input3;
+        }
     }
 
     return(0);

@@ -31,17 +31,12 @@ int main(void) {
 		// do i have my king?
 		get_input(move, board, current_player);								// succesfull input
 		if (validate_moves(board, move)) {					// knows the rules
-			// TODO: ugly, change later "don't eat your team"
-			if (!(board[move[2]][move[3]].type != ' ' && board[move[2]][move[3]].color == board[move[0]][move[1]].color)){
-				if(make_move(board, move) == 1){
-					break;
-				}
-				//print_board(board);								// SDL?
-			//if (game_state(board, current_player)) break;	// win/lose/draw
-				current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
+			if(make_move(board, move) == 1){
+				break;
 			}
-			else 
-				printf("Don't eat your team! Try again!\n");
+			//print_board(board);								// SDL?
+		//if (game_state(board, current_player)) break;	// win/lose/draw
+			current_player = (current_player == 'w') ? 'b' : 'w'; // switch 
 		}
 		else {
 			printf("Not a valid move for %c! Try again!\n", board[move[0]][move[1]].type);
