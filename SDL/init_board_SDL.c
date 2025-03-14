@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <SDL_image.h>
 
-//Kompilieren gcc schach.c -o schach $(sdl2-config --cflags --libs) -lSDL2_image
+//Kompilieren: gcc init_board_SDL.c -o init_board_SDL $(sdl2-config --cflags --libs) -lSDL2_image
 
 
 enum screen_size {

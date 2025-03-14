@@ -116,63 +116,159 @@ int main(int argc, char **argv) {
 
     //for loop that creates 8 SDL_Rect objects for the black pawns in the 7th row
     for(int i=0; i<8; i++){
-        SDL_Rect image_rect = {
+        SDL_Rect image_rect_black_pawn = {
             .x = i * rect_size + 15, // Beispiel: Bild in der x Spalte
             .y = rect_size, // Bild in der 2. Reihe
             .w = image_black_pawn->w, // Breite des Bildes
             .h = image_black_pawn->h // Höhe des Bildes
         };
         //The SDL_BlitSurface function copies the image to the surface
-        SDL_BlitSurface(image_black_pawn, NULL, surface, &image_rect); 
+        SDL_BlitSurface(image_black_pawn, NULL, surface, &image_rect_black_pawn); 
     }
 
     //for loop that creates 8 SDL_Rect objects for the white pawns in the 2nd row
     for(int i=0; i<8; i++){
-        SDL_Rect image_rect = {
+        SDL_Rect image_rect_white_pawn = {
             .x = i * rect_size + 15, // Beispiel: Bild in der x Spalte
             .y = rect_size * 6, // Bild in der 2. Reihe
             .w = image_white_pawn->w, // Breite des Bildes
             .h = image_white_pawn->h // Höhe des Bildes
         };
         //The SDL_BlitSurface function copies the image to the surface
-        SDL_BlitSurface(image_white_pawn, NULL, surface, &image_rect); 
+        SDL_BlitSurface(image_white_pawn, NULL, surface, &image_rect_white_pawn); 
     }
 
     //for loop that creates 2 SDL_Rect objects for the black rooks in the 8th row
     for(int i=0; i<2; i++) {
-        SDL_Rect image_rect = {
+        SDL_Rect image_rect_black_rooks = {
             .x = i * 7 * rect_size + 10, // Beispiel: Bild in der x Spalte
             .y = rect_size * 0, // Bild in der 8. Reihe
             .w = image_black_rook->w, // Breite des Bildes
             .h = image_black_rook->h // Höhe des Bildes
         };
         //The SDL_BlitSurface function copies the image to the surface
-        SDL_BlitSurface(image_black_rook, NULL, surface, &image_rect); 
+        SDL_BlitSurface(image_black_rook, NULL, surface, &image_rect_black_rooks); 
     }
 
     //for loop that creates 2 SDL_Rect objects for the black rooks in the 8th row
     for(int i=0; i<2; i++) {
-        SDL_Rect image_rect = {
+        SDL_Rect image_rect_white_rooks = {
             .x = i * 7 * rect_size + 10, // Beispiel: Bild in der x Spalte
             .y = rect_size * 7, // Bild in der 8. Reihe
             .w = image_white_rook->w, // Breite des Bildes
             .h = image_white_rook->h // Höhe des Bildes
         };
         //The SDL_BlitSurface function copies the image to the surface
-        SDL_BlitSurface(image_white_rook, NULL, surface, &image_rect); 
+        SDL_BlitSurface(image_white_rook, NULL, surface, &image_rect_white_rooks); 
     }
 
-    //for loop that creates 2 SDL_Rect objects for the black rooks in the 8th row
-    for(int i=1; i<3; i++) {
-        SDL_Rect image_rect = {
-            .x = i * 6 * rect_size + 10, // Beispiel: Bild in der x Spalte
+        SDL_Rect image_rect_black_horse1 = {
+            .x = 1 * rect_size -2, // Beispiel: Bild in der x Spalte
             .y = rect_size * 0, // Bild in der 8. Reihe
             .w = image_black_horse->w, // Breite des Bildes
             .h = image_black_horse->h // Höhe des Bildes
         };
         //The SDL_BlitSurface function copies the image to the surface
-        SDL_BlitSurface(image_black_horse, NULL, surface, &image_rect); 
-    }
+        SDL_BlitSurface(image_black_horse, NULL, surface, &image_rect_black_horse1);
+
+        SDL_Rect image_rect_black_horse2 = {
+            .x = 6 * rect_size -2, // Beispiel: Bild in der x Spalte
+            .y = rect_size * 0, // Bild in der 8. Reihe
+            .w = image_black_horse->w, // Breite des Bildes
+            .h = image_black_horse->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_black_horse, NULL, surface, &image_rect_black_horse2);
+
+        SDL_Rect image_rect_white_horse1 = {
+            .x = 1 * rect_size -2, // Beispiel: Bild in der x Spalte
+            .y = rect_size * 7, // Bild in der 8. Reihe
+            .w = image_white_horse->w, // Breite des Bildes
+            .h = image_white_horse->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_white_horse, NULL, surface, &image_rect_white_horse1);
+
+        SDL_Rect image_rect_white_horse2 = {
+            .x = 6 * rect_size -2, // Beispiel: Bild in der x Spalte
+            .y = rect_size * 7, // Bild in der 8. Reihe
+            .w = image_white_horse->w, // Breite des Bildes
+            .h = image_white_horse->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_white_horse, NULL, surface, &image_rect_white_horse2);
+
+        SDL_Rect image_rect_black_bishop1 = {
+            .x = 2 * rect_size + 0, // Beispiel: Bild in der x Spalte
+            .y = rect_size * 0, // Bild in der 8. Reihe
+            .w = image_black_bishop->w, // Breite des Bildes
+            .h = image_black_bishop->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_black_bishop, NULL, surface, &image_rect_black_bishop1);
+
+        SDL_Rect image_rect_black_bishop2 = {
+            .x = 5 * rect_size + 0, // Beispiel: Bild in der x Spalte
+            .y = rect_size * 0, // Bild in der 8. Reihe
+            .w = image_black_bishop->w, // Breite des Bildes
+            .h = image_black_bishop->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_black_bishop, NULL, surface, &image_rect_black_bishop2); 
+
+        SDL_Rect image_rect_white_bishop1 = {
+            .x = 2 * rect_size + 0, // Beispiel: Bild in der x Spalte
+            .y = rect_size * 7, // Bild in der 8. Reihe
+            .w = image_white_bishop->w, // Breite des Bildes
+            .h = image_white_bishop->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_white_bishop, NULL, surface, &image_rect_white_bishop1);
+
+        SDL_Rect image_rect_white_bishop2 = {
+            .x = 5 * rect_size + 0, // Beispiel: Bild in der x Spalte
+            .y = rect_size * 7, // Bild in der 8. Reihe
+            .w = image_white_bishop->w, // Breite des Bildes
+            .h = image_white_bishop->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_white_bishop, NULL, surface, &image_rect_white_bishop2);
+
+        SDL_Rect image_rect_black_queen = {
+            .x = 3 * rect_size -2, // Beispiel: Bild in der x Spalte
+            .y = (rect_size * 0)-2, // Bild in der 8. Reihe
+            .w = image_black_queen->w, // Breite des Bildes
+            .h = image_black_queen->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_black_queen, NULL, surface, &image_rect_black_queen);
+
+        SDL_Rect image_rect_white_queen = {
+            .x = 3 * rect_size -4, // Beispiel: Bild in der x Spalte
+            .y = (rect_size * 7)-2, // Bild in der 8. Reihe
+            .w = image_white_queen->w, // Breite des Bildes
+            .h = image_white_queen->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_white_queen, NULL, surface, &image_rect_white_queen);
+
+        SDL_Rect image_rect_black_king = {
+            .x = 4 * rect_size + 0, // Beispiel: Bild in der x Spalte
+            .y = rect_size * 0, // Bild in der 8. Reihe
+            .w = image_black_king->w, // Breite des Bildes
+            .h = image_black_king->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_black_king, NULL, surface, &image_rect_black_king);
+
+        SDL_Rect image_rect_white_king = {
+            .x = 4 * rect_size + 0, // Beispiel: Bild in der x Spalte
+            .y = rect_size * 7, // Bild in der 8. Reihe
+            .w = image_white_king->w, // Breite des Bildes
+            .h = image_white_king->h // Höhe des Bildes
+        };
+        //The SDL_BlitSurface function copies the image to the surface
+        SDL_BlitSurface(image_white_king, NULL, surface, &image_rect_white_king);
 
     
 
