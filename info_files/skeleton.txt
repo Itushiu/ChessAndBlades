@@ -103,7 +103,7 @@ int main(void) {
 	int move [4];
 	char current_player = 'w';
 
-	while (1) {
+	while (GAME_IS_RUNNING BUT ALSO WE NEED A EXIT SCREEN) {
 		get_input(move, board, current_player);								// succesfull input
 		KEYBOARD/ MOUSE/ BLAH BLAH WE R NOT IN THE TERMINAL!!!!!!!!!!
 		if (validate_moves(board, move)) {					// knows the rules
