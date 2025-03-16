@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include "general_structures.h"
+#include <stdlib.h>
 
 int calculate_attack(piece_t board [8][8], int move[4]) {
     int rolled_number = rand() % (20 + 1 - 1) + 1; // rand() % (max_number + 1 - minimum_number) + minimum_number
     int stat_difference = board[move[0]][move[1]].attack - board[move[2]][move[3]].defence;
     int damage;
+    int damage_formula_1 = ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3)); 
+    int damage_formula_2 = ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3 * 2));
     int double_damage = 1;
 
     if (board[move[2]][move[3]].type == ' ') {
@@ -18,10 +21,10 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
     }
 
     if (rolled_number >= (10 - stat_difference) && rolled_number != 1) { // successfull attack
-        if (rolled_number <= ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3))) { // 1 damage
+        if (rolled_number <= damage_formula_1) { // 1 damage
             damage = 1;
         }
-        else if (rolled_number <= ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3 * 2))) { // 2 damage
+        else if (rolled_number <= damage_formula_2) { // 2 damage
             damage = 2;
         }
         else if (rolled_number < 20) { // 3 damage
@@ -61,12 +64,14 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
 
         rolled_number = rand() % (20 + 1 - 1) + 1;
         stat_difference = board[move[2]][move[3]].attack - board[move[0]][move[1]].defence;
+        damage_formula_1 = ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3)); 
+        damage_formula_2 = ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3 * 2));
 
         if (rolled_number >= (10 - stat_difference) && rolled_number != 1) { // successfull counterattack
-            if (rolled_number <= ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3))) { // 1 damage
+            if (rolled_number <= damage_formula_1) { // 1 damage
                 damage = 1;
             }
-            else if (rolled_number <= ((10 - (stat_difference)) + ((20 - (10 - (stat_difference))) / 3 * 2))) { // 2 damage
+            else if (rolled_number <= damage_formula_2) { // 2 damage
                 damage = 2 * double_damage;
             }
             else if (rolled_number < 20) { // 3 damage

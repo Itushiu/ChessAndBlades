@@ -1,9 +1,9 @@
 #include "general_structures.h"
 
-int init_chessboard(piece_t board[8][8]) {
+extern int column;
+extern int row;
 
-    extern int column;
-    extern int row;
+int init_chessboard(piece_t board[8][8]) {
 
     // 8x8 board with empty pieces
     for (column = 0; column < 8; column++) {         

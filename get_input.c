@@ -1,13 +1,26 @@
 #include <stdio.h>
 #include "general_structures.h"
 
+int input_check(int input_value) { // clears input buffer and checks for EOF. Returns 1 if correct input
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF); // clear input buffer
+     
+    if (input_value == EOF) { // if EOF detected as input (e.g. Ctrl + D)
+        printf("\nInput error! Try again!\n");
+        clearerr(stdin); // remove EOF from input buffer
+        return 0;
+    }        
+    return 1;
+}
+
 int get_input(int move[4], piece_t board[8][8], char current_player) {
 
     char from_c, from_r, to_c, to_r, move_check;
     int ultimate;
     char * ultimate_description;
+    int input_value;
 
-    jump_get_input:
+jump_get_input:
 
     from_c = ' ';
     from_r = ' '; 
@@ -22,8 +35,9 @@ int get_input(int move[4], piece_t board[8][8], char current_player) {
         printf("Player Black input your move (E.g. A2 A4 or E1 UT for ultimate): ");
     }
 
-    scanf(" %c%c %c%c", &from_c, &from_r, &to_c, &to_r); // get 4 characters from input
-    
+    input_value = scanf(" %c%c %c%c", &from_c, &from_r, &to_c, &to_r); // get 4 characters from input
+    if (!input_check(input_value)) goto jump_get_input; // check for EOF, clear input buffer
+
     // check if ultimate skill
     if (('A' <= from_c && from_c <= 'H') && ('1' <= from_r && from_r <= '8') && to_c == 'U' && to_r == 'T') {
         ultimate = 1;
@@ -35,10 +49,10 @@ int get_input(int move[4], piece_t board[8][8], char current_player) {
     }
 
     // turn these characters to int and fill the move array with them
-    move[0] = from_c-65;
-    move[1] = from_r-49;
-    move[2] = to_c-65;
-    move[3] = to_r-49;
+    move[0] = from_c-'A'; // ascii leters A-H to 0-7 integers
+    move[1] = from_r-'1'; // ascii numbers 1-8 to 0-7 integers
+    move[2] = to_c-'A';
+    move[3] = to_r-'1';
 
     // check if not empty figure
     if (board[move[0]][move[1]].type == ' ') {
@@ -66,36 +80,40 @@ int get_input(int move[4], piece_t board[8][8], char current_player) {
     }
 
     if (board[move[2]][move[3]].type == ' ') { // move to empty space
-        printf("You want to move your %c (HP: %d, ATT: %d, DEF: %d) to %c%c. Correct? (Y/N)\n", // show piece stats and check if sure
+        printf("You want to move your %c (HP: %d, ATT: %d, DEF: %d) to %c%c. Correct?\n", // show piece stats and check if sure
                 board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence, 
                 to_c, to_r);
         
-        jump_get_input2:
-        scanf(" %c", &move_check);
+    jump_get_input2:
+        printf("Y for Yes, N for No: ");
+        input_value = scanf(" %c", &move_check);
+        if (!input_check(input_value)) goto jump_get_input2; // check for EOF, clear input buffer
         if (move_check == 'N') goto jump_get_input;
         else if (move_check == 'Y') return(1); // returns 1 if normal move made
         else {
-            printf("Y for Yes, N for No!\n");
+            printf("False input, try again!\n");
             goto jump_get_input2;
         }
     }
     
     else { // attack another piece
-        printf("You want to attack enemy %c (HP: %d, ATT: %d, DEF: %d) with your %c (HP: %d, ATT: %d, DEF: %d). Correct? (Y/N)\n", // show pieces stats and check if sure
+        printf("You want to attack enemy %c (HP: %d, ATT: %d, DEF: %d) with your %c (HP: %d, ATT: %d, DEF: %d). Correct?\n", // show pieces stats and check if sure
             board[move[2]][move[3]].type, board[move[2]][move[3]].hp, board[move[2]][move[3]].attack, board[move[2]][move[3]].defence,
             board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence);
     
-        jump_get_input3:
-        scanf(" %c", &move_check);
+    jump_get_input3:
+        printf("Y for Yes, N for No: ");
+        input_value = scanf(" %c", &move_check);
+        if (!input_check(input_value)) goto jump_get_input3; // check for EOF, clear input buffer
         if (move_check == 'N') goto jump_get_input;
         else if (move_check == 'Y') return(1); // returns 1 if normal move made
         else {
-            printf("Y for Yes, N for No!\n");
+            printf("False input, try again!\n");
             goto jump_get_input3;
         }
     }
 
-    jump_get_input_ultimate: // following for ultimate check
+jump_get_input_ultimate: // following for ultimate check
 
     if (board[move[0]][move[1]].ultimate == 0) {
         printf("You already used the ultimate ability for this piece! Try again!\n");
@@ -123,16 +141,18 @@ int get_input(int move[4], piece_t board[8][8], char current_player) {
             break;
     }
 
-    printf("You want to use the ultimate ability of your %c (HP: %d, ATT: %d, DEF: %d.\nIt is %s. Correct? (Y/N)\n", // show piece stats and ultimate and check if sure
+    printf("You want to use the ultimate ability of your %c (HP: %d, ATT: %d, DEF: %d).\nIt is %s. Correct?\n", // show piece stats and ultimate and check if sure
         board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence, 
         ultimate_description);
 
-    jump_get_input4:
-    scanf(" %c", &move_check);
+jump_get_input4:
+    printf("Y for Yes, N for No: ");
+    input_value = scanf(" %c", &move_check);
+    if (!input_check(input_value)) goto jump_get_input4; // check for EOF, clear input buffer
     if (move_check == 'N') goto jump_get_input;
     else if (move_check == 'Y') return(0); // returns 0 if ultimate ability used
     else {
-        printf("Y for Yes, N for No!\n");
+        printf("False input, try again!\n");
         goto jump_get_input4;
     }
 }

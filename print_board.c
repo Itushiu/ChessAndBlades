@@ -1,10 +1,10 @@
 #include "general_structures.h"
 #include <stdio.h>
 
-int print_board(piece_t board[8][8]) {
+extern int column;
+extern int row;
 
-    extern int column;
-    extern int row;
+int print_board(piece_t board[8][8]) {
 
     // print board
     printf("\n ");
