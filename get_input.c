@@ -134,7 +134,7 @@ jump_get_input_ultimate: // following for ultimate check
             ultimate_description = "Bishop as King (move once using the same rules as King, cannot be an attack)";
             break;
         case 'R':
-            ultimate_description = "Rook the Shield (redirects next attack of your opponent to itself)";
+            ultimate_description = "Rook the Shield (redirects next attack of your opponent to itself and blocks any ultimate while active)";
             break;
         case 'H':
             ultimate_description = "Double Jump (two jumps in one turn, first one can't be an attack)";

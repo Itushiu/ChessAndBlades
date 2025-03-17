@@ -21,6 +21,7 @@ SRCS = 	get_input.c \
 		play.c \
 		make_move.c \
 		calculate_attack.c \
+		ultimate_abilities.c \
 #		SDL.c
 		
 

@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include "general_structures.h"
 #include <stdlib.h>
+#include <time.h>
 
 int calculate_attack(piece_t board [8][8], int move[4]) {
+    srand(time(NULL)); // random seed from current time
     int rolled_number = rand() % (20 + 1 - 1) + 1; // rand() % (max_number + 1 - minimum_number) + minimum_number
     int stat_difference = board[move[0]][move[1]].attack - board[move[2]][move[3]].defence;
     int damage;
@@ -37,7 +39,7 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
         board[move[2]][move[3]].hp -= damage; // deal damage
 
         if (board[move[2]][move[3]].hp <= 0) { // enemy figure died
-            printf ("You rolled %d (%d needed) and dealt %d damage to enemy %c, which is now dead!\n",
+            printf ("\nYou rolled %d (%d needed) and dealt %d damage to enemy %c, which is now dead!\n",
                 rolled_number, (10 - stat_difference), damage, board[move[2]][move[3]].type);
             board[move[2]][move[3]] = board[move[0]][move[1]]; // replace the figure
             board[move[0]][move[1]].type = ' ';
@@ -48,17 +50,17 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
             return(1);
         }
         else { // enemy figure still alive
-            printf ("You rolled %d (%d needed) and dealt %d damage to enemy %c, which now has %d HP.\n",
+            printf ("\nYou rolled %d (%d needed) and dealt %d damage to enemy %c, which now has %d HP.\n",
                 rolled_number, (10 - stat_difference), damage, board[move[2]][move[3]].type, board[move[2]][move[3]].hp);
         }
     }
     else { // unsuccessfull attack
         if (rolled_number == 1) {
-            printf ("You rolled 1. Enemy will now counterattack with double damage!\n");
+            printf ("\nYou rolled 1. Enemy will now counterattack with double damage!\n");
             double_damage = 2; 
         }
         else {
-            printf ("You rolled %d (%d needed). Enemy will now counterattack!\n", 
+            printf ("\nYou rolled %d (%d needed). Enemy will now counterattack!\n", 
                 rolled_number, (10 - stat_difference));
             }
 

@@ -16,6 +16,8 @@ int make_move(piece_t board [8][8], int move[4]);
 				// but here we have to analise is it even NEEDED to start next iteration?
 				// or can we say that the current player won and that s it????
 
+int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player); // returns 1 if all good, 0 if king died, 2 if ultimate used incorrectly
+
 int row;
 int column;
 
@@ -43,7 +45,7 @@ int main(void) {
 			}
 		}
 		else { // ultimate from input
-			// function for ultimate
+			if (ultimate_abilities(move, board, &current_player) == 0) break; // function for ultimate
 		}
 	}
 	return 0;
