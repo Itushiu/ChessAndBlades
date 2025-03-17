@@ -18,12 +18,15 @@ int validate_move_k(int move[4], piece_t board[8][8]); // king rules needed for 
 
 int input_check(int input_value); // needed for pawns
 
+
+
 int ultimate_ability_r(int move[4], piece_t board [8][8], char *current_player) { // Rook Shield
     int shield_active = 1;
     board[move[0]][move[1]].ultimate = 0;
     int shield_position[2]; // save coordinates of rook that used the ultimate
     shield_position[0] = move[0];
     shield_position[1] = move[1]; 
+    char shield_color = *current_player; // save color of shield
 
     printf("Next attack of your opponent will be redirected to your Rook.\n");
     print_board(board);
@@ -32,7 +35,7 @@ int ultimate_ability_r(int move[4], piece_t board [8][8], char *current_player) 
     while (shield_active) { // game plays normal until rook redirected an attack
         if (get_input(move, board, *current_player)) {	// normal move from input
             if (validate_moves(board, move)) {	// knows the rules
-                if (board[move[2]][move[3]].type != ' ' && board[move[2]][move[3]].color != *current_player) {
+                if (board[move[2]][move[3]].color == shield_color) {
                     move[2] = shield_position[0];
                     move[3] = shield_position[1];
                     shield_active = 0;
@@ -56,30 +59,61 @@ int ultimate_ability_q(int move[4], piece_t board [8][8], char *current_player) 
     int queen_position[2]; // save coordinates of queen that used the ultimate
     queen_position[0] = move[0];
     queen_position[1] = move[1];
+    int first_move_king_attack = 0;
+    int second_move_king_attack = 0;
     
     printf("\nPlease input your first attack.\n");
-    if (!get_input(move, board, *current_player)) return 2;	// normal move from input
-    if (move[0] != queen_position[0] || move[1] != queen_position[1]) return(2); // checks if tried to attack with queen
-    if (board[move[2]][move[3]].type == ' ') return 2; // checks if tried to attack
-    if (!validate_moves(board, move)) return 2;	// knows the rules
+    if (!get_input(move, board, *current_player)) { // normal move from input
+        printf("You can't use another ultimate ability while using this ultimate ability!\n");
+        return 2;
+    	}
+    if (move[0] != queen_position[0] || move[1] != queen_position[1]) { // checks if tried to attack with queen
+        printf("You can't move another piece while using this ultimate ability!\n");
+        return 2;
+    }
+    if (board[move[2]][move[3]].type == ' ') { // checks if tried to attack
+        printf("Your Queen has to attack if you want to use her ultimate ability!\n");
+        return 2;
+    }
+    if (!validate_moves(board, move)) {	// knows the rules
+        printf("The move you tried to make is not valid!\n");
+        return 2;
+    }
 
     int first_move[4]; 
     for (int i = 0; i < 4; i++) first_move[i] = move[i]; // save first move
  
     printf("\nPlease input your second attack.\n");
-    if (!get_input(move, board, *current_player)) return 2;	// normal move from input
-    if (move[0] != queen_position[0] || move[1] != queen_position[1]) return(2); // checks if tried to attack with queen
-    if (board[move[2]][move[3]].type == ' ') return 2; // checks if tried to attack
-    if (!validate_moves(board, move)) return 2;	// knows the rules
-    if (move[2] == first_move[2] && move[3] == first_move[3]) return 2; // checks if tried to attack the same piece
-    
-    printf("\n");
+    if (!get_input(move, board, *current_player)) { // normal move from input
+        printf("You can't use another ultimate ability while using this ultimate ability!\n");
+        return 2;
+    	}
+    if (move[0] != queen_position[0] || move[1] != queen_position[1]) { // checks if tried to attack with queen
+        printf("You can't move another piece while using this ultimate ability!\n");
+        return 2;
+    }
+    if (board[move[2]][move[3]].type == ' ') { // checks if tried to attack
+        printf("Your Queen has to attack if you want to use her ultimate ability!\n");
+        return 2;
+    }
+    if (!validate_moves(board, move)) {	// knows the rules
+        printf("The move you tried to make is not valid!\n");
+        return 2;
+    }
 
+    if (move[2] == first_move[2] && move[3] == first_move[3]) { // checks if tried to attack the same piece
+        printf("You can't attack the same piece twice!\n");
+        return 2;
+    }
+    
     board[queen_position[0]][queen_position[1]].ultimate = 0; // ultimate used
+
+    if (board[first_move[2]][first_move[3]].type == 'K') first_move_king_attack = 1; // check if first move attacked king
+    if (board[move[2]][move[3]].type == 'K') second_move_king_attack = 1; // check if second move attacked king
 
 	int move_result = calculate_attack(board, first_move); // returns 1 if my enemy died, 2 if my figure died, 0 otherwise 
     if (move_result == 1) { // if enemy piece died
-        if (board[first_move[2]][first_move[3]].type == 'K') return 0; // end if enemy king died
+        if (first_move_king_attack == 1) return 0; // end if enemy king died
         board[first_move[0]][first_move[1]] = board[first_move[2]][first_move[3]]; // move queen back
         board[first_move[2]][first_move[3]].type = ' ';
         board[first_move[2]][first_move[3]].color = ' ';
@@ -91,7 +125,7 @@ int ultimate_ability_q(int move[4], piece_t board [8][8], char *current_player) 
     
 	move_result = calculate_attack(board, move); // returns 1 if my enemy died, 2 if my figure died, 0 otherwise 
     if (move_result == 1) { // if enemy piece died
-        if (board[move[2]][move[3]].type == 'K') return 0; // end if enemy king died
+        if (second_move_king_attack == 1) return 0; // end if enemy king died
     }
     else if (move_result == 2) return 1;
 
@@ -100,7 +134,6 @@ int ultimate_ability_q(int move[4], piece_t board [8][8], char *current_player) 
 
 
 int ultimate_ability_k(int move[4], piece_t board [8][8], char *current_player) {
-    srand(time(NULL)); // random seed from current time
     board[move[0]][move[1]].ultimate = 0; // ultimate used
     int random_column, random_row;
     while (1) {
@@ -117,7 +150,6 @@ int ultimate_ability_k(int move[4], piece_t board [8][8], char *current_player) 
     board[move[0]][move[1]].defence = ' ';
 
     printf("Your king escaped to %c%c!\n", random_column+'A', random_row+'1');
-    print_board(board);
     
     return 1;
 }
@@ -134,10 +166,22 @@ int ultimate_ability_h(int move[4], piece_t board [8][8], char *current_player) 
     knight_position[1] = move[1];
     
     printf("\nPlease input your first move.\n");
-    if (!get_input(move, board_copy, *current_player)) return 2;	// normal move from input
-    if (move[0] != knight_position[0] || move[1] != knight_position[1]) return(2); // checks if tried to move knight
-    if (board_copy[move[2]][move[3]].type != ' ') return 2; // checks if tried to attack
-    if (!validate_moves(board_copy, move)) return 2;	// knows the rules
+    if (!get_input(move, board_copy, *current_player)) { // normal move from input
+        printf("You can't use another ultimate ability while using this ultimate ability!\n");
+        return 2;
+    	}
+    if (move[0] != knight_position[0] || move[1] != knight_position[1]) { // checks if tried to move knight
+        printf("You can't move another piece while using this ultimate ability!\n");
+        return 2;
+    }
+    if (board_copy[move[2]][move[3]].type != ' ') { // checks if tried to attack
+        printf("You can't attack another piece on the first move of this ultimate ability!\n");
+        return 2;
+    }
+    if (!validate_moves(board_copy, move)) {	// knows the rules
+        printf("The move you tried to make is not valid!\n");
+        return 2;
+    }
 
     make_move(board_copy, move);
 
@@ -145,9 +189,19 @@ int ultimate_ability_h(int move[4], piece_t board [8][8], char *current_player) 
     knight_position[1] = move[3];
     
     printf("Please input your second move.\n");
-    if (!get_input(move, board_copy, *current_player)) return 2;	// normal move from input
-    if (move[0] != knight_position[0] || move[1] != knight_position[1]) return(2); // checks if tried to attack with queen
-    if (!validate_moves(board_copy, move)) return 2;	// knows the rules
+    if (!get_input(move, board_copy, *current_player)) { // normal move from input
+        printf("You can't use another ultimate ability while using this ultimate ability!\n");
+        return 2;
+    	}
+    if (move[0] != knight_position[0] || move[1] != knight_position[1]) { // checks if tried to move knight
+        printf("You can't move another piece while using this ultimate ability!\n");
+        return 2;
+    }
+    if (!validate_moves(board_copy, move)) {	// knows the rules
+        printf("The move you tried to make is not valid!\n");
+        return 2;
+    }
+
     
     board_copy[knight_position[0]][knight_position[1]].ultimate = 0; // ultimate used
 
@@ -171,10 +225,22 @@ int ultimate_ability_b(int move[4], piece_t board [8][8], char *current_player) 
     bishop_position[1] = move[1];
 
     printf("\nPlease input the move of your Bishop.\n");
-    if (!get_input(move, board, *current_player)) return 2;	// normal move from input
-    if (move[0] != bishop_position[0] || move[1] != bishop_position[1]) return(2); // checks if tried to move bishop
-    if (board[move[2]][move[3]].type != ' ') return 2; // checks if tried to attack
-    if (!validate_move_k(move, board)) return 2;	// knows the rules for king
+    if (!get_input(move, board, *current_player)) { // normal move from input
+        printf("You can't use another ultimate ability while using this ultimate ability!\n");
+        return 2;
+    	}
+    if (move[0] != bishop_position[0] || move[1] != bishop_position[1]) { // checks if tried to move the bishop
+        printf("You can't move another piece while using this ultimate ability!\n");
+        return 2;
+    }
+    if (board[move[2]][move[3]].type != ' ') { // checks if tried to attack
+        printf("Your Bishop can't attack if you want to use its ultimate ability!\n");
+        return 2;
+    }
+    if (!validate_move_k(move, board)) {	// knows the rules
+        printf("The move you tried to make is not valid!\n");
+        return 2;
+    }
 
     make_move(board, move);   
 
@@ -184,8 +250,11 @@ int ultimate_ability_b(int move[4], piece_t board [8][8], char *current_player) 
 }
 
 
-int ultimate_ability_p_black(int move[4], piece_t board [8][8], char *current_player) {
-    if (move[1] != 0) return 2; // check if pawn is in the first row
+int ultimate_ability_p(int move[4], piece_t board [8][8], char *current_player) {
+    if ((move[1] != 0 && *current_player == 'b') || (move[1] != 7 && *current_player == 'w')) { // check if pawn is in the first row
+        printf("Your pawn is in the wrong row to use its ultimate ability!\n");
+        return 2;
+    }
     char pawn_transform_type;
 
     while (1) { // get piece type input
@@ -203,46 +272,18 @@ int ultimate_ability_p_black(int move[4], piece_t board [8][8], char *current_pl
 
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            if (pawn_transform_type == board[i][j].type && board[i][j].color == 'b') already_exist++; // count the number of existing pieces with this type
+            if (pawn_transform_type == board[i][j].type && board[i][j].color == *current_player) already_exist++; // count the number of existing pieces with this type
         }
     } 
 
-    if (already_exist > 1 || (already_exist > 0 && pawn_transform_type == 'Q')) return 2;
-
-    board[move[0]][move[1]].type = pawn_transform_type;
-    return 1;
-}
-
-
-int ultimate_ability_p_white(int move[4], piece_t board [8][8], char *current_player) {
-    if (move[1] != 7) return 2; // check if pawn is in the first row
-    char pawn_transform_type;
-
-    while (1) { // get piece type input
-        printf("\nInput the piece you want your pawn to transform into (E.g. B for Bishop): ");
-        int input_value = scanf(" %c", &pawn_transform_type);
-        if (!input_check(input_value)) continue; // check for EOF, clear input buffer (function from get_input.c)
-        else if (pawn_transform_type == 'B' || pawn_transform_type == 'R' || pawn_transform_type == 'H' || pawn_transform_type == 'Q') break; // checks if type == one of possible pieces
-        else {
-            printf("False input, try again!\n");
-            continue;
-        }
+    if (already_exist > 1 || (already_exist > 0 && pawn_transform_type == 'Q')) { // checks this type is not "full"
+        printf("You already have max number of this figures!\n");
+        return 2;
     }
 
-    int already_exist = 0;
-
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            if (pawn_transform_type == board[i][j].type && board[i][j].color == 'w') already_exist++; // count the number of existing pieces with this type
-        }
-    } 
-
-    if (already_exist > 1 || (already_exist > 0 && pawn_transform_type == 'Q')) return 2;
-
     board[move[0]][move[1]].type = pawn_transform_type;
     return 1;
 }
-
 
 
 
@@ -269,10 +310,16 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
                 printf("You used the ultimate ability of your Queen incorrectly! Repeat your move from the start.\n\n");
                 return 2;
             }
-            else return 0;
+            else  {
+                print_board(board);
+                printf("GAME OVER, PLAYER %c WINS\n", *current_player);
+                return 0;
+            }
         case 'K':
+            srand(time(NULL)); // random seed from current time
             ultimate_result = ultimate_ability_k(move, board, current_player);
             if (ultimate_result == 1) {
+                print_board(board);
                 *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
                 return 1;
             } else { // shouldn't happen
@@ -301,28 +348,15 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
                 return 2;
             }
         case 'P':
-            if (board[move[0]][move[1]].color == 'b') {
-                ultimate_result = ultimate_ability_p_black(move, board, current_player);
-                if (ultimate_result == 1) {
-                    print_board(board);
-                    *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
-                    return 1;
-                } else {
-                    print_board(board);
-                    printf("You used the ultimate ability of your Pawn incorrectly! Repeat your move from the start.\n\n");
-                    return 2;
-                }
+            ultimate_result = ultimate_ability_p(move, board, current_player);
+            if (ultimate_result == 1) {
+                print_board(board);
+                *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
+                return 1;
             } else {
-                ultimate_result = ultimate_ability_p_white(move, board, current_player);
-                if (ultimate_result == 1) {
-                    print_board(board);
-                    *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
-                    return 1;
-                } else {
-                    print_board(board);
-                    printf("You used the ultimate ability of your Pawn incorrectly! Repeat your move from the start.\n\n");
-                    return 2;
-                }
+                print_board(board);
+                printf("You used the ultimate ability of your Pawn incorrectly! Repeat your move from the start.\n\n");
+                return 2;
             }
         case ' ':
             return 2;
