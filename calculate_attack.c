@@ -69,7 +69,7 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
 
         if (rolled_number >= (10 - stat_difference) && rolled_number != 1) { // successfull counterattack
             if (rolled_number <= damage_formula_1) { // 1 damage
-                damage = 1;
+                damage = 1 * double_damage;
             }
             else if (rolled_number <= damage_formula_2) { // 2 damage
                 damage = 2 * double_damage;
