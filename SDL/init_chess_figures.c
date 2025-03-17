@@ -4,12 +4,15 @@
 #include <SDL_video.h>
 #include <stdbool.h>
 #include <SDL_image.h>
-
-//Kompilieren gcc init_chess_figures.c -o init_chess_figures $(sdl2-config --cflags --libs) -lSDL2_image
+#include <SDL_ttf.h>
  
-int main(int argc, char **argv) {
-    (void)argc;
-    (void)argv;
+// Globale Variablen das in allen Dateien gleiche größe ist
+extern SDL_Window *window;
+extern SDL_Surface *surface;
+
+int chess_figures_sdl(void) {
+ 
+    int rect_size = 90;
     
     int flags = IMG_INIT_PNG | IMG_INIT_JPG; // Flags für die Initialisierung von SDL_Image
 
@@ -17,8 +20,6 @@ int main(int argc, char **argv) {
     SDL_Surface *image_black_pawn = IMG_Load("chess_figures/black_pawn.png");
     if (image_black_pawn == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
@@ -26,88 +27,66 @@ int main(int argc, char **argv) {
     SDL_Surface *image_white_pawn = IMG_Load("chess_figures/white_pawn.png");
     if (image_white_pawn == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_black_rook = IMG_Load("chess_figures/black_rook.png");
     if (image_black_rook == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_white_rook = IMG_Load("chess_figures/white_rook.png");
     if (image_white_rook == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_black_horse = IMG_Load("chess_figures/black_horse.png");
     if (image_black_horse == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_white_horse = IMG_Load("chess_figures/white_horse.png");
     if (image_white_horse == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_black_bishop = IMG_Load("chess_figures/black_bishop.png");
     if (image_black_bishop == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_white_bishop = IMG_Load("chess_figures/white_bishop.png");
     if (image_white_bishop == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_black_queen = IMG_Load("chess_figures/black_queen.png");
     if (image_black_queen == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_white_queen = IMG_Load("chess_figures/white_queen.png");
     if (image_white_queen == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_black_king = IMG_Load("chess_figures/black_king.png");
     if (image_black_king == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
     SDL_Surface *image_white_king = IMG_Load("chess_figures/white_king.png");
     if (image_white_king == NULL) {
         SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
@@ -270,10 +249,6 @@ int main(int argc, char **argv) {
         //The SDL_BlitSurface function copies the image to the surface
         SDL_BlitSurface(image_white_king, NULL, surface, &image_rect_white_king);
 
-    
-
-    SDL_UpdateWindowSurface(window);
-
     SDL_FreeSurface(image_black_pawn); // Freigabe des Bildes
     SDL_FreeSurface(image_white_pawn); // Freigabe des Bildes
     SDL_FreeSurface(image_black_rook); // Freigabe des Bildes
@@ -286,21 +261,5 @@ int main(int argc, char **argv) {
     SDL_FreeSurface(image_white_queen); // Freigabe des Bildes
     SDL_FreeSurface(image_black_king); // Freigabe des Bildes
     SDL_FreeSurface(image_white_king); // Freigabe des Bildes
-    IMG_Quit();
-
-    SDL_Event e;
-    bool quit = false;
-    while (quit == false) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT)
-                quit = true;
-        }
-    }
-    
-
-end_of_file:
-    SDL_DestroyWindow(window);
-    SDL_Quit();
     return 0;
-
 }
