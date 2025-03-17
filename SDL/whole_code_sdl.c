@@ -10,7 +10,7 @@
 
 enum screen_size {
     SCREEN_WIDTH = 1000,
-    SCREEN_HEIGHT = 720,
+    SCREEN_HEIGHT = 800,
 };
 
 int main(int argc, char **argv) {
@@ -367,6 +367,8 @@ int main(int argc, char **argv) {
     // white color (SDL_Color)
 	SDL_Color white_color = {.r = 255, .g = 255, .b = 255, .a = 255};
 
+   
+
     // from text to pixels
     SDL_Surface *text = TTF_RenderText_Solid(font, "HP: ", white_color);
     if (text == NULL) {
@@ -387,8 +389,8 @@ int main(int argc, char **argv) {
     //CHANGE: from *textRect to textRect
     //it's already a "box" with smth inside, *box just gives an address of the box 
 	SDL_Rect textRect = {	//creating a rect object for the text to go into
-		.x = (8 * rect_size) + 10,		//it should be located at the upper right corner of the window, next to the board
-		.y = rect_size, 
+		.x = (9 * rect_size),		//it should be located at the upper right corner of the window, next to the board
+		.y = rect_size * 0, 
 		.w = text_konvertiert->w, 
 		.h = text_konvertiert->h
 	};
@@ -403,10 +405,94 @@ int main(int argc, char **argv) {
 
     SDL_Log("Text position: (%d, %d), size: (%d, %d)", textRect.x, textRect.y, textRect.w, textRect.h);
 
-	SDL_UpdateWindowSurface(window);
 
-	SDL_FreeSurface(text);
-	SDL_FreeSurface(text_konvertiert);
+	SDL_FreeSurface(text); 
+	SDL_FreeSurface(text_konvertiert); 
+
+    // Letters A-H unter dem Schachbrett
+    const char *letters = "ABCDEFGH";
+    for(int i = 0; i < 8; i++) {
+        char letter[2] = {letters[i], '\0'}; 
+        SDL_Surface *text = TTF_RenderText_Solid(font, letter, white_color);
+        if (text == NULL) {
+            SDL_Log("Text rendering failed: %s\n", TTF_GetError());
+            return -1;
+        }
+        
+        // Konvertiere die Text-Surface
+        SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
+	    if (text_konvertiert == NULL) {
+		    SDL_Log("Text konnte nicht konvertiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_FreeSurface(text);
+            TTF_CloseFont(font);
+            return -1;
+    	}
+        
+        // Positioning from letters
+        SDL_Rect letter_rect = {
+            .x = i * rect_size + (rect_size/2), // Zentriert unter jedem Feld
+            .y = 8 * rect_size, // Unter dem Brett
+            .w = text_konvertiert->w,
+            .h = text_konvertiert->h
+        };
+    
+        // Drawing of the letters
+        if (SDL_BlitSurface(text_konvertiert, NULL, surface, &letter_rect)) {
+            SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_FreeSurface(text);
+            SDL_FreeSurface(text_konvertiert);
+            TTF_CloseFont(font);
+            return -1;
+        }
+        
+        // Gib die Surfaces frei
+        SDL_FreeSurface(text);
+        SDL_FreeSurface(text_konvertiert);
+    }
+
+    // Zahlen 1-8 links vom Schachbrett
+    for (int i=1; i<9; i++) {
+        char number[2] = {i + '0', '\0'};
+        SDL_Surface *text = TTF_RenderText_Solid(font, number, white_color);
+        if (text == NULL) {
+            SDL_Log("Text rendering failed: %s\n", TTF_GetError());
+            return -1;
+        }
+        
+        // Konvertiere die Text-Surface
+        SDL_Surface *number_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
+        if (number_konvertiert == NULL) {
+            SDL_Log("Zahl konnte nicht konvertiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_FreeSurface(text);
+            TTF_CloseFont(font);
+            return -1;
+    	}
+        
+        // Positioning from numbers
+        SDL_Rect number_rect = {
+            .x = 8 * rect_size + 5, // Rechts vom Brett
+            .y = (8-i) * rect_size + (rect_size - 60) , // Zentriert neben jedem Feld
+            .w = number_konvertiert->w,
+            .h = number_konvertiert->h
+        };
+    
+        // Drawing of the numbers
+        if (SDL_BlitSurface(number_konvertiert, NULL, surface, &number_rect)) {
+            SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_FreeSurface(text);
+            SDL_FreeSurface(number_konvertiert);
+            TTF_CloseFont(font);
+            return -1;
+        }
+        
+        // Gib die Surfaces frei
+        SDL_FreeSurface(number_konvertiert);
+        SDL_FreeSurface(text);
+    }
+
+
+    SDL_UpdateWindowSurface(window);
+
 
     SDL_Event e;
     bool quit = false;
