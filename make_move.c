@@ -1,6 +1,9 @@
 #include "functions.h"
 #include "general_structures.h"
 
+extern text_box_t text_box;
+extern char text_box_buffer[500];
+
 int print_board(piece_t board[8][8]);
 // int *find_my_king(piece_t board[8][8], char my_color);
 //TODO; ITS FAKE
@@ -25,19 +28,21 @@ int make_move(piece_t board [8][8], int move[4]){
 	board[move[0]][move[1]].color = ' '; // make empty cell "from".color
 	*/
 
-	print_board(board);	
+	//print_board(board);	
 	SDL_render (board);
 	
 	char my_color = from.color;
 	char enemy_color = to.color;
 
 	if (to.type == 'K' && move_result == 1){
-		printf("GAME OVER, PLAYER %c WINS\n", my_color);
+		snprintf(text_box_buffer, 500, "GAME OVER, PLAYER %c WINS\n", my_color);
+        text_box_add(&text_box, text_box_buffer);
 		return 1;
 	}
 
 	if (from.type == 'K' && move_result == 2){
-		printf("GAME OVER, PLAYER %c WINS\n", enemy_color);
+		snprintf(text_box_buffer, 500, "GAME OVER, PLAYER %c WINS\n", enemy_color);
+        text_box_add(&text_box, text_box_buffer);
 		return 1;
 	}
 

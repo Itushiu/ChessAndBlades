@@ -14,74 +14,74 @@ int SDL_pieces(piece_t board[8][8]) {
     //image_black_pawn is a pointer to an SDL_Surface object that contains the picture of a black pawn
     SDL_Surface *image_black_pawn = IMG_Load("chess_figures/black_pawn.png");
     if (image_black_pawn == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     //in the following SDL_Surface objects are created for all the chess figures
     SDL_Surface *image_white_pawn = IMG_Load("chess_figures/white_pawn.png");
     if (image_white_pawn == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_black_rook = IMG_Load("chess_figures/black_rook.png");
     if (image_black_rook == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_white_rook = IMG_Load("chess_figures/white_rook.png");
     if (image_white_rook == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_black_horse = IMG_Load("chess_figures/black_horse.png");
     if (image_black_horse == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_white_horse = IMG_Load("chess_figures/white_horse.png");
     if (image_white_horse == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_black_bishop = IMG_Load("chess_figures/black_bishop.png");
     if (image_black_bishop == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_white_bishop = IMG_Load("chess_figures/white_bishop.png");
     if (image_white_bishop == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_black_queen = IMG_Load("chess_figures/black_queen.png");
     if (image_black_queen == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_white_queen = IMG_Load("chess_figures/white_queen.png");
     if (image_white_queen == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_black_king = IMG_Load("chess_figures/black_king.png");
     if (image_black_king == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 
     SDL_Surface *image_white_king = IMG_Load("chess_figures/white_king.png");
     if (image_white_king == NULL) {
-        SDL_Log("Bild nicht geladen%s\n", IMG_GetError());
+        SDL_Log("Image not loaded%s\n", IMG_GetError());
         return -1;
     }
 

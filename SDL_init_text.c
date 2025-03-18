@@ -19,13 +19,13 @@ int SDL_init_text(void) {
 
     TTF_Font *font = TTF_OpenFont("Go_Mono.ttf", 28);
     if (font == NULL){
-		SDL_Log("Font could not be loadeed. SDL_ttf Error: %s\n", TTF_GetError());
+		SDL_Log("Font could not be loaded. SDL_ttf Error: %s\n", TTF_GetError());
 		return -1;
 	}
 
     TTF_Font *font2 = TTF_OpenFont("Go_Mono.ttf", 19); // font for log text
     if (font2 == NULL){
-		SDL_Log("Font could not be loadeed. SDL_ttf Error: %s\n", TTF_GetError());
+		SDL_Log("Font could not be loaded. SDL_ttf Error: %s\n", TTF_GetError());
 		return -1;
 	}
 	
@@ -69,7 +69,7 @@ int SDL_init_text(void) {
             return -1;
         }
 
-        SDL_Log("Text position: (%d, %d), size: (%d, %d)", textRect.x, textRect.y, textRect.w, textRect.h);
+//        SDL_Log("Text position: (%d, %d), size: (%d, %d)", textRect.x, textRect.y, textRect.w, textRect.h);
 
 
         SDL_FreeSurface(text); 

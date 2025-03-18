@@ -14,7 +14,7 @@ int SDL_init_board(void) {
 
     // Initialisierung von SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        SDL_Log("Initialisierung fehlgeschlagen! SDL_Error: %s\n", SDL_GetError());
+        SDL_Log("Initialization failed! SDL_Error: %s\n", SDL_GetError());
         return -1;
     }
 
@@ -23,14 +23,14 @@ int SDL_init_board(void) {
                                             10, SCREEN_WIDTH,
                                             SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == NULL) {
-        SDL_Log("Fenster nicht erstellt! SDL_Error: %s\n", SDL_GetError());
+        SDL_Log("Window not created! SDL_Error: %s\n", SDL_GetError());
         return -1;
     }
 
     //Struktur um in SDL Pixelmanipulationen durchzuführen
     surface = SDL_GetWindowSurface(window);
     if (surface == NULL) {
-        SDL_Log("Oberfläche nicht erhalten! SDL_Error: %s\n", SDL_GetError());
+        SDL_Log("Surface not preserved! SDL_Error: %s\n", SDL_GetError());
         return -1;
     }
 

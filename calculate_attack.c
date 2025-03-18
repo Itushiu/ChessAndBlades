@@ -1,6 +1,9 @@
 #include "functions.h"
 #include "general_structures.h"
 
+extern text_box_t text_box;
+extern char text_box_buffer[500];
+
 int calculate_attack(piece_t board [8][8], int move[4]) {
     srand(time(NULL)); // random seed from current time
     int rolled_number = rand() % (20 + 1 - 1) + 1; // rand() % (max_number + 1 - minimum_number) + minimum_number
@@ -37,8 +40,9 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
         board[move[2]][move[3]].hp -= damage; // deal damage
 
         if (board[move[2]][move[3]].hp <= 0) { // enemy figure died
-            printf ("\nYou rolled %d (%d needed) and dealt %d damage to enemy %c, which is now dead!\n",
+            snprintf(text_box_buffer, 500, "You rolled %d (%d needed) and dealt %d damage to enemy %c, which is now dead!",
                 rolled_number, (10 - stat_difference), damage, board[move[2]][move[3]].type);
+            text_box_add(&text_box, text_box_buffer);
             board[move[2]][move[3]] = board[move[0]][move[1]]; // replace the figure
             board[move[0]][move[1]].type = ' ';
             board[move[0]][move[1]].color = ' ';
@@ -48,18 +52,21 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
             return(1);
         }
         else { // enemy figure still alive
-            printf ("\nYou rolled %d (%d needed) and dealt %d damage to enemy %c, which now has %d HP.\n",
+            snprintf(text_box_buffer, 500, "You rolled %d (%d needed) and dealt %d damage to enemy %c, which now has %d HP.",
                 rolled_number, (10 - stat_difference), damage, board[move[2]][move[3]].type, board[move[2]][move[3]].hp);
+            text_box_add(&text_box, text_box_buffer);
         }
     }
     else { // unsuccessfull attack
         if (rolled_number == 1) {
-            printf ("\nYou rolled 1. Enemy will now counterattack with double damage!\n");
+            snprintf(text_box_buffer, 500, "You rolled 1. Enemy will now counterattack with double damage!");
+            text_box_add(&text_box, text_box_buffer);
             double_damage = 2; 
         }
         else {
-            printf ("\nYou rolled %d (%d needed). Enemy will now counterattack!\n", 
+            snprintf(text_box_buffer, 500, "You rolled %d (%d needed). Enemy will now counterattack!", 
                 rolled_number, (10 - stat_difference));
+            text_box_add(&text_box, text_box_buffer);   
             }
 
         rolled_number = rand() % (20 + 1 - 1) + 1;
@@ -84,8 +91,9 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
             board[move[0]][move[1]].hp -= damage; // deal damage
 
             if (board[move[0]][move[1]].hp <= 0) { // your figure died
-                printf ("Enemy rolled %d (%d needed) and dealt %d damage to your %c, which is now dead!\n",
+                snprintf(text_box_buffer, 500, "Enemy rolled %d (%d needed) and dealt %d damage to your %c, which is now dead!",
                 rolled_number, (10 - stat_difference), damage, board[move[0]][move[1]].type);
+                text_box_add(&text_box, text_box_buffer);
                 board[move[0]][move[1]] = board[move[2]][move[3]]; // replace the figure
                 board[move[2]][move[3]].type = ' ';
                 board[move[2]][move[3]].color = ' ';
@@ -95,12 +103,14 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
                 return(2);
             }
             else { // your figure still alive
-                printf ("Enemy rolled %d (%d needed) and dealt %d damage to your %c, which now has %d HP.\n",
+                snprintf(text_box_buffer, 500, "Enemy rolled %d (%d needed) and dealt %d damage to your %c, which now has %d HP.",
                     rolled_number, (10 - stat_difference), damage, board[move[0]][move[1]].type, board[move[0]][move[1]].hp);
+                text_box_add(&text_box, text_box_buffer);
             }
         }
         else {
-            printf ("Enemy rolled %d (%d needed) and couldn't counterattack you!\n", rolled_number, (10 - stat_difference));   
+            snprintf(text_box_buffer, 500, "Enemy rolled %d (%d needed) and couldn't counterattack you!", rolled_number, (10 - stat_difference));
+            text_box_add(&text_box, text_box_buffer); 
         }
     }
     
