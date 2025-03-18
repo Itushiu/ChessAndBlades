@@ -13,7 +13,7 @@ int SDL_init_text(void) {
     //Insertion of text on right part of window via sdl_ttf
     //initializing sdl_ttf
     if (TTF_Init() == -1) {
-		SDL_Log("SDL_ttf konnte nicht initialisiert werden! SDL_ttf Error: %s\n", TTF_GetError());
+		SDL_Log("SDL_ttf initialization failed! SDL_ttf Error: %s\n", TTF_GetError());
         return -1;
     }
 
@@ -45,7 +45,7 @@ int SDL_init_text(void) {
 
         SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
         if (text_konvertiert == NULL) {
-            SDL_Log("Text konnte nicht konvertiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_Log("Text couldn't be converted! SDL_Error Error: %s\n", SDL_GetError());
             SDL_FreeSurface(text);
             TTF_CloseFont(font2);
             return -1;
@@ -62,7 +62,7 @@ int SDL_init_text(void) {
         };
         //CHANGE: textRect --> &textRect
         if (SDL_BlitSurface(text_konvertiert, NULL, surface, &textRect) != 0) {
-            SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_Log("Text couldn't be copied! SDL_Error Error: %s\n", SDL_GetError());
             SDL_FreeSurface(text);
             SDL_FreeSurface(text_konvertiert);
             TTF_CloseFont(font2);
@@ -89,7 +89,7 @@ int SDL_init_text(void) {
         // Konvertiere die Text-Surface
         SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
 	    if (text_konvertiert == NULL) {
-		    SDL_Log("Text konnte nicht konvertiert werden! SDL_Error Error: %s\n", SDL_GetError());
+		    SDL_Log("Text couldn't be converted! SDL_Error Error: %s\n", SDL_GetError());
             SDL_FreeSurface(text);
             TTF_CloseFont(font);
             return -1;
@@ -97,15 +97,15 @@ int SDL_init_text(void) {
         
         // Positioning from letters
         SDL_Rect letter_rect = {
-            .x = i * rect_size + (rect_size/2), // Zentriert unter jedem Feld
-            .y = 8 * rect_size, // Unter dem Brett
+            .x = i * rect_size + (rect_size/2) - 7, // Zentriert unter jedem Feld
+            .y = 5 + 8 * rect_size, // Unter dem Brett
             .w = text_konvertiert->w,
             .h = text_konvertiert->h
         };
     
         // Drawing of the letters
         if (SDL_BlitSurface(text_konvertiert, NULL, surface, &letter_rect)) {
-            SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_Log("Text couldn't be copied! SDL_Error Error: %s\n", SDL_GetError());
             SDL_FreeSurface(text);
             SDL_FreeSurface(text_konvertiert);
             TTF_CloseFont(font);
@@ -129,7 +129,7 @@ int SDL_init_text(void) {
         // Konvertiere die Text-Surface
         SDL_Surface *number_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
         if (number_konvertiert == NULL) {
-            SDL_Log("Zahl konnte nicht konvertiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_Log("Number couldn't be converted! SDL_Error Error: %s\n", SDL_GetError());
             SDL_FreeSurface(text);
             TTF_CloseFont(font);
             return -1;
@@ -137,7 +137,7 @@ int SDL_init_text(void) {
         
         // Positioning from numbers
         SDL_Rect number_rect = {
-            .x = 8 * rect_size + 5, // Rechts vom Brett
+            .x = 8 * rect_size + 10, // Rechts vom Brett
             .y = (8-i) * rect_size + (rect_size - 60) , // Zentriert neben jedem Feld
             .w = number_konvertiert->w,
             .h = number_konvertiert->h
@@ -145,7 +145,7 @@ int SDL_init_text(void) {
     
         // Drawing of the numbers
         if (SDL_BlitSurface(number_konvertiert, NULL, surface, &number_rect)) {
-            SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_Log("Text couldn't be copied! SDL_Error Error: %s\n", SDL_GetError());
             SDL_FreeSurface(text);
             SDL_FreeSurface(number_konvertiert);
             TTF_CloseFont(font);
