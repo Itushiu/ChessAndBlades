@@ -7,8 +7,8 @@ enum screen_size {
     SCREEN_WIDTH = 1400,
     SCREEN_HEIGHT = 790,
 };
-SDL_Window *window;
-SDL_Surface *surface;
+extern SDL_Window *window;
+extern SDL_Surface *surface;
 
 int SDL_covers(int posit_in_game) {
 	// Initialisierung von SDL
