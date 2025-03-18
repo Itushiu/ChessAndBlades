@@ -25,7 +25,8 @@ SRCS = 	get_input.c \
 		SDL_init_chess_figures.c \
 		SDL_init_text.c \
 		SDL_init_board.c \
-		SDL_pieces.c
+		SDL_pieces.c \
+		SDL_render.c
 #		SDL.c
 		
 

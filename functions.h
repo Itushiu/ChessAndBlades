@@ -38,4 +38,6 @@ int SDL_init_text(void);
 // sdl fucntion that updates the position of pieces during the game
 int SDL_pieces(piece_t board[8][8]);
 
+int SDL_render (piece_t board [8][8]); // for render
+
 #endif

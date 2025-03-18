@@ -12,25 +12,11 @@ extern SDL_Window *window;
 extern SDL_Surface *surface;
 int main(void) {
 
-    extern piece_t board[8][8];
     init_chessboard(board);
 
-    //from sdl
-    int ausgabe = SDL_init_board();
-    if (ausgabe != 0) {
-        goto end_of_file;
-	}
-    ausgabe = SDL_init_chess_figures();
-    if (ausgabe != 0) {
+    if (SDL_init_chess_figures() != 0 || SDL_render(board) != 0) { // initial render of the board, checks for errors
         goto end_of_file;
     }
-
-    ausgabe = SDL_init_text();
-    if (ausgabe != 0) {
-        goto end_of_file;
-    }
-
-    SDL_UpdateWindowSurface(window);
 
     int move[4];
     char current_player = 'w';
@@ -53,13 +39,6 @@ int main(void) {
             if (validate_moves(board, move)) {
                 if (make_move(board, move) == 1)
                     break; 
-                //next line added via gpt because of glitches on the screen, it colors everything black
-                SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
-                SDL_init_board();
-                SDL_init_text();
-                SDL_pieces(board);
-                //init_text_sdl();
-                SDL_UpdateWindowSurface(window);
                 current_player = (current_player == 'w') ? 'b' : 'w';
             } else {
                 printf("Not a valid move for %c! Try again!\n", board[move[0]][move[1]].type);
@@ -68,12 +47,6 @@ int main(void) {
         else { //ultimate (get_input returns 0)
             if (ultimate_abilities(move, board, &current_player) == 0)
                 break;
-
-            // Refresh SDL display after ultimate move.
-            SDL_init_board();
-            SDL_pieces(board);
-            SDL_init_text();
-            SDL_UpdateWindowSurface(window);
         }
     }
     //helped once, here not so sure

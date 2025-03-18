@@ -26,6 +26,7 @@ int make_move(piece_t board [8][8], int move[4]){
 	*/
 
 	print_board(board);	
+	SDL_render (board);
 	
 	char my_color = from.color;
 	char enemy_color = to.color;
