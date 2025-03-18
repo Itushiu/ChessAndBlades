@@ -10,6 +10,11 @@ typedef struct {
     int ultimate;       // {}
 } piece_t;
 
+typedef struct {
+    char text[15][100];
+    int count;
+} text_box_t;
+
 //for sdl window
 //SDL_Window *window;
 //SDL_Surface *surface;

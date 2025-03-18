@@ -8,9 +8,14 @@ int column;
 //where we store pieces
 piece_t board[8][8];
 
+// where we store text logs
+text_box_t text_box;
+
 extern SDL_Window *window;
 extern SDL_Surface *surface;
 int main(void) {
+
+    text_box.count = 0; // set initial count for text_box
 
     init_chessboard(board);
 

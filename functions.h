@@ -40,4 +40,6 @@ int SDL_pieces(piece_t board[8][8]);
 
 int SDL_render (piece_t board [8][8]); // for render
 
+void text_box_add(text_box_t *text_box, const char* text); // for text log, use: text_box_add(&text_box, "blabla");
+
 #endif
