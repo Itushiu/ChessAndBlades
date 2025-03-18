@@ -4,8 +4,8 @@
 
 //for sdl window
 enum screen_size {
-    SCREEN_WIDTH = 1000,
-    SCREEN_HEIGHT = 800,
+    SCREEN_WIDTH = 1400,
+    SCREEN_HEIGHT = 790,
 };
 SDL_Window *window;
 SDL_Surface *surface;
@@ -19,8 +19,8 @@ int SDL_init_board(void) {
     }
 
     // Erstellt ein Fenster
-    if (window == NULL) window = SDL_CreateWindow("Schach", SDL_WINDOWPOS_UNDEFINED,
-                                            SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
+    if (window == NULL) window = SDL_CreateWindow("Schach", 10,
+                                            10, SCREEN_WIDTH,
                                             SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == NULL) {
         SDL_Log("Fenster nicht erstellt! SDL_Error: %s\n", SDL_GetError());
