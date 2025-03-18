@@ -11,7 +11,7 @@ typedef struct {
 } piece_t;
 
 typedef struct {
-    char text[15][100];
+    char text[32][50];
     int count;
 } text_box_t;
 

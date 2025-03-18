@@ -5,6 +5,8 @@
 extern SDL_Window *window;
 extern SDL_Surface *surface;
 
+extern text_box_t text_box;
+
 int SDL_init_text(void) {
     int rect_size = 90;
 
@@ -17,7 +19,13 @@ int SDL_init_text(void) {
 
     TTF_Font *font = TTF_OpenFont("Go_Mono.ttf", 28);
     if (font == NULL){
-		SDL_Log("Font could not be loaded. SDL_ttf Error: %s\n", TTF_GetError());
+		SDL_Log("Font could not be loadeed. SDL_ttf Error: %s\n", TTF_GetError());
+		return -1;
+	}
+
+    TTF_Font *font2 = TTF_OpenFont("Go_Mono.ttf", 19); // font for log text
+    if (font2 == NULL){
+		SDL_Log("Font could not be loadeed. SDL_ttf Error: %s\n", TTF_GetError());
 		return -1;
 	}
 	
@@ -25,46 +33,48 @@ int SDL_init_text(void) {
 	SDL_Color white_color = {.r = 255, .g = 255, .b = 255, .a = 255};
 
    
+    for (int i = 0; i < 32; i++) {
+        // from text to pixels
+        SDL_Surface *text = TTF_RenderText_Solid(font2, text_box.text[i], white_color);
+        if (text == NULL) {
+            break;
+            SDL_Log("Text rendering failed: %s\n", TTF_GetError());
+            TTF_CloseFont(font2);
+            return -1;
+        }
 
-    // from text to pixels
-    SDL_Surface *text = TTF_RenderText_Solid(font, "HP: ", white_color);
-    if (text == NULL) {
-        SDL_Log("Text rendering failed: %s\n", TTF_GetError());
-        TTF_CloseFont(font);
-        return -1;
+        SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
+        if (text_konvertiert == NULL) {
+            SDL_Log("Text konnte nicht konvertiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_FreeSurface(text);
+            TTF_CloseFont(font2);
+            return -1;
+        }
+        
+        //hier irgendwie kompilierfehler 
+        //CHANGE: from *textRect to textRect
+        //it's already a "box" with smth inside, *box just gives an address of the box 
+        SDL_Rect textRect = {	//creating a rect object for the text to go into
+            .x = (8 * rect_size) + 50,		//it should be located at the upper right corner of the window, next to the board
+            .y = 22 * i, 
+            .w = text_konvertiert->w, 
+            .h = text_konvertiert->h
+        };
+        //CHANGE: textRect --> &textRect
+        if (SDL_BlitSurface(text_konvertiert, NULL, surface, &textRect) != 0) {
+            SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_FreeSurface(text);
+            SDL_FreeSurface(text_konvertiert);
+            TTF_CloseFont(font2);
+            return -1;
+        }
+
+        SDL_Log("Text position: (%d, %d), size: (%d, %d)", textRect.x, textRect.y, textRect.w, textRect.h);
+
+
+        SDL_FreeSurface(text); 
+        SDL_FreeSurface(text_konvertiert); 
     }
-
-    SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
-	if (text_konvertiert == NULL) {
-		SDL_Log("Text konnte nicht konvertiert werden! SDL_Error Error: %s\n", SDL_GetError());
-        SDL_FreeSurface(text);
-        TTF_CloseFont(font);
-        return -1;
-	}
-	
-	//hier irgendwie kompilierfehler 
-    //CHANGE: from *textRect to textRect
-    //it's already a "box" with smth inside, *box just gives an address of the box 
-	SDL_Rect textRect = {	//creating a rect object for the text to go into
-		.x = (9 * rect_size),		//it should be located at the upper right corner of the window, next to the board
-		.y = rect_size * 0, 
-		.w = text_konvertiert->w, 
-		.h = text_konvertiert->h
-	};
-	//CHANGE: textRect --> &textRect
-	if (SDL_BlitSurface(text_konvertiert, NULL, surface, &textRect) != 0) {
-		SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n", SDL_GetError());
-        SDL_FreeSurface(text);
-        SDL_FreeSurface(text_konvertiert);
-        TTF_CloseFont(font);
-        return -1;
-	}
-
-    SDL_Log("Text position: (%d, %d), size: (%d, %d)", textRect.x, textRect.y, textRect.w, textRect.h);
-
-
-	SDL_FreeSurface(text); 
-	SDL_FreeSurface(text_konvertiert); 
 
     // Letters A-H unter dem Schachbrett
     const char *letters = "ABCDEFGH";
