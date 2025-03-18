@@ -1,7 +1,5 @@
-#include <stdio.h>
+#include "functions.h"
 #include "general_structures.h"
-#include <stdlib.h>
-#include <time.h>
 
 int calculate_attack(piece_t board [8][8], int move[4]) {
     srand(time(NULL)); // random seed from current time

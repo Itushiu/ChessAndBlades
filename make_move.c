@@ -1,5 +1,5 @@
+#include "functions.h"
 #include "general_structures.h"
-#include <stdio.h>
 
 int print_board(piece_t board[8][8]);
 // int *find_my_king(piece_t board[8][8], char my_color);

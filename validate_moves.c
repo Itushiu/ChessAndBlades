@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "functions.h"
 #include "general_structures.h"
 
 /*  Describes the functions to validate the moves of the different chess pieces.

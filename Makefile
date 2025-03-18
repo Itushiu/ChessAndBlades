@@ -18,16 +18,19 @@ SRCS = 	get_input.c \
 		init_board.c \
 		print_board.c \
 		validate_moves.c \
-		play.c \
+		new_play.c \
 		make_move.c \
 		calculate_attack.c \
 		ultimate_abilities.c \
+		SDL_init_chess_figures.c \
+		SDL_init_text.c \
+		SDL_init_board.c \
+		SDL_pieces.c
 #		SDL.c
 		
 
-
-# maybe get special headers for all functions?
-HEADERS = general_structures.h
+HEADERS = 	general_structures.h \
+			functions.h
 
 OBJS = $(SRCS:.c=.o)
 

@@ -1,22 +1,16 @@
-#include <SDL.h>
-#include <SDL_error.h>
-#include <SDL_render.h>
-#include <SDL_video.h>
-#include <stdbool.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-
+#include "functions.h"
+#include "general_structures.h"
 //gcc whole_code_sdl.c -o chess $(sdl2-config --cflags --libs) -lSDL2_image -lSDL2_ttf
 
+//for sdl window
 enum screen_size {
     SCREEN_WIDTH = 1000,
     SCREEN_HEIGHT = 800,
 };
-
 SDL_Window *window;
 SDL_Surface *surface;
 
-int board_sdl(void) {
+int SDL_init_board(void) {
 
     // Initialisierung von SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {

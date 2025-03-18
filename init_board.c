@@ -1,3 +1,4 @@
+#include "functions.h"
 #include "general_structures.h"
 
 extern int column;

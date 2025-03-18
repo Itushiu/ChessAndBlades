@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "functions.h"
 #include "general_structures.h"
 
 int input_check(int input_value) { // clears input buffer and checks for EOF. Returns 1 if correct input

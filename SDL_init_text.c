@@ -1,16 +1,11 @@
-#include <SDL.h>
-#include <SDL_error.h>
-#include <SDL_render.h>
-#include <SDL_video.h>
-#include <stdbool.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include "functions.h"
+#include "general_structures.h"
 
 // Globale Variablen das in allen Dateien gleiche größe ist
 extern SDL_Window *window;
 extern SDL_Surface *surface;
 
-int text_sdl(void) {
+int SDL_init_text(void) {
     int rect_size = 90;
 
     //Insertion of text on right part of window via sdl_ttf

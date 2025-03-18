@@ -1,20 +1,14 @@
-#include <SDL.h>
-#include <SDL_error.h>
-#include <SDL_render.h>
-#include <SDL_video.h>
-#include <stdbool.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
- 
+#include "functions.h"
+#include "general_structures.h"
 // Globale Variablen das in allen Dateien gleiche größe ist
 extern SDL_Window *window;
 extern SDL_Surface *surface;
 
-int chess_figures_sdl(void) {
+int SDL_init_chess_figures(void) {
  
     int rect_size = 90;
     
-    int flags = IMG_INIT_PNG | IMG_INIT_JPG; // Flags für die Initialisierung von SDL_Image
+    int flags = IMG_INIT_PNG; // Flags für die Initialisierung von SDL_Image
 
     //image_black_pawn is a pointer to an SDL_Surface object that contains the picture of a black pawn
     SDL_Surface *image_black_pawn = IMG_Load("chess_figures/black_pawn.png");

@@ -1,7 +1,5 @@
-#include <stdio.h>
+#include "functions.h"
 #include "general_structures.h"
-#include <stdlib.h>
-#include <time.h>
 
 
 int print_board(piece_t board[8][8]);		// print the current state of the board
