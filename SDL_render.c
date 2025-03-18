@@ -6,7 +6,7 @@ extern SDL_Surface *surface;
 
 int SDL_render (piece_t board [8][8]) {
 
-   // SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
+   SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
 
     if (SDL_init_board() != 0 || SDL_init_text() != 0) {
         return 1;

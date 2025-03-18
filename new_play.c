@@ -15,6 +15,10 @@ extern SDL_Window *window;
 extern SDL_Surface *surface;
 int main(void) {
 
+    int posit_in_game = 0;
+    if (SDL_covers(posit_in_game) != 0) {
+        goto end_of_file;
+    }
     text_box.count = 0; // set initial count for text_box
 
     init_chessboard(board);
@@ -56,6 +60,10 @@ int main(void) {
     }
     //helped once, here not so sure
     SDL_Delay(2000);
+    posit_in_game = 1;
+    if (SDL_covers(posit_in_game) != 0) {
+        goto end_of_file;
+    }
 	end_of_file:
     	TTF_Quit();
     	IMG_Quit();
