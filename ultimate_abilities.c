@@ -3,12 +3,6 @@
 
 
 int print_board(piece_t board[8][8]);		// print the current state of the board
-											// return 0 (can be void)
-int get_input(int move[4], piece_t board[8][8], char current_player);// read user input & fill move with [from_c, from_r, to_c, to_r]
-											// return 1 if normal move used, 0 if ultimate ability used
-int validate_moves(piece_t board[8][8], int move[4]);
-
-int make_move(piece_t board [8][8], int move[4]);
 
 int calculate_attack(piece_t board [8][8], int move[4]); // here is where the actual move is happening
 

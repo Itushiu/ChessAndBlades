@@ -19,7 +19,7 @@ int SDL_init_board(void) {
     }
 
     // Erstellt ein Fenster
-    window = SDL_CreateWindow("Schach", SDL_WINDOWPOS_UNDEFINED,
+    if (window == NULL) window = SDL_CreateWindow("Schach", SDL_WINDOWPOS_UNDEFINED,
                                             SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
                                             SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == NULL) {
