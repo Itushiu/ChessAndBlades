@@ -1,6 +1,13 @@
 #include "functions.h"
 #include "general_structures.h"
 
+//backend row/colums
+int row;
+int column;
+
+//where we store pieces
+piece_t board[8][8];
+
 extern SDL_Window *window;
 extern SDL_Surface *surface;
 int main(void) {

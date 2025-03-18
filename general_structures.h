@@ -10,14 +10,6 @@ typedef struct {
     int ultimate;       // {}
 } piece_t;
 
-//backend row/colums
-int row;
-int column;
-
-//where we store pieces
-piece_t board[8][8];
-
-
 //for sdl window
 //SDL_Window *window;
 //SDL_Surface *surface;
