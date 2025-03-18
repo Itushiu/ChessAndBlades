@@ -10,6 +10,7 @@ piece_t board[8][8];
 
 // where we store text logs
 text_box_t text_box;
+char text_box_buffer[500]; // used to put individual strings inside of text_box
 
 extern SDL_Window *window;
 extern SDL_Surface *surface;
@@ -50,7 +51,8 @@ int main(void) {
                     break; 
                 current_player = (current_player == 'w') ? 'b' : 'w';
             } else {
-                printf("Not a valid move for %c! Try again!\n", board[move[0]][move[1]].type);
+                snprintf(text_box_buffer, 500, "Not a valid move for %c! Try again!", board[move[0]][move[1]].type);
+                text_box_add(&text_box, text_box_buffer);
             }
         }
         else { //ultimate (get_input returns 0)

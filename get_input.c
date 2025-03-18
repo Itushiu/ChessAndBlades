@@ -1,12 +1,16 @@
 #include "functions.h"
 #include "general_structures.h"
 
+extern text_box_t text_box;
+extern char text_box_buffer[500];
+
 int input_check(int input_value) { // clears input buffer and checks for EOF. Returns 1 if correct input
     int c;
     while ((c = getchar()) != '\n' && c != EOF); // clear input buffer
      
     if (input_value == EOF) { // if EOF detected as input (e.g. Ctrl + D)
-        printf("\nInput error! Try again!\n");
+        snprintf(text_box_buffer, 500, "Input error! Try again!");
+        text_box_add(&text_box, text_box_buffer);
         clearerr(stdin); // remove EOF from input buffer
         return 0;
     }        
@@ -44,7 +48,8 @@ jump_get_input:
     }
     // check if valid input
     else if ((from_c < 'A' || from_c > 'H') || (from_r < '1' || from_r > '8') || (to_c < 'A' || to_c > 'H') || (to_r < '1' || to_r > '8')) {
-        printf("False input, try again!\n");
+        snprintf(text_box_buffer, 500, "False input, try again!");
+        text_box_add(&text_box, text_box_buffer);
         goto jump_get_input;
     }
 
@@ -56,13 +61,15 @@ jump_get_input:
 
     // check if not empty figure
     if (board[move[0]][move[1]].type == ' ') {
-        printf("You can't play empty space, try again!\n");
+        snprintf(text_box_buffer, 500, "You can't play empty space, try again!");
+        text_box_add(&text_box, text_box_buffer);
         goto jump_get_input;
     }
 
     // check if your figure
     if (current_player != board[move[0]][move[1]].color) {
-        printf("Not your figure, try again!\n");
+        snprintf(text_box_buffer, 500, "Not your figure, try again!");
+        text_box_add(&text_box, text_box_buffer);
         goto jump_get_input;
     }
 
@@ -70,12 +77,14 @@ jump_get_input:
 
     // check if you actually move
     if (move[0] == move[2] && move[1] == move[3]) {
-        printf("You can't move to the same place, try again!\n");
+        snprintf(text_box_buffer, 500, "You can't move to the same place, try again!");
+        text_box_add(&text_box, text_box_buffer);
         goto jump_get_input;
     }
 
 	if (board[move[2]][move[3]].type != ' ' && board[move[2]][move[3]].color == board[move[0]][move[1]].color) { // check if tried to attack your team
-        printf("Don't eat your team! Try again!\n");
+        snprintf(text_box_buffer, 500, "Don't eat your team! Try again!");
+        text_box_add(&text_box, text_box_buffer);
         goto jump_get_input;
     }
 
@@ -91,7 +100,8 @@ jump_get_input:
         if (move_check == 'N') goto jump_get_input;
         else if (move_check == 'Y') return(1); // returns 1 if normal move made
         else {
-            printf("False input, try again!\n");
+            snprintf(text_box_buffer, 500, "False input, try again!");
+            text_box_add(&text_box, text_box_buffer);
             goto jump_get_input2;
         }
     }
@@ -108,7 +118,8 @@ jump_get_input:
         if (move_check == 'N') goto jump_get_input;
         else if (move_check == 'Y') return(1); // returns 1 if normal move made
         else {
-            printf("False input, try again!\n");
+            snprintf(text_box_buffer, 500, "False input, try again!");
+            text_box_add(&text_box, text_box_buffer);
             goto jump_get_input3;
         }
     }
@@ -116,7 +127,8 @@ jump_get_input:
 jump_get_input_ultimate: // following for ultimate check
 
     if (board[move[0]][move[1]].ultimate == 0) {
-        printf("You already used the ultimate ability for this piece! Try again!\n");
+        snprintf(text_box_buffer, 500, "You already used the ultimate ability for this piece! Try again!");
+        text_box_add(&text_box, text_box_buffer);
         goto jump_get_input;
     }
 
@@ -152,7 +164,8 @@ jump_get_input4:
     if (move_check == 'N') goto jump_get_input;
     else if (move_check == 'Y') return(0); // returns 0 if ultimate ability used
     else {
-        printf("False input, try again!\n");
+        snprintf(text_box_buffer, 500, "False input, try again!");
+        text_box_add(&text_box, text_box_buffer);
         goto jump_get_input4;
     }
 }

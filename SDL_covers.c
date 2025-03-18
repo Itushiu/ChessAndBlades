@@ -13,7 +13,7 @@ extern SDL_Surface *surface;
 int SDL_covers(int posit_in_game) {
 	// Initialisierung von SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		SDL_Log("Initialisierung fehlgeschlagen! SDL_Error: %s\n", SDL_GetError());
+		SDL_Log("Initialization failed! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
 
@@ -22,21 +22,21 @@ int SDL_covers(int posit_in_game) {
 											10, SCREEN_WIDTH,
 											SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) {
-		SDL_Log("Fenster nicht erstellt! SDL_Error: %s\n", SDL_GetError());
+		SDL_Log("Window not created! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
 
 	//Struktur um in SDL Pixelmanipulationen durchzuführen
 	surface = SDL_GetWindowSurface(window);
 	if (surface == NULL) {
-		SDL_Log("Oberfläche nicht erhalten! SDL_Error: %s\n", SDL_GetError());
+		SDL_Log("Surface not preserved! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
 	
 	SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 128, 128, 128));
 
 	if (TTF_Init() == -1) {
-		SDL_Log("SDL_ttf konnte nicht initialisiert werden! SDL_ttf Error: %s\n", TTF_GetError());
+		SDL_Log("SDL_ttf could not be initialized! SDL_ttf Error: %s\n", TTF_GetError());
 		return -1;
 	}
 
