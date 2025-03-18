@@ -10,12 +10,10 @@
 extern SDL_Window *window;
 extern SDL_Surface *surface;
 
-
-//int InitInput();
-int showPrompt(char *str);	//bekommt prompt als string
+int showPrompt(char *prompt);	//help function: bekommt prompt als string; prompt ist die nachricht an den spieler
 	
 
-char *SDL_get_input(char current_player) {
+char *SDL_get_input(char *prompt) {	//the global function
 	
 	//initializing sdl sub systems
 	//sdl_video
@@ -33,14 +31,17 @@ char *SDL_get_input(char current_player) {
 	//setze farbe für Schrift auf weiß
 	SDL_Color white = {.r = 255, .g = 255, .b = 255, .a = 255};
 	//font und schriftgröße initialisieren
-	TTF_Font *font = TTF_OpenFont("Go-Mono.ttf", 28);
+	TTF_Font *font = TTF_OpenFont("Go_Mono.ttf", 28);
 	if (font == NULL) {
 		SDL_Log("Schriftart konnte nicht geladen werden! SDL_ttf Error: %s\n",
 		TTF_GetError());
 		return -1;
 	}
 	
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER);
+	if (showPrompt(prompt) != 0) { //invoke help function
+		SDL_Log("showPrompt() fehlgeschlagen.");
+	}
+	
 	char inputBuffer[MAX_INPUT_LENGTH] = ""; //input buffer für den eingegebenen text
 	
 	//event loop
@@ -52,24 +53,25 @@ char *SDL_get_input(char current_player) {
 	while(isRunning) {
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
-				case SDL_TEXTINPUT:
+				case SDL_TEXTINPUT:	//text wird eingegeben
 					if (strlen(text) + strlen(event.text.text) < MAX_TEXT_LENGTH - 1) {
                     strcat(text, event.text.text);
 					}
-				case SDL_KEYDOWN:
+				case SDL_KEYDOWN:	//Sonderfälle: Entertaste gedrückt oder Löschen mit Backspace
 					if (event.key.keysym.sym == SDLK_RETURN) {
+						isRunning = 0;
 						break;
 					} else {
 						if (event.key.keysym.sym == SDLK_BACKSPACE && strlen(inputBuffer) > 0) {
 							inputBuffer[strlen(inputBuffer) -1] = '\0';
 						} 
 					}
+				default:
+					break;
 			}
 		}
-		//SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        //SDL_RenderClear(renderer);
 
-        // **Text rendern und anzeigen**
+        // *nach jedem event neu rendern und änderungen an eingabe anzeigen (außer nach event entertaste)
         SDL_Surface *textSurface = TTF_RenderText_Solid(font, inputBuffer, white);
         //converts the textSurface Surface object to the appropriate size for the window surface
 		SDL_Surface *textSurface_converted = SDL_ConvertSurfaceFormat(inputBuffer, surface->format->format, 0);
@@ -80,25 +82,27 @@ char *SDL_get_input(char current_player) {
 		}
 		
         SDL_Rect inputRect = {	//rect for input box
-			.x = 50, 
-			.y = 50, 
+			.x = 10, 
+			.y = 780, 
 			.w = textSurface->w, 
 			.h = textSurface->h
 		};
 		
-		if (SDL_BlitSurface(textSurface_converted, NULL, surface, NULL) != 0) {
+		//copies the converted textSurface object inside the inputRect, and on to the global surface
+		if (SDL_BlitSurface(textSurface_converted, NULL, surface, inputRect) != 0) {
 			SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n",
             SDL_GetError());
 			return -1;
 		}
-        SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
         SDL_FreeSurface(textSurface);
-        SDL_DestroyTexture(textTexture);
-
-        SDL_RenderPresent(renderer);  // Änderungen anzeigen
-	return inputBuffer;					
+        SDL_FreeSurface(textSurface_converted);
+        
+        SDL_UpdateWindowSurface(window); // Änderungen anzeigen			
+	}
+	return inputBuffer;		//returns string
 }
+
 
 //showPrompt() zeigt über der input box eine eingabeaufforderung an, abhängig ob weiß oder schwarz am zug ist
 int showPrompt(char *str) {
