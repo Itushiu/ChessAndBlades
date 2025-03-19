@@ -48,8 +48,11 @@ int main(void) {
         // here have to change to new get input
         if (get_input(move, board, current_player)) { // returns 1 for a normal move
             if (validate_moves(board, move)) {
-                if (make_move(board, move) == 1)
+                if (make_move(board, move) == 1){
+                    posit_in_game = 2;
                     break; 
+                }
+                   
                 current_player = (current_player == 'w') ? 'b' : 'w';
             } else {
                 snprintf(text_box_buffer, 500, "%c: Not a valid move for %c! Try again!", current_player, board[move[0]][move[1]].type);
@@ -62,7 +65,13 @@ int main(void) {
         }
     }
     //helped once, here not so sure
-    SDL_Delay(10000);
+    SDL_Delay(5000);
+    if (posit_in_game == 2){
+        if (SDL_covers(posit_in_game) != 0) {
+        SDL_Delay(10000);
+        goto end_of_file;
+        }
+    }
     posit_in_game = 1;
     if (SDL_covers(posit_in_game) != 0) {
         goto end_of_file;

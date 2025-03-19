@@ -9,6 +9,7 @@ enum screen_size {
 };
 extern SDL_Window *window;
 extern SDL_Surface *surface;
+extern text_box_t text_box;
 
 int SDL_covers(int posit_in_game) {
 	// Initialisierung von SDL
@@ -64,7 +65,17 @@ int SDL_covers(int posit_in_game) {
 			return -1;
 		}
 	}
-	else {
+	else if (posit_in_game == 2){
+		text = TTF_RenderText_Solid(font, "- GAME OVER - ", black_color);
+		small_text = TTF_RenderText_Solid(small_font, text_box.text[text_box.count - 2], black_color);
+		if (text == NULL || small_text == NULL) {
+			SDL_Log("Text rendering failed: %s\n", TTF_GetError());
+			TTF_CloseFont(font);
+			return -1;
+		}
+
+	}
+	else  {
 		// from text to pixels
 		text = TTF_RenderText_Solid(font, "- THE END - ", black_color);
 		small_text = TTF_RenderText_Solid(font, "ESC|leave", black_color);
