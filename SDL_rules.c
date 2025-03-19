@@ -15,7 +15,7 @@ int SDL_rules(int posit_in_game) {
 		"Attack Rules: When attacking, roll a 20-sided dice - the attack's success and Damage is", 
 		"depending on the rolled number.",
 		" ",
-		"Counterattack Rules: If an attack fails or rolls a 1, the defender immediately", 
+		"Counterattack Rules: If an attack fails or rolls a 1, the defender immediately tries to", 
 		"counterattacks you.",
 		" ",
 		"Piece Statistics:",
@@ -27,12 +27,12 @@ int SDL_rules(int posit_in_game) {
 		"Horse: HP = 4, ATT = 4, DEF = 2",
 		" ",
 		"Ultimate Abilities:",
-		"Pawn: Transform into any other piece (standard promotion)",
-		"Queen: Attack two pieces in a single turn (separate rolls)",
-		"King: Teleport to a random free location",
-		"Rook: Redirect next opponent's attack to itself and block any other ultimate while active",
-		"Bishop: Move one turn with King's movement pattern",
-		"Horse: Make two jumps in one turn (first can't be an attack)"
+		"Pawn: Transform into any other piece after reaching end of the board (standard promotion).",
+		"Queen: Attack two pieces in a single turn (separate rolls).",
+		"King: Teleport to a random free location.",
+		"Rook: Redirect next opponent's attack to itself and block any other ultimate while active.",
+		"Bishop: Move one turn with King's movement pattern (cannot be an attack).",
+		"Horse: Make two jumps in one turn (first one can't be an attack)."
 	};
 
 	// Initialisierung von SDL
@@ -143,7 +143,7 @@ int SDL_rules(int posit_in_game) {
 		// Define a destination rectangle to center the text
 		SDL_Rect smaller_text_rect;
 		smaller_text_rect.x = 10;
-		smaller_text_rect.y = i * 28 + small_text_rect.y + small_text_rect.h + 10;
+		smaller_text_rect.y = i * 28 + small_text_rect.y + small_text_rect.h + 25;
 		smaller_text_rect.w = smaller_text_konvertiert->w;
 		smaller_text_rect.h = smaller_text_konvertiert->h;
 

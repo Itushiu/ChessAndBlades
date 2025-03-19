@@ -34,7 +34,7 @@ int SDL_init_text(void) {
     SDL_Color white_color = {.r = 255, .g = 255, .b = 255, .a = 255};
     SDL_Color black_color = {.r = 0, .g = 0, .b = 0, .a = 255};
 
-   
+    // combat log
     for (int i = 0; i < 32; i++) {
         // from text to pixels
         SDL_Surface *text = TTF_RenderText_Solid(font2, text_box.text[i], white_color);
@@ -58,7 +58,7 @@ int SDL_init_text(void) {
         //it's already a "box" with smth inside, *box just gives an address of the box 
         SDL_Rect textRect = {	//creating a rect object for the text to go into
             .x = (8 * rect_size) + 50,		//it should be located at the upper right corner of the window, next to the board
-            .y = 22 * i, 
+            .y = 22 * i + 45, 
             .w = text_konvertiert->w, 
             .h = text_konvertiert->h
         };
@@ -100,7 +100,7 @@ int SDL_init_text(void) {
         
         // Positioning from letters
         SDL_Rect letter_rect = {
-            .x = i * rect_size + (rect_size/2) - 7, // Zentriert unter jedem Feld
+            .x = i * rect_size + (rect_size/2) - 9, // Zentriert unter jedem Feld
             .y = 5 + 8 * rect_size, // Unter dem Brett
             .w = text_konvertiert->w,
             .h = text_konvertiert->h
@@ -141,7 +141,7 @@ int SDL_init_text(void) {
         // Positioning from numbers
         SDL_Rect number_rect = {
             .x = 8 * rect_size + 10, // Rechts vom Brett
-            .y = (8-i) * rect_size + (rect_size - 60) , // Zentriert neben jedem Feld
+            .y = (8-i) * rect_size + (rect_size - 65) , // Zentriert neben jedem Feld
             .w = number_konvertiert->w,
             .h = number_konvertiert->h
         };
@@ -245,6 +245,43 @@ int SDL_init_text(void) {
             }
         }
     }
+
+    // header for combat log
+    SDL_Surface *text = TTF_RenderText_Solid(font, "Combat Log", white_color);
+    if (text == NULL) {
+        SDL_Log("Text rendering failed: %s\n", TTF_GetError());
+        return -1;
+    }
+    
+    // Konvertiere die Text-Surface
+    SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
+    if (text_konvertiert == NULL) {
+        SDL_Log("Text couldn't be converted! SDL_Error Error: %s\n", SDL_GetError());
+        SDL_FreeSurface(text);
+        TTF_CloseFont(font);
+        return -1;
+    }
+    
+    // Positioning from letters
+    SDL_Rect letter_rect = {
+        .x = 8 * rect_size + 25 + (SCREEN_WIDTH - (8 * rect_size + 25) - text_konvertiert->w) / 2,
+        .y = 5, 
+        .w = text_konvertiert->w,
+        .h = text_konvertiert->h
+    };
+
+    // Drawing of the letters
+    if (SDL_BlitSurface(text_konvertiert, NULL, surface, &letter_rect)) {
+        SDL_Log("Text couldn't be copied! SDL_Error Error: %s\n", SDL_GetError());
+        SDL_FreeSurface(text);
+        SDL_FreeSurface(text_konvertiert);
+        TTF_CloseFont(font);
+        return -1;
+    }
+    
+    // Gib die Surfaces frei
+    SDL_FreeSurface(text);
+    SDL_FreeSurface(text_konvertiert);
 
     TTF_CloseFont(font);
     TTF_CloseFont(font2);

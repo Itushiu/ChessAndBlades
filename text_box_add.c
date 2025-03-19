@@ -12,9 +12,32 @@ void text_box_add(text_box_t *text_box, const char* text) {
 
     while (start < text_len) {
 
+        int end = start + 56; // end for current line
+
+        if (end >= text_len) { // if string is shorter than 56 - no wrapping needed
+            end = text_len;
+        } else {
+            // don't split words, find the last space before the end
+            while (end > start && text[end] != ' ') {
+                end--;
+            }
+
+            // if no space was found, split the word
+            if (end == start) {
+                end = start + 56;
+            }
+        }
+
         char temp[57];
-        strncpy(temp, text + start, 56); // extract a string of length 57, start as position in array
-        temp[56] = '\0';  // null termination at the end
+        int copy_length = end - start; // how much should we copy into current line    
+        strncpy(temp, text + start, copy_length); // extract a string of needed length, start as position in array
+        temp[copy_length] = '\0';  // null termination at the end
+
+        if (text[end] == ' ') { // skip space at the start of next line
+            start = end + 1;
+        } else {
+            start = end;
+        }
 
         if (text_box->count < 32) {
             // just add new line
@@ -28,7 +51,6 @@ void text_box_add(text_box_t *text_box, const char* text) {
             // add new line at the bottom
             strncpy(text_box->text[32 - 1], temp, 57);
         }
-        start += 56;
     }
 
     if (text_box->count < 32) {

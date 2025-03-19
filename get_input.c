@@ -135,22 +135,22 @@ jump_get_input_ultimate: // following for ultimate check
 
     switch (board[move[0]][move[1]].type) { // write the ultimate description for current piece for later use
         case 'P':
-            ultimate_description = "Pawn Transform (only available after reaching the end of the board)";
+            ultimate_description = "Pawn Transform - Transform into any other piece after reaching end of the board (standard promotion)";
             break;
         case 'Q':
-            ultimate_description = "Double Attack (try to attack two pieces in single turn, separate rolls for each attack)";
+            ultimate_description = "Double Attack - Attack two pieces in a single turn (separate rolls)";
             break;
         case 'K':
-            ultimate_description = "King Escape (teleport your king to random free tile)";
+            ultimate_description = "King Escape - Teleport to a random free location";
             break;
         case 'B':
-            ultimate_description = "Bishop as King (move once using the same rules as King, cannot be an attack)";
+            ultimate_description = "Bishop as King - Move one turn with King's movement pattern (cannot be an attack)";
             break;
         case 'R':
-            ultimate_description = "Rook the Shield (redirects next attack of your opponent to itself and blocks any ultimate while active)";
+            ultimate_description = "Rook the Shield - Redirect next opponent's attack to itself and block any other ultimate while active";
             break;
         case 'H':
-            ultimate_description = "Double Jump (two jumps in one turn, first one can't be an attack)";
+            ultimate_description = "Double Jump - Make two jumps in one turn (first one can't be an attack)";
             break;
     }
 
