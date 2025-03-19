@@ -42,9 +42,15 @@ int main(void) {
             if (e.type == SDL_QUIT) {
                 quit = true;
             }
+            else if (e.type == SDL_KEYDOWN) {
+				//escape to exit
+				if (e.key.keysym.sym == SDLK_ESCAPE) {
+					quit = true;
+					break;
+				}
+			}
         }
-
-        if (quit) {
+         if (quit) {
             break;
         }
 

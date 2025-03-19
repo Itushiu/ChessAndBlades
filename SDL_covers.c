@@ -130,7 +130,7 @@ int SDL_covers(int posit_in_game) {
 			}
 			else if (event.type == SDL_KEYDOWN) {
 				//enter for the game
-				if (event.key.keysym.sym == SDLK_RETURN) {
+				if (event.key.keysym.sym == SDLK_RETURN && posit_in_game == 0) {
 					decision = 0;
 					break;
 				}
