@@ -68,7 +68,6 @@ int main(void) {
     SDL_Delay(5000);
     if (posit_in_game == 2){
         if (SDL_covers(posit_in_game) != 0) {
-        SDL_Delay(10000);
         goto end_of_file;
         }
     }
