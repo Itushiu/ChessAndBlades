@@ -4,6 +4,7 @@
 // Globale Variablen das in allen Dateien gleiche größe ist
 extern SDL_Window *window;
 extern SDL_Surface *surface;
+extern piece_t board[8][8];
 
 extern text_box_t text_box;
 
@@ -29,8 +30,9 @@ int SDL_init_text(void) {
 		return -1;
 	}
 	
-    // white color (SDL_Color)
-	SDL_Color white_color = {.r = 255, .g = 255, .b = 255, .a = 255};
+    //Colors for the text
+    SDL_Color white_color = {.r = 255, .g = 255, .b = 255, .a = 255};
+    SDL_Color black_color = {.r = 0, .g = 0, .b = 0, .a = 255};
 
    
     for (int i = 0; i < 32; i++) {
@@ -79,7 +81,8 @@ int SDL_init_text(void) {
     // Letters A-H unter dem Schachbrett
     const char *letters = "ABCDEFGH";
     for(int i = 0; i < 8; i++) {
-        char letter[2] = {letters[i], '\0'}; 
+        char letter[2] = {letters[i], '\0'};
+
         SDL_Surface *text = TTF_RenderText_Solid(font, letter, white_color);
         if (text == NULL) {
             SDL_Log("Text rendering failed: %s\n", TTF_GetError());
@@ -122,7 +125,7 @@ int SDL_init_text(void) {
         char number[2] = {i + '0', '\0'};
         SDL_Surface *text = TTF_RenderText_Solid(font, number, white_color);
         if (text == NULL) {
-            SDL_Log("Text rendering failed: %s\n", TTF_GetError());
+            SDL_Log("Number rendering failed: %s\n", TTF_GetError());
             return -1;
         }
         
@@ -145,17 +148,61 @@ int SDL_init_text(void) {
     
         // Drawing of the numbers
         if (SDL_BlitSurface(number_konvertiert, NULL, surface, &number_rect)) {
-            SDL_Log("Text couldn't be copied! SDL_Error Error: %s\n", SDL_GetError());
+            SDL_Log("Numbers couldn't be copied! SDL_Error Error: %s\n", SDL_GetError());
             SDL_FreeSurface(text);
             SDL_FreeSurface(number_konvertiert);
             TTF_CloseFont(font);
             return -1;
         }
-        
+
         // Gib die Surfaces frei
         SDL_FreeSurface(number_konvertiert);
         SDL_FreeSurface(text);
     }
+
+    //Shows if the figure has used its ultimate ability
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if(board[i][j].ultimate == 1) {
+
+
+                SDL_Surface *text = TTF_RenderText_Solid(font2, "U" , black_color);
+                if (text == NULL) {
+                    SDL_Log("Text rendering failed: %s\n", TTF_GetError());
+                    TTF_CloseFont(font2);
+                    return -1;
+                }
+
+                SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
+                if (text_konvertiert == NULL) {
+                    SDL_Log("Text couldn't be converted! SDL_Error Error: %s\n", SDL_GetError());
+                    SDL_FreeSurface(text);
+                    TTF_CloseFont(font2);
+                    return -1;
+                }
+                
+                
+                SDL_Rect textRect = {	//creating a rect object for the text to go into
+                    .x = i * rect_size + rect_size - 15,		//it should be located at the upper right corner of the window, next to the board
+                    .y = (7-j) * rect_size, 
+                    .w = text_konvertiert->w, 
+                    .h = text_konvertiert->h
+                };
+                //CHANGE: textRect --> &textRect
+                if (SDL_BlitSurface(text_konvertiert, NULL, surface, &textRect) != 0) {
+                    SDL_Log("Text couldn't be copied! SDL_Error Error: %s\n", SDL_GetError());
+                    SDL_FreeSurface(text);
+                    SDL_FreeSurface(text_konvertiert);
+                    TTF_CloseFont(font2);
+                    return -1;
+                }
+
+                SDL_FreeSurface(text); 
+                SDL_FreeSurface(text_konvertiert);
+            }
+        }
+    }
     TTF_CloseFont(font);
+    TTF_CloseFont(font2);
     return 0;
-}
+} 
