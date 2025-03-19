@@ -3,6 +3,7 @@
 
 extern text_box_t text_box;
 extern char text_box_buffer[500];
+extern char current_player;
 
 int calculate_attack(piece_t board [8][8], int move[4]) {
     srand(time(NULL)); // random seed from current time
@@ -41,8 +42,8 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
         board[move[2]][move[3]].hp -= damage; // deal damage
 
         if (board[move[2]][move[3]].hp <= 0) { // enemy figure died
-            snprintf(text_box_buffer, 500, "You rolled %d (%d needed) and dealt %d damage to enemy %c, which is now dead!",
-                rolled_number, (10 - stat_difference), damage, board[move[2]][move[3]].type);
+            snprintf(text_box_buffer, 500, "%c: You rolled %d (%d needed) and dealt %d damage to enemy %c, which is now dead!",
+                current_player, rolled_number, (10 - stat_difference), damage, board[move[2]][move[3]].type);
             text_box_add(&text_box, text_box_buffer);
             board[move[2]][move[3]] = board[move[0]][move[1]]; // replace the figure
             board[move[0]][move[1]].type = ' ';
@@ -54,19 +55,19 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
             return(1);
         }
         else { // enemy figure still alive
-            snprintf(text_box_buffer, 500, "You rolled %d (%d needed) and dealt %d damage to enemy %c, which now has %d HP.",
-                rolled_number, (10 - stat_difference), damage, board[move[2]][move[3]].type, board[move[2]][move[3]].hp);
+            snprintf(text_box_buffer, 500, "%c: You rolled %d (%d needed) and dealt %d damage to enemy %c, which now has %d HP.",
+                current_player, rolled_number, (10 - stat_difference), damage, board[move[2]][move[3]].type, board[move[2]][move[3]].hp);
             text_box_add(&text_box, text_box_buffer);
         }
     }
     else { // unsuccessfull attack
         if (rolled_number == 1) {
-            snprintf(text_box_buffer, 500, "You rolled 1. Enemy will now counterattack with double damage!");
+            snprintf(text_box_buffer, 500, "%c: You rolled 1. Enemy will now counterattack with double damage!", current_player);
             text_box_add(&text_box, text_box_buffer);
             double_damage = 2; 
         }
         else {
-            snprintf(text_box_buffer, 500, "You rolled %d (%d needed). Enemy will now counterattack!", 
+            snprintf(text_box_buffer, 500, "%c: You rolled %d (%d needed). Enemy will now counterattack!", current_player, 
                 rolled_number, (10 - stat_difference));
             text_box_add(&text_box, text_box_buffer);   
             }
@@ -93,8 +94,8 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
             board[move[0]][move[1]].hp -= damage; // deal damage
 
             if (board[move[0]][move[1]].hp <= 0) { // your figure died
-                snprintf(text_box_buffer, 500, "Enemy rolled %d (%d needed) and dealt %d damage to your %c, which is now dead!",
-                rolled_number, (10 - stat_difference), damage, board[move[0]][move[1]].type);
+                snprintf(text_box_buffer, 500, "%c: Enemy rolled %d (%d needed) and dealt %d damage to your %c, which is now dead!",
+                current_player, rolled_number, (10 - stat_difference), damage, board[move[0]][move[1]].type);
                 text_box_add(&text_box, text_box_buffer);
                 board[move[0]][move[1]] = board[move[2]][move[3]]; // replace the figure
                 board[move[2]][move[3]].type = ' ';
@@ -106,13 +107,13 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
                 return(2);
             }
             else { // your figure still alive
-                snprintf(text_box_buffer, 500, "Enemy rolled %d (%d needed) and dealt %d damage to your %c, which now has %d HP.",
-                    rolled_number, (10 - stat_difference), damage, board[move[0]][move[1]].type, board[move[0]][move[1]].hp);
+                snprintf(text_box_buffer, 500, "%c: Enemy rolled %d (%d needed) and dealt %d damage to your %c, which now has %d HP.",
+                    current_player, rolled_number, (10 - stat_difference), damage, board[move[0]][move[1]].type, board[move[0]][move[1]].hp);
                 text_box_add(&text_box, text_box_buffer);
             }
         }
         else {
-            snprintf(text_box_buffer, 500, "Enemy rolled %d (%d needed) and couldn't counterattack you!", rolled_number, (10 - stat_difference));
+            snprintf(text_box_buffer, 500, "%c: Enemy rolled %d (%d needed) and couldn't counterattack you!", current_player, rolled_number, (10 - stat_difference));
             text_box_add(&text_box, text_box_buffer); 
         }
     }

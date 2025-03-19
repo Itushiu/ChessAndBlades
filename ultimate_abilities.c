@@ -22,7 +22,7 @@ int ultimate_ability_r(int move[4], piece_t board [8][8], char *current_player) 
     shield_position[1] = move[1]; 
     char shield_color = *current_player; // save color of shield
 
-    snprintf(text_box_buffer, 500, "Next attack of your opponent will be redirected to your Rook.");
+    snprintf(text_box_buffer, 500, "%c: Next attack of your opponent will be redirected to your Rook.", *current_player);
     text_box_add(&text_box, text_box_buffer);
     //print_board(board);
     *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
@@ -41,12 +41,12 @@ int ultimate_ability_r(int move[4], piece_t board [8][8], char *current_player) 
                 *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
             }
             else {
-                snprintf(text_box_buffer, 500, "Not a valid move for %c! Try again!", board[move[0]][move[1]].type);
+                snprintf(text_box_buffer, 500, "%c: Not a valid move for %c! Try again!", *current_player, board[move[0]][move[1]].type);
                 text_box_add(&text_box, text_box_buffer);
             }
         }
         else {
-            snprintf(text_box_buffer, 500, "No ultimate ability can be used, because Rook the Shield is still active.");
+            snprintf(text_box_buffer, 500, "%c: No ultimate ability can be used, because Rook the Shield is still active.", *current_player);
             text_box_add(&text_box, text_box_buffer);
         }
     }
@@ -63,22 +63,22 @@ int ultimate_ability_q(int move[4], piece_t board [8][8], char *current_player) 
     
     printf("\nPlease input your first attack.\n");
     if (!get_input(move, board, *current_player)) { // normal move from input
-        snprintf(text_box_buffer, 500, "You can't use another ultimate ability while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     	}
     if (move[0] != queen_position[0] || move[1] != queen_position[1]) { // checks if tried to attack with queen
-        snprintf(text_box_buffer, 500, "You can't move another piece while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't move another piece while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
     if (board[move[2]][move[3]].type == ' ') { // checks if tried to attack
-        snprintf(text_box_buffer, 500, "Your Queen has to attack if you want to use her ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: Your Queen has to attack if you want to use her ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
     if (!validate_moves(board, move)) {	// knows the rules
-        snprintf(text_box_buffer, 500, "The move you tried to make is not valid!");
+        snprintf(text_box_buffer, 500, "%c: The move you tried to make is not valid!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
@@ -88,28 +88,28 @@ int ultimate_ability_q(int move[4], piece_t board [8][8], char *current_player) 
  
     printf("\nPlease input your second attack.\n");
     if (!get_input(move, board, *current_player)) { // normal move from input
-        snprintf(text_box_buffer, 500, "You can't use another ultimate ability while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     	}
     if (move[0] != queen_position[0] || move[1] != queen_position[1]) { // checks if tried to attack with queen
-        snprintf(text_box_buffer, 500, "You can't move another piece while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't move another piece while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
     if (board[move[2]][move[3]].type == ' ') { // checks if tried to attack
-        snprintf(text_box_buffer, 500, "Your Queen has to attack if you want to use her ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: Your Queen has to attack if you want to use her ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
     if (!validate_moves(board, move)) {	// knows the rules
-        snprintf(text_box_buffer, 500, "The move you tried to make is not valid!");
+        snprintf(text_box_buffer, 500, "%c: The move you tried to make is not valid!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
 
     if (move[2] == first_move[2] && move[3] == first_move[3]) { // checks if tried to attack the same piece
-        snprintf(text_box_buffer, 500, "You can't attack the same piece twice!");
+        snprintf(text_box_buffer, 500, "%c: You can't attack the same piece twice!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
@@ -160,7 +160,7 @@ int ultimate_ability_k(int move[4], piece_t board [8][8], char *current_player) 
     board[move[0]][move[1]].defence = ' ';
     board[move[0]][move[1]].ultimate = 0;
 
-    snprintf(text_box_buffer, 500, "Your king escaped to %c%c!", random_column+'A', random_row+'1');
+    snprintf(text_box_buffer, 500, "%c: Your king escaped to %c%c!", *current_player, random_column+'A', random_row+'1');
     text_box_add(&text_box, text_box_buffer);
     
     return 1;
@@ -179,22 +179,22 @@ int ultimate_ability_h(int move[4], piece_t board [8][8], char *current_player) 
     
     printf("\nPlease input your first move.\n");
     if (!get_input(move, board_copy, *current_player)) { // normal move from input
-        snprintf(text_box_buffer, 500, "You can't use another ultimate ability while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     	}
     if (move[0] != knight_position[0] || move[1] != knight_position[1]) { // checks if tried to move knight
-        snprintf(text_box_buffer, 500, "You can't move another piece while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't move another piece while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
     if (board_copy[move[2]][move[3]].type != ' ') { // checks if tried to attack
-        snprintf(text_box_buffer, 500, "You can't attack another piece on the first move of this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't attack another piece on the first move of this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
     if (!validate_moves(board_copy, move)) {	// knows the rules
-        snprintf(text_box_buffer, 500, "The move you tried to make is not valid!");
+        snprintf(text_box_buffer, 500, "%c: The move you tried to make is not valid!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
@@ -206,17 +206,17 @@ int ultimate_ability_h(int move[4], piece_t board [8][8], char *current_player) 
     
     printf("Please input your second move.\n");
     if (!get_input(move, board_copy, *current_player)) { // normal move from input
-        snprintf(text_box_buffer, 500, "You can't use another ultimate ability while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     	}
     if (move[0] != knight_position[0] || move[1] != knight_position[1]) { // checks if tried to move knight
-        snprintf(text_box_buffer, 500, "You can't move another piece while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't move another piece while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
     if (!validate_moves(board_copy, move)) {	// knows the rules
-        snprintf(text_box_buffer, 500, "The move you tried to make is not valid!");
+        snprintf(text_box_buffer, 500, "%c: The move you tried to make is not valid!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
@@ -245,22 +245,22 @@ int ultimate_ability_b(int move[4], piece_t board [8][8], char *current_player) 
 
     printf("\nPlease input the move of your Bishop.\n");
     if (!get_input(move, board, *current_player)) { // normal move from input
-        snprintf(text_box_buffer, 500, "You can't use another ultimate ability while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     	}
     if (move[0] != bishop_position[0] || move[1] != bishop_position[1]) { // checks if tried to move the bishop
-        snprintf(text_box_buffer, 500, "You can't move another piece while using this ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: You can't move another piece while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
     if (board[move[2]][move[3]].type != ' ') { // checks if tried to attack
-        snprintf(text_box_buffer, 500, "Your Bishop can't attack if you want to use its ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: Your Bishop can't attack if you want to use its ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
     if (!validate_move_k(move, board)) {	// knows the rules
-        snprintf(text_box_buffer, 500, "The move you tried to make is not valid!");
+        snprintf(text_box_buffer, 500, "%c: The move you tried to make is not valid!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
@@ -275,7 +275,7 @@ int ultimate_ability_b(int move[4], piece_t board [8][8], char *current_player) 
 
 int ultimate_ability_p(int move[4], piece_t board [8][8], char *current_player) {
     if ((move[1] != 0 && *current_player == 'b') || (move[1] != 7 && *current_player == 'w')) { // check if pawn is in the first row
-        snprintf(text_box_buffer, 500, "Your pawn is in the wrong row to use its ultimate ability!");
+        snprintf(text_box_buffer, 500, "%c: Your pawn is in the wrong row to use its ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
@@ -287,7 +287,7 @@ int ultimate_ability_p(int move[4], piece_t board [8][8], char *current_player) 
         if (!input_check(input_value)) continue; // check for EOF, clear input buffer (function from get_input.c)
         else if (pawn_transform_type == 'B' || pawn_transform_type == 'R' || pawn_transform_type == 'H' || pawn_transform_type == 'Q') break; // checks if type == one of possible pieces
         else {
-            snprintf(text_box_buffer, 500, "False input, try again!");
+            snprintf(text_box_buffer, 500, "%c: False input, try again!", *current_player);
             text_box_add(&text_box, text_box_buffer);
             continue;
         }
@@ -302,7 +302,7 @@ int ultimate_ability_p(int move[4], piece_t board [8][8], char *current_player) 
     } 
 
     if (already_exist > 1 || (already_exist > 0 && pawn_transform_type == 'Q')) { // checks this type is not "full"
-        snprintf(text_box_buffer, 500, "You already have max number of this piece!");
+        snprintf(text_box_buffer, 500, "%c: You already have max number of this piece!", *current_player);
         text_box_add(&text_box, text_box_buffer);
         return 2;
     }
@@ -335,7 +335,7 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
             } else if (ultimate_result == 2) {
                 //print_board(board);
                 SDL_render(board);
-                snprintf(text_box_buffer, 500, "You used the ultimate ability of your Queen incorrectly! Repeat your move from the start.");
+                snprintf(text_box_buffer, 500, "%c: You used the ultimate ability of your Queen incorrectly! Repeat your move from the start.", *current_player);
                 text_box_add(&text_box, text_box_buffer);
                 return 2;
             }
@@ -365,7 +365,7 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
             } else if (ultimate_result == 2) {
                 //print_board(board);
                 SDL_render(board);
-                snprintf(text_box_buffer, 500, "You used the ultimate ability of your Knight incorrectly! Repeat your move from the start.");
+                snprintf(text_box_buffer, 500, "%c: You used the ultimate ability of your Knight incorrectly! Repeat your move from the start.", *current_player);
                 text_box_add(&text_box, text_box_buffer);
                 return 2;            
             } else {
@@ -379,7 +379,7 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
             } else {
                 //print_board(board);
                 SDL_render(board);
-                snprintf(text_box_buffer, 500, "You used the ultimate ability of your Bishop incorrectly! Repeat your move from the start.");
+                snprintf(text_box_buffer, 500, "%c: You used the ultimate ability of your Bishop incorrectly! Repeat your move from the start.", *current_player);
                 text_box_add(&text_box, text_box_buffer);
                 return 2;
             }
@@ -393,7 +393,7 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
             } else {
                 //print_board(board);
                 SDL_render(board);
-                snprintf(text_box_buffer, 500, "You used the ultimate ability of your Pawn incorrectly! Repeat your move from the start.");
+                snprintf(text_box_buffer, 500, "%c: You used the ultimate ability of your Pawn incorrectly! Repeat your move from the start.", *current_player);
                 text_box_add(&text_box, text_box_buffer);
                 return 2;
             }
