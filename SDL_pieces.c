@@ -9,7 +9,7 @@ extern SDL_Surface *surface;
 int SDL_pieces(piece_t board[8][8]) {
     int rect_size = 90;
     
-    int flags = IMG_INIT_PNG; // Flags für die Initialisierung von SDL_Image
+//    int flags = IMG_INIT_PNG; // Flags für die Initialisierung von SDL_Image
 
     //image_black_pawn is a pointer to an SDL_Surface object that contains the picture of a black pawn
     SDL_Surface *image_black_pawn = IMG_Load("chess_figures/black_pawn.png");

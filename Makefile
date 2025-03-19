@@ -22,7 +22,6 @@ SRCS = 	get_input.c \
 		make_move.c \
 		calculate_attack.c \
 		ultimate_abilities.c \
-		SDL_init_chess_figures.c \
 		SDL_init_text.c \
 		SDL_init_board.c \
 		SDL_pieces.c \

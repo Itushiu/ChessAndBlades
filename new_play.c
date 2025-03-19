@@ -26,7 +26,7 @@ int main(void) {
 
     init_chessboard(board);
 
-    if (SDL_init_chess_figures() != 0 || SDL_render(board) != 0) { // initial render of the board, checks for errors
+    if (SDL_render(board) != 0) { // initial render of the board, checks for errors
         goto end_of_file;
     }
 
