@@ -22,6 +22,9 @@ int main(void) {
     if (SDL_covers(posit_in_game) != 0) {
         goto end_of_file;
     }
+    if (SDL_rules(posit_in_game) != 0) {
+        goto end_of_file;
+    }
     text_box.count = 0; // set initial count for text_box
 
     init_chessboard(board);
