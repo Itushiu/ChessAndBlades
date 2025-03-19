@@ -61,6 +61,7 @@ int main(void) {
         }
         else { //ultimate (get_input returns 0)
             if (ultimate_abilities(move, board, &current_player) == 0)
+                posit_in_game = 2;
                 break;
         }
     }
