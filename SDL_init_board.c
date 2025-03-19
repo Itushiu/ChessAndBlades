@@ -3,10 +3,6 @@
 //gcc whole_code_sdl.c -o chess $(sdl2-config --cflags --libs) -lSDL2_image -lSDL2_ttf
 
 //for sdl window
-enum screen_size {
-    SCREEN_WIDTH = 1400,
-    SCREEN_HEIGHT = 790,
-};
 SDL_Window *window;
 SDL_Surface *surface;
 

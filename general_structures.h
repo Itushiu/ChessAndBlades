@@ -15,6 +15,11 @@ typedef struct {
     int count;
 } text_box_t;
 
+enum screen_size {
+    SCREEN_WIDTH = 1400,
+    SCREEN_HEIGHT = 850,
+};
+
 //for sdl window
 //SDL_Window *window;
 //SDL_Surface *surface;
