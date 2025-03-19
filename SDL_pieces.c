@@ -93,7 +93,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			if (board[i][j].color == 'b' && board[i][j].type == 'P'){
 				SDL_Rect image_rect_black_pawn = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_black_pawn->w, // Breite des Bildes
             		.h = image_black_pawn->h // Höhe des Bildes
        			 };
@@ -103,7 +103,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'b' && board[i][j].type == 'R'){
 				SDL_Rect image_rect_black_rook = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_black_rook->w, // Breite des Bildes
             		.h = image_black_rook->h // Höhe des Bildes
         		};
@@ -113,7 +113,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'b' && board[i][j].type == 'H'){
 				SDL_Rect image_rect_black_horse = {
             		.x = 5 + i * rect_size , // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_black_horse->w, // Breite des Bildes
             		.h = image_black_horse->h // Höhe des Bildes
         		};
@@ -123,7 +123,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'b' && board[i][j].type == 'B'){
 				SDL_Rect image_rect_black_bishop = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_black_bishop->w, // Breite des Bildes
             		.h = image_black_bishop->h // Höhe des Bildes
         		};
@@ -133,7 +133,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'b' && board[i][j].type == 'Q'){
 				SDL_Rect image_rect_black_queen = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_black_queen->w, // Breite des Bildes
             		.h = image_black_queen->h // Höhe des Bildes
         		};
@@ -143,7 +143,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'b' && board[i][j].type == 'K'){
 				SDL_Rect image_rect_black_king = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_black_king->w, // Breite des Bildes
             		.h = image_black_king->h // Höhe des Bildes
         		};
@@ -153,7 +153,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'w' && board[i][j].type == 'P'){
 				SDL_Rect image_rect_white_pawn = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_white_pawn->w, // Breite des Bildes
             		.h = image_white_pawn->h // Höhe des Bildes
        			 };
@@ -163,7 +163,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'w' && board[i][j].type == 'R'){
 				SDL_Rect image_rect_white_rook = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_white_rook->w, // Breite des Bildes
             		.h = image_white_rook->h // Höhe des Bildes
        			 };
@@ -173,7 +173,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'w' && board[i][j].type == 'H'){
 				SDL_Rect image_rect_white_horse = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_white_horse->w, // Breite des Bildes
             		.h = image_white_horse->h // Höhe des Bildes
        			 };
@@ -183,7 +183,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'w' && board[i][j].type == 'B'){
 				SDL_Rect image_rect_white_bishop = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_white_bishop->w, // Breite des Bildes
             		.h = image_white_bishop->h // Höhe des Bildes
        			 };
@@ -193,7 +193,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'w' && board[i][j].type == 'Q'){
 				SDL_Rect image_rect_white_queen = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size , // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size , // Bild in der 2. Reihe
            		 	.w = image_white_queen->w, // Breite des Bildes
             		.h = image_white_queen->h // Höhe des Bildes
        			 };
@@ -203,7 +203,7 @@ int SDL_pieces(piece_t board[8][8]) {
 			else if (board[i][j].color == 'w' && board[i][j].type == 'K'){
 				SDL_Rect image_rect_white_king = {
             		.x = 5 + i * rect_size, // Beispiel: Bild in der x Spalte
-            		.y = 5 + (7-j) * rect_size, // Bild in der 2. Reihe
+            		.y = 8 + (7-j) * rect_size, // Bild in der 2. Reihe
            		 	.w = image_white_king->w, // Breite des Bildes
             		.h = image_white_king->h // Höhe des Bildes
        			 };

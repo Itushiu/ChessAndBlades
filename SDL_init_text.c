@@ -183,8 +183,8 @@ int SDL_init_text(void) {
                 
                 
                 SDL_Rect textRect = {	//creating a rect object for the text to go into
-                    .x = i * rect_size + rect_size - 15,		//it should be located at the upper right corner of the window, next to the board
-                    .y = (7-j) * rect_size, 
+                    .x = i * rect_size + rect_size - 15,
+                    .y = (7-j) * rect_size - 1, 
                     .w = text_konvertiert->w, 
                     .h = text_konvertiert->h
                 };
@@ -202,6 +202,50 @@ int SDL_init_text(void) {
             }
         }
     }
+
+    //Shows how much HP each figure has
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if(board[i][j].type != ' ') {
+                char hp_text[3];
+                sprintf(hp_text, "%d", board[i][j].hp);
+                SDL_Surface *text = TTF_RenderText_Solid(font2, hp_text , black_color);
+                if (text == NULL) {
+                    SDL_Log("Text rendering failed: %s\n", TTF_GetError());
+                    TTF_CloseFont(font2);
+                    return -1;
+                }
+
+                SDL_Surface *text_konvertiert = SDL_ConvertSurfaceFormat(text, surface->format->format, 0);
+                if (text_konvertiert == NULL) {
+                    SDL_Log("Text couldn't be converted! SDL_Error Error: %s\n", SDL_GetError());
+                    SDL_FreeSurface(text);
+                    TTF_CloseFont(font2);
+                    return -1;
+                }
+                
+                
+                SDL_Rect textRect = {	//creating a rect object for the text to go into
+                    .x = i * rect_size + 2,
+                    .y = (7-j) * rect_size - 1, 
+                    .w = text_konvertiert->w, 
+                    .h = text_konvertiert->h
+                };
+                //CHANGE: textRect --> &textRect
+                if (SDL_BlitSurface(text_konvertiert, NULL, surface, &textRect) != 0) {
+                    SDL_Log("Text couldn't be copied! SDL_Error Error: %s\n", SDL_GetError());
+                    SDL_FreeSurface(text);
+                    SDL_FreeSurface(text_konvertiert);
+                    TTF_CloseFont(font2);
+                    return -1;
+                }
+
+                SDL_FreeSurface(text); 
+                SDL_FreeSurface(text_konvertiert);
+            }
+        }
+    }
+
     TTF_CloseFont(font);
     TTF_CloseFont(font2);
     return 0;
