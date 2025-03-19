@@ -16,7 +16,7 @@ int SDL_rules(int posit_in_game) {
 		"Basic Rules: Each chess piece has HP, Attack, and Defense stats, moves according to standard", 
 		"chess rules, and has a unique ultimate ability that can be used once per game.",
 		" ",
-		"Attack Rules: When attacking, roll a 20-sided die - the attack's success and Damage is", 
+		"Attack Rules: When attacking, roll a 20-sided dice - the attack's success and Damage is", 
 		"depending on the rolled number.",
 		" ",
 		"Counterattack Rules: If an attack fails or rolls a 1, the defender immediately", 
@@ -34,7 +34,7 @@ int SDL_rules(int posit_in_game) {
 		"Pawn: Transform into any other piece (standard promotion)",
 		"Queen: Attack two pieces in a single turn (separate rolls)",
 		"King: Teleport to a random free location",
-		"Rook: Redirect next opponent's attack to itself and block any other ultimate",
+		"Rook: Redirect next opponent's attack to itself and block any other ultimate while active",
 		"Bishop: Move one turn with King's movement pattern",
 		"Horse: Make two jumps in one turn (first can't be an attack)"
 	};
