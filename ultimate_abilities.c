@@ -128,6 +128,8 @@ int ultimate_ability_q(int move[4], piece_t board [8][8], char *current_player) 
         board[first_move[2]][first_move[3]].hp = ' ';
         board[first_move[2]][first_move[3]].attack = ' ';
         board[first_move[2]][first_move[3]].defence = ' ';
+        board[first_move[2]][first_move[3]].ultimate = 0;
+
     }
     else if (move_result == 2) return 1;
     
@@ -156,6 +158,7 @@ int ultimate_ability_k(int move[4], piece_t board [8][8], char *current_player) 
     board[move[0]][move[1]].hp = ' ';
     board[move[0]][move[1]].attack = ' ';
     board[move[0]][move[1]].defence = ' ';
+    board[move[0]][move[1]].ultimate = 0;
 
     snprintf(text_box_buffer, 500, "Your king escaped to %c%c!", random_column+'A', random_row+'1');
     text_box_add(&text_box, text_box_buffer);
@@ -339,7 +342,7 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
             else  {
                 //print_board(board);
                 SDL_render(board);
-                snprintf(text_box_buffer, 500, "GAME OVER, PLAYER %c WINS\n", *current_player);
+                snprintf(text_box_buffer, 500, "GAME OVER, PLAYER %c WINS!", *current_player);
                 text_box_add(&text_box, text_box_buffer);
                 return 0;
             }

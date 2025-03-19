@@ -20,6 +20,7 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
         board[move[0]][move[1]].hp = ' ';
         board[move[0]][move[1]].attack = ' ';
         board[move[0]][move[1]].defence = ' ';
+        board[move[0]][move[1]].ultimate = 0;
         return (0);
     }
 
@@ -49,6 +50,7 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
             board[move[0]][move[1]].hp = ' ';
             board[move[0]][move[1]].attack = ' ';
             board[move[0]][move[1]].defence = ' ';
+            board[move[0]][move[1]].ultimate = 0;
             return(1);
         }
         else { // enemy figure still alive
@@ -100,6 +102,7 @@ int calculate_attack(piece_t board [8][8], int move[4]) {
                 board[move[2]][move[3]].hp = ' ';
                 board[move[2]][move[3]].attack = ' ';
                 board[move[2]][move[3]].defence = ' ';
+                board[move[2]][move[3]].ultimate = 0;
                 return(2);
             }
             else { // your figure still alive
