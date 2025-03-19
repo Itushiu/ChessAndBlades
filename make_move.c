@@ -35,13 +35,13 @@ int make_move(piece_t board [8][8], int move[4]){
 	char enemy_color = to.color;
 
 	if (to.type == 'K' && move_result == 1){
-		snprintf(text_box_buffer, 500, "GAME OVER, PLAYER %c WINS\n", my_color);
+		snprintf(text_box_buffer, 500, "GAME OVER, PLAYER %c WINS!", my_color);
         text_box_add(&text_box, text_box_buffer);
 		return 1;
 	}
 
 	if (from.type == 'K' && move_result == 2){
-		snprintf(text_box_buffer, 500, "GAME OVER, PLAYER %c WINS\n", enemy_color);
+		snprintf(text_box_buffer, 500, "GAME OVER, PLAYER %c WINS!", enemy_color);
         text_box_add(&text_box, text_box_buffer);
 		return 1;
 	}
