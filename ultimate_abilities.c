@@ -24,7 +24,6 @@ int ultimate_ability_r(int move[4], piece_t board [8][8], char *current_player) 
 
     snprintf(text_box_buffer, 500, "%c: Next attack of your opponent will be redirected to your Rook.", *current_player);
     text_box_add(&text_box, text_box_buffer);
-    //print_board(board);
     *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
 
     while (shield_active) { // game plays normal until rook redirected an attack
@@ -328,19 +327,16 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
         case 'Q':
             ultimate_result = ultimate_ability_q(move, board, current_player);
             if (ultimate_result == 1) { // returns 1 if all good, 0 if king died (game end), 2 if incorrectly used
-                //print_board(board);
                 SDL_render(board);
                 *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
                 return 1;
             } else if (ultimate_result == 2) {
-                //print_board(board);
                 SDL_render(board);
                 snprintf(text_box_buffer, 500, "%c: You used the ultimate ability of your Queen incorrectly! Repeat your move from the start.", *current_player);
                 text_box_add(&text_box, text_box_buffer);
                 return 2;
             }
             else  {
-                //print_board(board);
                 SDL_render(board);
                 snprintf(text_box_buffer, 500, "GAME OVER, PLAYER %c WINS!", *current_player);
                 text_box_add(&text_box, text_box_buffer);
@@ -350,7 +346,6 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
             srand(time(NULL)); // random seed from current time
             ultimate_result = ultimate_ability_k(move, board, current_player);
             if (ultimate_result == 1) {
-                //print_board(board);
                 SDL_render(board);
                 *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
                 return 1;
@@ -363,7 +358,6 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
                 *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
                 return 1;
             } else if (ultimate_result == 2) {
-                //print_board(board);
                 SDL_render(board);
                 snprintf(text_box_buffer, 500, "%c: You used the ultimate ability of your Knight incorrectly! Repeat your move from the start.", *current_player);
                 text_box_add(&text_box, text_box_buffer);
@@ -377,7 +371,6 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
                 *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
                 return 1;
             } else {
-                //print_board(board);
                 SDL_render(board);
                 snprintf(text_box_buffer, 500, "%c: You used the ultimate ability of your Bishop incorrectly! Repeat your move from the start.", *current_player);
                 text_box_add(&text_box, text_box_buffer);
@@ -386,12 +379,10 @@ int ultimate_abilities(int move[4], piece_t board [8][8], char *current_player) 
         case 'P':
             ultimate_result = ultimate_ability_p(move, board, current_player);
             if (ultimate_result == 1) {
-                //print_board(board);
                 SDL_render(board);
                 *current_player = (*current_player == 'w') ? 'b' : 'w'; // switch 
                 return 1;
             } else {
-                //print_board(board);
                 SDL_render(board);
                 snprintf(text_box_buffer, 500, "%c: You used the ultimate ability of your Pawn incorrectly! Repeat your move from the start.", *current_player);
                 text_box_add(&text_box, text_box_buffer);

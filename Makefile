@@ -16,7 +16,6 @@ CFLAGS = -Wall -g  $(shell sdl2-config --cflags)
 LDFLAGS = $(shell sdl2-config --libs) -lSDL2_image -lSDL2_ttf
 SRCS = 	get_input.c \
 		init_board.c \
-		print_board.c \
 		validate_moves.c \
 		new_play.c \
 		make_move.c \
