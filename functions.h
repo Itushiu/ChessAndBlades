@@ -43,4 +43,7 @@ int SDL_covers(int posit_in_game);
 
 void text_box_add(text_box_t *text_box, const char* text); // for text log, use: text_box_add(&text_box, "blabla");
 int SDL_rules(int posit_in_game); // for rules
+
+int SDL_get_input(char *prompt);
 #endif
+

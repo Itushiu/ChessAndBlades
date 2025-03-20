@@ -27,7 +27,8 @@ SRCS = 	get_input.c \
 		SDL_render.c \
 		text_box_add.c \
 		SDL_covers.c \
-		SDL_rules.c
+		SDL_rules.c \
+		SDL_get_input.c 
 #		SDL.c
 		
 
