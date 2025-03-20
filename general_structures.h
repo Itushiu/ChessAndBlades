@@ -17,7 +17,7 @@ typedef struct {
 
 enum screen_size {
     SCREEN_WIDTH = 1400,
-    SCREEN_HEIGHT = 850,
+    SCREEN_HEIGHT = 820,
 };
 
 //for sdl window

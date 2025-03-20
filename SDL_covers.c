@@ -15,7 +15,7 @@ int SDL_covers(int posit_in_game) {
 	}
 
 	// Erstellt ein Fenster
-	if (window == NULL) window = SDL_CreateWindow("Schach", 10,
+	if (window == NULL) window = SDL_CreateWindow("Chess & Blades", 10,
 											10, SCREEN_WIDTH,
 											SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) {
