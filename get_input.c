@@ -3,18 +3,12 @@
 
 extern text_box_t text_box;
 extern char text_box_buffer[500];
+extern char prompt_buffer[500];
+extern char inputBuffer[10];
+
 
 int input_check(int input_value) { // clears input buffer and checks for EOF. Returns 1 if correct input
-    int c;
-    extern char current_player;
-    while ((c = getchar()) != '\n' && c != EOF); // clear input buffer
-     
-    if (input_value == EOF) { // if EOF detected as input (e.g. Ctrl + D)
-        snprintf(text_box_buffer, 500, "%c: Input error! Try again!", current_player);
-        text_box_add(&text_box, text_box_buffer);
-        clearerr(stdin); // remove EOF from input buffer
-        return 0;
-    }        
+    inputBuffer[0] = '\0'; // clear input buffer 
     return 1;
 }
 
@@ -35,12 +29,14 @@ jump_get_input:
     ultimate = 0;
 
     if (current_player == 'w') {
-        printf("Player White input your move (E.g. A2 A4 or E1 UT for ultimate): ");
+        snprintf(prompt_buffer, 500, "Player White input your move (E.g. A2 A4 or E1 UT for ultimate): ");
+        SDL_get_input(prompt_buffer);
     } else {
-        printf("Player Black input your move (E.g. A2 A4 or E1 UT for ultimate): ");
+        snprintf(prompt_buffer, 500, "Player Black input your move (E.g. A2 A4 or E1 UT for ultimate): ");
+        SDL_get_input(prompt_buffer);
     }
 
-    input_value = scanf(" %c%c %c%c", &from_c, &from_r, &to_c, &to_r); // get 4 characters from input
+    input_value = sscanf(inputBuffer, " %c%c %c%c", &from_c, &from_r, &to_c, &to_r); // get 4 characters from input
     if (!input_check(input_value)) goto jump_get_input; // check for EOF, clear input buffer
 
     // check if ultimate skill
@@ -90,13 +86,13 @@ jump_get_input:
     }
 
     if (board[move[2]][move[3]].type == ' ') { // move to empty space
-        printf("You want to move your %c (HP: %d, ATT: %d, DEF: %d) to %c%c. Correct?\n", // show piece stats and check if sure
+    jump_get_input2:
+        snprintf(prompt_buffer, 500, "You want to move your %c (HP: %d, ATT: %d, DEF: %d) to %c%c. Correct? (Y/N)", // show piece stats and check if sure
                 board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence, 
                 to_c, to_r);
+        SDL_get_input(prompt_buffer);
         
-    jump_get_input2:
-        printf("Y for Yes, N for No: ");
-        input_value = scanf(" %c", &move_check);
+        input_value = sscanf(inputBuffer, " %c", &move_check);
         if (!input_check(input_value)) goto jump_get_input2; // check for EOF, clear input buffer
         if (move_check == 'N') goto jump_get_input;
         else if (move_check == 'Y') return(1); // returns 1 if normal move made
@@ -108,13 +104,12 @@ jump_get_input:
     }
     
     else { // attack another piece
-        printf("You want to attack enemy %c (HP: %d, ATT: %d, DEF: %d) with your %c (HP: %d, ATT: %d, DEF: %d). Correct?\n", // show pieces stats and check if sure
+    jump_get_input3:
+        snprintf(prompt_buffer, 500, "You want to attack enemy %c (HP: %d, ATT: %d, DEF: %d) with your %c (HP: %d, ATT: %d, DEF: %d). Correct? (Y/N)", // show pieces stats and check if sure
             board[move[2]][move[3]].type, board[move[2]][move[3]].hp, board[move[2]][move[3]].attack, board[move[2]][move[3]].defence,
             board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence);
-    
-    jump_get_input3:
-        printf("Y for Yes, N for No: ");
-        input_value = scanf(" %c", &move_check);
+        SDL_get_input(prompt_buffer);    
+        input_value = sscanf(inputBuffer, " %c", &move_check);
         if (!input_check(input_value)) goto jump_get_input3; // check for EOF, clear input buffer
         if (move_check == 'N') goto jump_get_input;
         else if (move_check == 'Y') return(1); // returns 1 if normal move made
@@ -154,13 +149,13 @@ jump_get_input_ultimate: // following for ultimate check
             break;
     }
 
-    printf("You want to use the ultimate ability of your %c (HP: %d, ATT: %d, DEF: %d).\nIt is %s. Correct?\n", // show piece stats and ultimate and check if sure
+jump_get_input4:
+    snprintf(prompt_buffer, 500, "You want to use the ultimate ability of your %c (HP: %d, ATT: %d, DEF: %d).\nIt is %s. Correct? (Y/N)", // show piece stats and ultimate and check if sure
         board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence, 
         ultimate_description);
-
-jump_get_input4:
-    printf("Y for Yes, N for No: ");
-    input_value = scanf(" %c", &move_check);
+    SDL_get_input(prompt_buffer);
+    
+    input_value = sscanf(inputBuffer, " %c", &move_check);
     if (!input_check(input_value)) goto jump_get_input4; // check for EOF, clear input buffer
     if (move_check == 'N') goto jump_get_input;
     else if (move_check == 'Y') return(0); // returns 0 if ultimate ability used

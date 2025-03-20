@@ -13,6 +13,7 @@ text_box_t text_box;
 char text_box_buffer[500]; // used to put individual strings inside of text_box
 
 char inputBuffer[10] = ""; //buffer for sdl input
+char prompt_buffer[500]; // used to put individual strings inside of prompt
 
 char current_player = 'w';
 
@@ -36,10 +37,6 @@ int main(void) {
     }
 
     int move[4];
-   //inputBuffer[ = " "; 
-	//strncpy("abcd", inputBuffer, 5);
-    SDL_get_input("Gib deinen zug ein: ");
-    printf("%s\n", inputBuffer);
 
    bool quit = false;  //not sure, works, have to check, gpt suggestion for error i gave him (till line 41)
     while (!quit) {

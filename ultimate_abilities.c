@@ -3,6 +3,8 @@
 
 extern text_box_t text_box;
 extern char text_box_buffer[500];
+extern char prompt_buffer[500];
+extern char inputBuffer[10];
 
 int print_board(piece_t board[8][8]);		// print the current state of the board
 
@@ -60,7 +62,8 @@ int ultimate_ability_q(int move[4], piece_t board [8][8], char *current_player) 
     int first_move_king_attack = 0;
     int second_move_king_attack = 0;
     
-    printf("\nPlease input your first attack.\n");
+    snprintf(text_box_buffer, 500, "Please input your first attack.");
+    text_box_add(&text_box, text_box_buffer);
     if (!get_input(move, board, *current_player)) { // normal move from input
         snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
@@ -85,7 +88,8 @@ int ultimate_ability_q(int move[4], piece_t board [8][8], char *current_player) 
     int first_move[4]; 
     for (int i = 0; i < 4; i++) first_move[i] = move[i]; // save first move
  
-    printf("\nPlease input your second attack.\n");
+    snprintf(text_box_buffer, 500, "Please input your second attack.");
+    text_box_add(&text_box, text_box_buffer);
     if (!get_input(move, board, *current_player)) { // normal move from input
         snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
@@ -176,7 +180,8 @@ int ultimate_ability_h(int move[4], piece_t board [8][8], char *current_player) 
     knight_position[0] = move[0];
     knight_position[1] = move[1];
     
-    printf("\nPlease input your first move.\n");
+    snprintf(text_box_buffer, 500, "Please input your first move.");
+    text_box_add(&text_box, text_box_buffer);
     if (!get_input(move, board_copy, *current_player)) { // normal move from input
         snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
@@ -203,7 +208,8 @@ int ultimate_ability_h(int move[4], piece_t board [8][8], char *current_player) 
     knight_position[0] = move[2];
     knight_position[1] = move[3];
     
-    printf("Please input your second move.\n");
+    snprintf(text_box_buffer, 500, "Please input your second move.");
+    text_box_add(&text_box, text_box_buffer);
     if (!get_input(move, board_copy, *current_player)) { // normal move from input
         snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
@@ -242,7 +248,8 @@ int ultimate_ability_b(int move[4], piece_t board [8][8], char *current_player) 
     bishop_position[0] = move[0];
     bishop_position[1] = move[1];
 
-    printf("\nPlease input the move of your Bishop.\n");
+    snprintf(text_box_buffer, 500, "Please input the move of your Bishop.");
+    text_box_add(&text_box, text_box_buffer);
     if (!get_input(move, board, *current_player)) { // normal move from input
         snprintf(text_box_buffer, 500, "%c: You can't use another ultimate ability while using this ultimate ability!", *current_player);
         text_box_add(&text_box, text_box_buffer);
@@ -281,8 +288,9 @@ int ultimate_ability_p(int move[4], piece_t board [8][8], char *current_player) 
     char pawn_transform_type;
 
     while (1) { // get piece type input
-        printf("\nInput the piece you want your pawn to transform into (E.g. B for Bishop): ");
-        int input_value = scanf(" %c", &pawn_transform_type);
+        snprintf(prompt_buffer, 500, "Input the piece you want your pawn to transform into (E.g. B for Bishop): ");
+        SDL_get_input(prompt_buffer);
+        int input_value = sscanf(inputBuffer, " %c", &pawn_transform_type);
         if (!input_check(input_value)) continue; // check for EOF, clear input buffer (function from get_input.c)
         else if (pawn_transform_type == 'B' || pawn_transform_type == 'R' || pawn_transform_type == 'H' || pawn_transform_type == 'Q') break; // checks if type == one of possible pieces
         else {
