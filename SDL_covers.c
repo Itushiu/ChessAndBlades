@@ -142,5 +142,8 @@ int SDL_covers(int posit_in_game) {
     TTF_CloseFont(font);
 	TTF_CloseFont(small_font);
     TTF_Quit();
+	if (decision != 0){
+		exit(0);
+	}
 	return decision;
 }

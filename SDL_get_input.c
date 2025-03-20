@@ -73,6 +73,7 @@ int SDL_get_input(char *prompt) {	//the global function
 							break;
 					//option to quit the game with escape key will be implemented here
 					} else if (event.key.keysym.sym == SDLK_ESCAPE) {
+							SDL_covers(1);
 					}
 				default:
 					break;
