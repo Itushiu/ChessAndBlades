@@ -36,7 +36,7 @@ int SDL_get_input(char *prompt) {	//the global function
 	//setze farbe für Schrift auf weiß
 	SDL_Color white = {.r = 255, .g = 255, .b = 255, .a = 255};
 	//font und schriftgröße initialisieren
-	TTF_Font *font = TTF_OpenFont("Go_Mono.ttf", 28);
+	TTF_Font *font = TTF_OpenFont("Go_Mono.ttf", 18);
 	if (font == NULL) {
 		SDL_Log("Schriftart konnte nicht geladen werden! SDL_ttf Error: %s\n",
 		TTF_GetError());
@@ -97,13 +97,24 @@ int SDL_get_input(char *prompt) {	//the global function
 			return -1;
 		}
 		
+		//this block was copied from showPrompt() so the position of the inputRect could be adjusted to 
+		//dimensions of the promptRect which has width of promptSurface_converted	
+		SDL_Surface *promptSurface = TTF_RenderText_Solid(font, prompt, white);
+		//text surface objekt wird konvertiert um an window surface angepasst zu sein
+		//CHECK: make sure the surface object used here is the same as the surface object for our game window
+		SDL_Surface *promptSurface_converted = SDL_ConvertSurfaceFormat(promptSurface, surface->format->format, 0);
+		
 		
         SDL_Rect inputRect = {	//rect for input box
-			.x = (strlen(prompt) * 18 + 10), 
+			.x = (promptSurface_converted->w + 20), 	//makes sure the input rect has enough space between itself and the Prompt
 			.y = 770, 
 			.w = 300, 
 			.h = textSurface->h
 		};
+		
+		SDL_FreeSurface(promptSurface);
+		SDL_FreeSurface(promptSurface_converted);
+	
 		SDL_FillRect(surface, &inputRect, SDL_MapRGB(surface->format, 0, 0, 0)); //färbt inputRect schwarz
 		
 		//copies the converted textSurface object inside the inputRect, and on to the global surface
@@ -133,7 +144,7 @@ int showPrompt(char *prompt) {
 	//setze farbe für Schrift auf weiß
 	SDL_Color white = {.r = 255, .g = 255, .b = 255, .a = 255};
 	//font und schriftgröße initialisieren
-	TTF_Font *font = TTF_OpenFont("Go_Mono.ttf", 28);
+	TTF_Font *font = TTF_OpenFont("Go_Mono.ttf", 18);
 	if (font == NULL) {
 		SDL_Log("Schriftart konnte nicht geladen werden! SDL_ttf Error: %s\n",
 		TTF_GetError());
