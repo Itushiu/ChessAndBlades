@@ -64,13 +64,15 @@ int SDL_get_input(char *prompt) {	//the global function
                     break;
 					}
 				case SDL_KEYDOWN:	//Sonderfälle: Entertaste gedrückt oder Löschen mit Backspace
+					//entertaste beendet die eingabe
 					if (event.key.keysym.sym == SDLK_RETURN) {
 						isRunning = 0;	//highest while loop should not be entered again
 						break;
 					} else if (event.key.keysym.sym == SDLK_BACKSPACE && strlen(inputBuffer) > 0) {
 							inputBuffer[strlen(inputBuffer) -1] = '\0';
 							break;
-					} else if (even.key.keysym.sym == SDLK_ESCAPE) {
+					//option to quit the game with escape key will be implemented here
+					} else if (event.key.keysym.sym == SDLK_ESCAPE) {
 					}
 				default:
 					break;
@@ -79,7 +81,7 @@ int SDL_get_input(char *prompt) {	//the global function
 		}
 
 		
-        // *nach jedem event neu rendern und änderungen an eingabe anzeigen (außer nach event entertaste)
+        // *nach jedem event neu rendern und änderungen an input anzeigen (außer nach event entertaste)
         SDL_Surface *textSurface = NULL;
         if (strlen(inputBuffer) > 0) {
 			textSurface = TTF_RenderText_Solid(font, inputBuffer, white);
@@ -127,7 +129,7 @@ int showPrompt(char *prompt) {
 	
 	extern SDL_Window *window;
 	extern SDL_Surface *surface;
-	
+		
 	//setze farbe für Schrift auf weiß
 	SDL_Color white = {.r = 255, .g = 255, .b = 255, .a = 255};
 	//font und schriftgröße initialisieren
@@ -160,7 +162,18 @@ int showPrompt(char *prompt) {
 		.w = promptSurface_converted->w,
 		.h = promptSurface_converted->h
 	};
-		
+	
+	SDL_Rect fullLineRect = {	//defines a rect that covers the line with prompt and inputbox on full window size
+		.x = 0,
+		.y = 770,
+		.w = surface->w,
+		.h = promptSurface_converted->h
+	};
+	
+	//draw black into the fullLineRect
+	//goal: before a new prompt is blitted, the old prompt should be erased
+	SDL_FillRect(surface, &fullLineRect, SDL_MapRGB(surface->format, 0, 0, 0));
+	
 	//blitting the prompt at the correct location at the promptRect
 	if (SDL_BlitSurface(promptSurface_converted, NULL, surface, &promptRect) != 0) {
 		SDL_Log("Text konnte nicht kopiert werden! SDL_Error Error: %s\n", SDL_GetError());
