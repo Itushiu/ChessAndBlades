@@ -68,5 +68,5 @@ void text_box_add(text_box_t *text_box, const char* text) {
         text_box->text[31][1] = '\0'; // null termination at the end
     }
 
-    SDL_render(board);
+    SDL_init_text();
 }
