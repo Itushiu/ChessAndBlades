@@ -32,6 +32,8 @@ int ultimate_ability_r(int move[4], piece_t board [8][8], char *current_player) 
         if (get_input(move, board, *current_player)) {	// normal move from input
             if (validate_moves(board, move)) {	// knows the rules
                 if (board[move[2]][move[3]].color == shield_color) {
+                    snprintf(text_box_buffer, 500, "%c: Enemy Rook redirected the attack to itself!", *current_player);
+                    text_box_add(&text_box, text_box_buffer);
                     move[2] = shield_position[0];
                     move[3] = shield_position[1];
                     shield_active = 0;
@@ -288,7 +290,7 @@ int ultimate_ability_p(int move[4], piece_t board [8][8], char *current_player) 
     char pawn_transform_type;
 
     while (1) { // get piece type input
-        snprintf(prompt_buffer, 500, "Input the piece you want your pawn to transform into (E.g. B for Bishop): ");
+        snprintf(prompt_buffer, 500, "Input the piece you want your pawn to transform into (E.g. B for Bishop):");
         SDL_get_input(prompt_buffer);
         int input_value = sscanf(inputBuffer, " %c", &pawn_transform_type);
         if (!input_check(input_value)) continue; // check for EOF, clear input buffer (function from get_input.c)

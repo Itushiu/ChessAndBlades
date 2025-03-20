@@ -29,10 +29,10 @@ jump_get_input:
     ultimate = 0;
 
     if (current_player == 'w') {
-        snprintf(prompt_buffer, 500, "Player White input your move (E.g. A2 A4 or E1 UT for ultimate): ");
+        snprintf(prompt_buffer, 500, "Player White input your move (E.g. A2 A4 or E1 UT for ultimate):");
         SDL_get_input(prompt_buffer);
     } else {
-        snprintf(prompt_buffer, 500, "Player Black input your move (E.g. A2 A4 or E1 UT for ultimate): ");
+        snprintf(prompt_buffer, 500, "Player Black input your move (E.g. A2 A4 or E1 UT for ultimate):");
         SDL_get_input(prompt_buffer);
     }
 
@@ -87,7 +87,7 @@ jump_get_input:
 
     if (board[move[2]][move[3]].type == ' ') { // move to empty space
     jump_get_input2:
-        snprintf(prompt_buffer, 500, "You want to move your %c (HP: %d, ATT: %d, DEF: %d) to %c%c. Correct? (Y/N)", // show piece stats and check if sure
+        snprintf(prompt_buffer, 500, "You want to move your %c (HP: %d, ATT: %d, DEF: %d) to %c%c. Correct? (Y/N):", // show piece stats and check if sure
                 board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence, 
                 to_c, to_r);
         SDL_get_input(prompt_buffer);
@@ -105,7 +105,7 @@ jump_get_input:
     
     else { // attack another piece
     jump_get_input3:
-        snprintf(prompt_buffer, 500, "You want to attack enemy %c (HP: %d, ATT: %d, DEF: %d) with your %c (HP: %d, ATT: %d, DEF: %d). Correct? (Y/N)", // show pieces stats and check if sure
+        snprintf(prompt_buffer, 500, "You want to attack enemy %c (HP: %d, ATT: %d, DEF: %d) with your %c (HP: %d, ATT: %d, DEF: %d). Correct? (Y/N):", // show pieces stats and check if sure
             board[move[2]][move[3]].type, board[move[2]][move[3]].hp, board[move[2]][move[3]].attack, board[move[2]][move[3]].defence,
             board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence);
         SDL_get_input(prompt_buffer);    
@@ -150,9 +150,10 @@ jump_get_input_ultimate: // following for ultimate check
     }
 
 jump_get_input4:
-    snprintf(prompt_buffer, 500, "You want to use the ultimate ability of your %c (HP: %d, ATT: %d, DEF: %d).\nIt is %s. Correct? (Y/N)", // show piece stats and ultimate and check if sure
-        board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence, 
-        ultimate_description);
+    snprintf(text_box_buffer, 500, "Ultimate Ability of %c is %s", board[move[0]][move[1]].type, ultimate_description);
+    text_box_add(&text_box, text_box_buffer);
+    snprintf(prompt_buffer, 500, "You want to use the ultimate ability of your %c (HP: %d, ATT: %d, DEF: %d). Correct? (Y/N):", // show piece stats and ultimate and check if sure
+        board[move[0]][move[1]].type, board[move[0]][move[1]].hp, board[move[0]][move[1]].attack, board[move[0]][move[1]].defence);
     SDL_get_input(prompt_buffer);
     
     input_value = sscanf(inputBuffer, " %c", &move_check);
