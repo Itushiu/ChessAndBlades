@@ -1,6 +1,6 @@
-# ChessQuest – The Tactical Chess RPG
+# ChessAndBlades – The Tactical Chess RPG
 
-ChessQuest is a unique blend of classic chess and RPG mechanics. Each chess piece has **HP, Attack (ATT), Defense (DEF)**, and a **special Ultimate Ability** that can be used once per game. Strategy goes beyond positioning—manage your stats and abilities to outplay your opponent!
+ChessAndBlades is a unique blend of classic chess and RPG mechanics. Each chess piece has **HP, Attack (ATT), Defense (DEF)**, and a **special Ultimate Ability** that can be used once per game. Strategy goes beyond positioning—manage your stats and abilities to outplay your opponent!
 
 ## 🛡️ Basic Rules
 - Each chess piece moves according to **standard chess rules**.
